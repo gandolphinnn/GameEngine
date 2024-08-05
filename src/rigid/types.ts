@@ -1,3 +1,4 @@
+import { Mouse } from '../inputs/index.js'
 import { RigidBody } from './index.js'
 
 export type CollisionEvent = (val: RigidBody) => void;

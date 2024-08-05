@@ -1,8 +1,10 @@
-import { Coord, Angle, Line, Component } from '@gandolphinnn/graphics2'
-import { CollisionEvent, LayerMask, MouseCollisionEvent } from './attributes.js'
+import { Coord, Angle, Line, Component } from '../graphics/index.js'
+import { LayerMask } from './layerMask.js'
+import { CollisionEvent, MouseCollisionEvent } from './types.js'
 import { Vector } from './vector.js'
 import { className } from '@gandolphinnn/utils'
-export * from './attributes.js'
+export * from './types.js'
+export * from './layerMask.js'
 export * from './vector.js'
 
 export function RayCast (

@@ -24,9 +24,3 @@ export class LayerMask {
 	static get mouse() { return this.getByName("Mouse") }
 	static get canvas() { return this.getByName("Canvas") }
 }
-
-//! THIS SHOULD BE EXPORTED BY INPUTS!!!! TODO!!!!
-class Mouse {
-
-}
-

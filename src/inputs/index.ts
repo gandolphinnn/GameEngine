@@ -1,5 +1,5 @@
 import { Singleton, clamp } from '@gandolphinnn/utils';
-import { Coord, MainCanvas, Circle, Color, Mesh, Text } from '@gandolphinnn/graphics2';
+import { Coord, MainCanvas, Circle, Color, Mesh, Text } from '../graphics/index.js';
 import { BtnState, Button, WheelAxis, WheelState } from './button.js';
 export * from './button.js';
 import Enumerable from 'linq/linq.js'
