@@ -1,0 +1,28 @@
+{
+	"name": "@gandolphinnn/game",
+	"version": "1.0.0",
+	"description": "A Typescript game engine inspired by Angular",
+	"license": "ISC",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"live": "concurrently \"tsc --watch\" \"parcel index.html --open\"",
+		"nvm22": "nvm use 22.1.0",
+		"nvm14": "nvm use 14.21.3"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/gandolphinnn/GameEngine.git"
+	},
+	"author": "Gandolphinnn",
+	"bugs": {
+		"url": "https://github.com/gandolphinnn/GameEngine/issues"
+	},
+	"homepage": "https://github.com/gandolphinnn/GameEngine#readme",
+	"dependencies": {
+		"@gandolphinnn/utils": "^3.1.0"
+	}
+}
