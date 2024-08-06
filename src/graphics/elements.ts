@@ -1,11 +1,14 @@
 import { overflow } from "@gandolphinnn/utils";
 import Enumerable from 'linq';
-import { Style, SubStyle } from "./style";
-import { Angle, Coord, Size } from "./basics";
-import { Component, MainCanvas } from "./index";
+import { MainCanvas, Style, SubStyle, Size, Coord, Angle } from "./index";
 
 export enum RenderAction {
 	None, Stroke, Fill, Both
+}
+
+export interface Component {
+	start?(): void;
+	update?(): void;
 }
 
 export abstract class CnvElement {
@@ -112,7 +115,6 @@ export abstract class CnvElement {
  */
 export class Mesh extends CnvElement implements Component {
 	elements: Enumerable.IEnumerable<CnvElement>;
-	zIndex: number;
 	doRender: boolean = true;
 	
 	get center() { return this._center }

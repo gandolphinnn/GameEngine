@@ -1,19 +1,15 @@
-import { clamp, Singleton, isNull, rand } from '@gandolphinnn/utils';
+import { Singleton, isNull, rand } from '@gandolphinnn/utils';
 import { Color, ColorName, COLORNAME_RGBA } from './color';
 import { Style } from './style';
-import { Angle, Coord, Size } from './basics';
-import { Circle, Line, Poly, Rect, RenderAction, Text } from './elements';
+import { Coord, Size } from './coord';
+import { Circle, Line, Rect, RenderAction, Text } from './elements';
 
+export * from './angle';
 export * from './color';
-export * from './style';
-export * from './basics';
+export * from './coord';
 export * from './elements';
+export * from './style';
 export * from './time';
-
-export interface Component { //? This will be useful later, in rigid2 and game2
-	start?(): void;
-	update?(): void;
-}
 
 export class MainCanvas extends Singleton {
 	private static _MainCanvas: Singleton = new MainCanvas();

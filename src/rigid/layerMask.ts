@@ -21,6 +21,4 @@ export class LayerMask {
 		return this.layerMasks.find(l => l.name == name);
 	}
 	static get default() { return this.getByName("Default") }
-	static get mouse() { return this.getByName("Mouse") }
-	static get canvas() { return this.getByName("Canvas") }
 }

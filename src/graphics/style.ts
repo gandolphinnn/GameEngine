@@ -1,4 +1,4 @@
-import { Color, COLOR_DEFAULT } from './color';
+import { Color, COLOR_DEFAULT } from './index';
 
 export type SubStyle = Color | CanvasGradient | CanvasPattern;
 
