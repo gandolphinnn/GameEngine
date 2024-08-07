@@ -23,12 +23,12 @@ export class GameObject {
 	protected constructor(
 		public components: Component[]
 	) {
-		GameObject._gameObjects.push(this);
 		this.onMouseEnter = this.rigidBody.onMouseEnter;
 		this.onMouseLeave = this.rigidBody.onMouseLeave;
 		this.onClick = this.rigidBody.onClick;
 		this.onCollisionEnter = this.rigidBody.onCollisionEnter;
 		this.onCollisionLeave = this.rigidBody.onCollisionLeave;
+		GameObject._gameObjects.push(this);
 	}
 
 	start() {
@@ -49,7 +49,8 @@ export class GameObject {
 	private static _gameObjects: GameObject[] = [];
 
 	static get gameObjects() {
-		return Object.freeze(GameObject._gameObjects);
+		//return Object.freeze(GameObject._gameObjects);
+		return GameObject._gameObjects;
 	}
 
 	static start() {

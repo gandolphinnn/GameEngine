@@ -56,3 +56,4 @@ Game.start = () => {
 		new TestObject(MainCanvas.center.copy(), 10, new Angle(), 0);
 	}
 }
+Game.start();
