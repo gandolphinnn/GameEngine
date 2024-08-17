@@ -1,11 +1,9 @@
-import { MainCanvas, Mesh, Time } from "@gandolphinnn/graphics";
-import { Component } from "@gandolphinnn/graphics";
-import { MouseCollisionEvent, CollisionEvent, Vector, LayerMask } from "@gandolphinnn/rigid";
-import { RigidCirc } from "@gandolphinnn/rigid";
-import { RigidBody } from "@gandolphinnn/rigid";
+import { MainCanvas, Mesh, Time, Component } from "@gandolphinnn/graphics";
+import { MouseCollisionEvent, CollisionEvent, Vector, LayerMask, RigidCirc, RigidBody } from "@gandolphinnn/rigid";
 
 export class Game {
 	static start() {};
+	static update() {};
 }
 export class GameObject {
 
@@ -31,20 +29,8 @@ export class GameObject {
 		GameObject._gameObjects.push(this);
 	}
 
-	start() {
-		this.components.forEach(c => {
-			if (typeof c.start === 'function') {
-				c.start();
-			}
-		});
-	};
-	update() {
-		this.components.forEach(c => {
-			if (typeof c.update === 'function') {
-				c.update();
-			}
-		});
-	};
+	start() {};
+	update() {};
 
 	private static _gameObjects: GameObject[] = [];
 
@@ -54,25 +40,44 @@ export class GameObject {
 	}
 
 	static start() {
-		GameObject.gameObjects.forEach(go => go.start());
+		GameObject.gameObjects.forEach(go => {
+			go.start();
+			go.components.forEach(c => {
+				if (typeof c.start === 'function') {
+					c.start();
+				}
+			});
+		});
 	}
 	static update() {
 		RigidBody.update();
-		GameObject.gameObjects.forEach(go => go.update());
+		GameObject.gameObjects.forEach(go => {
+			go.update();
+			go.components.forEach(c => {
+				if (typeof c.update === 'function') {
+					c.update();
+				}
+			});
+		});
 	}
 }
 const animate: FrameRequestCallback = async (timestamp: DOMHighResTimeStamp) => {
 	Time.update(timestamp);
+
+	//? Only these lines are not fixed. The user might want to change these: implement a way to do so with an AppSettings
 	MainCanvas.clean();
 	Time.showData();
+	//? ^
 
+	Game.update();
 	GameObject.update();
 	
 	requestAnimationFrame(animate);
 }
-LayerMask.init();
 
-Game.start();
-
-GameObject.start();
-animate(0);
+window.onload = () => {
+	LayerMask.init();
+	Game.start();
+	GameObject.start();
+	animate(0);
+}

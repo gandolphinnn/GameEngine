@@ -11,24 +11,23 @@ class TestObject extends GameObject {
 	set radius(value: number) { this.rigidCirc.radius = value; (this.mesh.elements.first() as Circle).radius = value }
 
 	constructor(
-		center: Coord,
-		radius: number,
-		angle: Angle,
-		strength: number
 	) {
+		//! The center MUST be the same object reference!!!
+		const center = MainCanvas.center.copy();
 		super([
-			new RigidCirc(new Vector(center, angle, strength), radius),
-			new Mesh(center, new Circle(center, radius))
+			new RigidCirc(new Vector(center, new Angle(), 0), 10),
+			new Mesh(center, new Circle(center, 10))
 		])
 	}
 
 	start() {
-		this.radius = rand(20, 30);
+		console.log('start');
+		this.radius = rand(10, 20);
 		this.vector.angle.degrees = rand0(359);
 		this.vector.strength = rand(15, 80);
-		super.start();
 	}
 	update() {
+		console.log('update');
 		if (this.vector.vectorCoord.x > MainCanvas.cnv.width - this.radius || this.vector.vectorCoord.x < this.radius) {
 			this.vector.bounce(new Angle(90));
 		}
@@ -43,7 +42,6 @@ class TestObject extends GameObject {
 			MainCanvas.drawPoint(p);
 		});
 		
-		super.update();
 	}
 	onCollisionEnter: CollisionEvent = (other: RigidBody) => {
 		console.log('onCollisionEnter', other);
@@ -52,8 +50,9 @@ class TestObject extends GameObject {
 Game.start = () => {
 	POINT_DEFAULT.radius = 5;
 	POINT_DEFAULT.setFillStyle(Color.byName("Red"));
+
+	//* For now limit to 1 object to test the correct order of the events
 	for (let i = 0; i < 1; i++) {
-		new TestObject(MainCanvas.center.copy(), 10, new Angle(), 0);
+		new TestObject();
 	}
 }
-Game.start();
