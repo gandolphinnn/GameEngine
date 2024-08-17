@@ -79,12 +79,6 @@ export class RigidLine {
 		}
 	}
 }
-// Il nome in inglese di una interfaccia che definisce un oggetto con cui l'utente può interagire
-export interface Interactable {
-	onMouseEnter: MouseCollisionEvent;
-	onMouseLeave: MouseCollisionEvent;
-	onClick: MouseCollisionEvent;
-}
 
 export abstract class RigidBody implements Component {
 	abstract onMouseEnter: MouseCollisionEvent;
