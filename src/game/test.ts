@@ -1,6 +1,6 @@
 import { rand, rand0 } from "@gandolphinnn/utils";
-import { Coord, Circle, Angle, Mesh, MainCanvas, Time, POINT_DEFAULT, Color } from "../graphics/index.js";
-import { RigidCirc, Vector, CollisionEvent, RigidBody, LayerMask } from "../rigid/index.js";
+import { Coord, Circle, Angle, Mesh, MainCanvas, Time, POINT_DEFAULT, Color } from "@gandolphinnn/graphics";
+import { RigidCirc, Vector, CollisionEvent, RigidBody, LayerMask } from "@gandolphinnn/rigid";
 import { Game, GameObject } from ".";
 
 class TestObject extends GameObject {

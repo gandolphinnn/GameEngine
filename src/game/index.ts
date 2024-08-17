@@ -1,8 +1,8 @@
-import { MainCanvas, Mesh, Time } from "../graphics/index.js";
-import { Component } from "../graphics/index.js";
-import { MouseCollisionEvent, CollisionEvent, Vector, LayerMask } from "../rigid/index.js";
-import { RigidCirc } from "../rigid/index.js";
-import { RigidBody } from "../rigid/index.js";
+import { MainCanvas, Mesh, Time } from "@gandolphinnn/graphics";
+import { Component } from "@gandolphinnn/graphics";
+import { MouseCollisionEvent, CollisionEvent, Vector, LayerMask } from "@gandolphinnn/rigid";
+import { RigidCirc } from "@gandolphinnn/rigid";
+import { RigidBody } from "@gandolphinnn/rigid";
 
 export class Game {
 	static start() {};

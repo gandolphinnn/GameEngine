@@ -1,4 +1,4 @@
-import { Coord, Angle, Line, Color, Time } from '../graphics/index.js'
+import { Coord, Angle, Line, Color, Time } from '@gandolphinnn/graphics'
 
 export const VECTOR_ARROW_HEAD_LENGTH = 10;
 export const VECTOR_ARROW_HEAD_ANGLE = 30;

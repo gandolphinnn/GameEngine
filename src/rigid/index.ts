@@ -1,4 +1,4 @@
-import { Coord, Angle, Line, Component } from '../graphics/index.js'
+import { Coord, Angle, Line, Component } from '@gandolphinnn/graphics'
 import { LayerMask } from './layerMask.js'
 import { CollisionEvent, MouseCollisionEvent } from './types.js'
 import { Vector } from './vector.js'

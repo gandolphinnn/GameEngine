@@ -9,6 +9,10 @@
 		"moduleResolution": "Node",
 		"baseUrl": "./",
 		"paths": {
+			"@gandolphinnn/game": ["src/game/index.ts"],
+			"@gandolphinnn/graphics": ["src/graphics/index.ts"],
+			"@gandolphinnn/inputs": ["src/inputs/index.ts"],
+			"@gandolphinnn/rigid": ["src/rigid/index.ts"],
 			"*": ["node_modules"]
 		}
 	},

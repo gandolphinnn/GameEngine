@@ -1,4 +1,4 @@
-import { Color, MainCanvas } from '../graphics/index.js';
+import { Color, MainCanvas } from '@gandolphinnn/graphics';
 import { Input } from './index.js';
 
 MainCanvas.writeStyle.mergeFont('15px Arial');
