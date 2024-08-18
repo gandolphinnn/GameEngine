@@ -3,6 +3,7 @@ import { LayerMask } from './layerMask.js'
 import { CollisionEvent, MouseCollisionEvent } from './types.js'
 import { Vector } from './vector.js'
 import { className } from '@gandolphinnn/utils'
+import { Game, GameObject } from '@gandolphinnn/game'
 export * from './types.js'
 export * from './layerMask.js'
 export * from './vector.js'
@@ -30,10 +31,9 @@ export function RayCast (
 	return distances.sort((a, b) => a.distance - b.distance)[0];
 }
 
-export enum RigidBodyEvent {
+enum RigidBodyEvent {
 	MOUSE_ENTER = 'mouseEnter',
 	MOUSE_LEAVE = 'mouseLeave',
-	CLICK = 'click',
 	COLLISION_ENTER = 'collisionEnter',
 	COLLISION_LEAVE = 'collisionLeave',
 }
@@ -81,24 +81,30 @@ export class RigidLine {
 }
 
 export abstract class RigidBody implements Component {
-	abstract onMouseEnter: MouseCollisionEvent;
-	abstract onMouseLeave: MouseCollisionEvent;
-	abstract onClick: MouseCollisionEvent;
-	abstract onCollisionEnter: CollisionEvent;
-	abstract onCollisionLeave: CollisionEvent;
-
 	activeEvents: { eventType: RigidBodyEvent, rigidBody?: RigidBody }[] = [];
 
 	constructor(
 		public vector = Vector.up(),
-		public layerMask = LayerMask.default
+		public layerMask = LayerMask.default,
+		public gameObject: GameObject = null
 	) {
 		RigidBody._rigidBodies.push(this);
 	}
 
-	private static _rigidBodies: RigidBody[] = [];
+	protected hasEventListeners() {
+		// Check if this object is an implementation of the OnCollisionEnter interface
+		return
+			typeof this.gameObject.onCollisionEnter === 'function' ||
+			typeof this.gameObject.onCollisionStay === 'function' ||
+			typeof this.gameObject.onCollisionLeave === 'function' ||
+			typeof this.gameObject.onMouseEnter === 'function' ||
+			typeof this.gameObject.onMouseStay === 'function' ||
+			typeof this.gameObject.onMouseLeave === 'function'
+	}
 
-	static get rigidBodies() { return Object.freeze(this._rigidBodies) }
+	private getEventIndex(eventType: RigidBodyEvent, rigidBody: RigidBody) {
+		return this.activeEvents.findIndex(e => e.eventType == eventType && e.rigidBody == rigidBody);
+	}
 
 	start() {}
 	update() {
@@ -106,10 +112,18 @@ export abstract class RigidBody implements Component {
 		//? In every frame, check every active event of the rigidBody
 		//this.event.activeEvents.forEach(); //todo implement
 	}
+
+	//#region Abstract
 	abstract detectCollision(rBody: RigidBody): boolean;
+	abstract render(): void;
+	//#endregion Abstract
+
+	//#region Static
+	private static _rigidBodies: RigidBody[] = [];
+	static get rigidBodies() { return Object.freeze(this._rigidBodies) }
 
 	static getByLayerMask(layerMask = LayerMask.default) {
-		return this.rigidBodies.filter(rBody => rBody.layerMask == layerMask);
+		return this.rigidBodies.filter(rBody => rBody.layerMask == layerMask );
 	}
 
 	static update() {
@@ -119,8 +133,8 @@ export abstract class RigidBody implements Component {
 				for (let j = i + 1; j < bodies.length; j++) {
 					const bodyA = bodies[i];
 					const bodyB = bodies[j];
-					const bodyAActiveEventIndex = bodyA.activeEvents.findIndex(e => e.eventType == RigidBodyEvent.COLLISION_ENTER && e.rigidBody == bodyB);
-					const bodyBActiveEventIndex = bodyB.activeEvents.findIndex(e => e.eventType == RigidBodyEvent.COLLISION_ENTER && e.rigidBody == bodyA);
+					const bodyAActiveEventIndex = bodyA.getEventIndex(RigidBodyEvent.COLLISION_ENTER, bodyB);
+					const bodyBActiveEventIndex = bodyB.getEventIndex(RigidBodyEvent.COLLISION_ENTER, bodyA);
 					const isColliding = bodyA.detectCollision(bodyB);
 					if (bodyAActiveEventIndex == -1 && bodyBActiveEventIndex == -1 && isColliding) {
 						bodyA.activeEvents.push({ eventType: RigidBodyEvent.COLLISION_ENTER, rigidBody: bodyB });
@@ -138,6 +152,7 @@ export abstract class RigidBody implements Component {
 			}
 		});
 	}
+	//#endregion Static
 }
 
 export class RigidPoly extends RigidBody {
@@ -146,8 +161,13 @@ export class RigidPoly extends RigidBody {
 
 	get points() { return this.lines.map(line => line.points[0]) }
 
-	constructor(vector: Vector, points: Coord[], layerMask = LayerMask.default) {
-		super(vector, layerMask);
+	constructor(
+		vector: Vector,
+		points: Coord[],
+		layerMask = LayerMask.default,
+		gameObject: GameObject = null
+	) {
+		super(vector, layerMask, gameObject);
 
 		if(points.length < 3) throw new Error('A polygon must have at least 3 points');
 		
@@ -187,7 +207,7 @@ export class RigidPoly extends RigidBody {
 		} */
 		return false;
 	}
-	showHitbox() {
+	render() {
 		/* let color = ctx.strokeStyle;
 		ctx.strokeStyle = this.color;
 		for (let i = 0; i < this.points.length; i++) {
@@ -201,8 +221,13 @@ export class RigidCirc extends RigidBody {
 
 	get center() { return this.vector.coord }
 
-	constructor(vector: Vector, public radius: number, layerMask = LayerMask.default) {
-		super(vector, layerMask);
+	constructor(
+		vector: Vector,
+		public radius: number,
+		layerMask = LayerMask.default,
+		gameObject: GameObject = null
+	) {
+		super(vector, layerMask, gameObject);
 		this.radius = radius;
 	}
 
@@ -235,7 +260,7 @@ export class RigidCirc extends RigidBody {
 		} */
 		return false;
 	}
-	showHitbox() {
+	render() {
 		/* let color = ctx.strokeStyle;
 		ctx.strokeStyle = this.color;
 		drawF.circle(this.coord, this.radius, 'stroke');

@@ -8,9 +8,10 @@ export class Game {
 export class GameObject {
 
 	onMouseEnter: MouseCollisionEvent;
+	onCollisionStay: CollisionEvent;
 	onMouseLeave: MouseCollisionEvent;
-	onClick: MouseCollisionEvent;
 	onCollisionEnter: CollisionEvent;
+	onMouseStay: CollisionEvent;
 	onCollisionLeave: CollisionEvent;
 	
 	get mesh() { return this.components.find(c => c instanceof Mesh) as Mesh }
@@ -23,7 +24,6 @@ export class GameObject {
 	) {
 		this.onMouseEnter = this.rigidBody.onMouseEnter;
 		this.onMouseLeave = this.rigidBody.onMouseLeave;
-		this.onClick = this.rigidBody.onClick;
 		this.onCollisionEnter = this.rigidBody.onCollisionEnter;
 		this.onCollisionLeave = this.rigidBody.onCollisionLeave;
 		GameObject._gameObjects.push(this);
