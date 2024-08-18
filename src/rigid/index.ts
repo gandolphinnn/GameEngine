@@ -1,6 +1,6 @@
 import { Coord, Angle, Line, Component } from '@gandolphinnn/graphics'
 import { LayerMask } from './layerMask.js'
-import { CollisionEvent, MouseCollisionEvent } from './types.js'
+import { CollisionEvent, MouseCollisionEvent, OnCollisionEnter, ERigidBodyEvent } from './types.js'
 import { Vector } from './vector.js'
 import { className } from '@gandolphinnn/utils'
 import { Game, GameObject } from '@gandolphinnn/game'
@@ -31,13 +31,6 @@ export function RayCast (
 	return distances.sort((a, b) => a.distance - b.distance)[0];
 }
 
-enum RigidBodyEvent {
-	MOUSE_ENTER = 'mouseEnter',
-	MOUSE_LEAVE = 'mouseLeave',
-	COLLISION_ENTER = 'collisionEnter',
-	COLLISION_LEAVE = 'collisionLeave',
-}
-
 export class RigidLine {
 	constructor(
 		public points: [Coord, Coord],
@@ -62,7 +55,7 @@ export class RigidLine {
 			}
 			case 'RigidPoly': {
 				// https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon
-				//? copilot code vvv, not even read
+				//! Copilot code, to be checked
 				const rigidPoly = rigidBody as unknown as RigidLine;
 				let hitPoint: Coord = null;
 				let x = rigidPoly.points[0].x, y = rigidPoly.points[0].y;
@@ -81,28 +74,19 @@ export class RigidLine {
 }
 
 export abstract class RigidBody implements Component {
-	activeEvents: { eventType: RigidBodyEvent, rigidBody?: RigidBody }[] = [];
+	eventListeners: ERigidBodyEvent[];
+	activeEvents: { eventType: ERigidBodyEvent, rigidBody?: RigidBody }[] = [];
 
 	constructor(
 		public vector = Vector.up(),
+		public mass = 0,
 		public layerMask = LayerMask.default,
 		public gameObject: GameObject = null
 	) {
 		RigidBody._rigidBodies.push(this);
 	}
 
-	protected hasEventListeners() {
-		// Check if this object is an implementation of the OnCollisionEnter interface
-		return
-			typeof this.gameObject.onCollisionEnter === 'function' ||
-			typeof this.gameObject.onCollisionStay === 'function' ||
-			typeof this.gameObject.onCollisionLeave === 'function' ||
-			typeof this.gameObject.onMouseEnter === 'function' ||
-			typeof this.gameObject.onMouseStay === 'function' ||
-			typeof this.gameObject.onMouseLeave === 'function'
-	}
-
-	private getEventIndex(eventType: RigidBodyEvent, rigidBody: RigidBody) {
+	private getEventIndex(eventType: ERigidBodyEvent, rigidBody: RigidBody) {
 		return this.activeEvents.findIndex(e => e.eventType == eventType && e.rigidBody == rigidBody);
 	}
 
@@ -114,6 +98,13 @@ export abstract class RigidBody implements Component {
 	}
 
 	//#region Abstract
+	onCollisionEnter: CollisionEvent = () => {};
+	onCollisionStay: CollisionEvent = () => {};
+	onCollisionLeave: CollisionEvent = () => {};
+	onMouseEnter: MouseCollisionEvent = () => {};
+	onMouseStay: MouseCollisionEvent = () => {};
+	onMouseLeave: MouseCollisionEvent = () => {};
+
 	abstract detectCollision(rBody: RigidBody): boolean;
 	abstract render(): void;
 	//#endregion Abstract
@@ -133,18 +124,27 @@ export abstract class RigidBody implements Component {
 				for (let j = i + 1; j < bodies.length; j++) {
 					const bodyA = bodies[i];
 					const bodyB = bodies[j];
-					const bodyAActiveEventIndex = bodyA.getEventIndex(RigidBodyEvent.COLLISION_ENTER, bodyB);
-					const bodyBActiveEventIndex = bodyB.getEventIndex(RigidBodyEvent.COLLISION_ENTER, bodyA);
+
+					if (bodyA.eventListeners.length > 0 && bodyB.eventListeners.length > 0) {
+						continue;
+					}
+
+					const EventListenersA = bodyA.eventListeners;
+					const ActiveEventIndexA = bodyA.getEventIndex(ERigidBodyEvent.onCollisionEnter, bodyB);
+					
+					const EventListenersB = bodyB.eventListeners;
+					const ActiveEventIndexB = bodyB.getEventIndex(ERigidBodyEvent.onCollisionEnter, bodyA);
+
 					const isColliding = bodyA.detectCollision(bodyB);
-					if (bodyAActiveEventIndex == -1 && bodyBActiveEventIndex == -1 && isColliding) {
-						bodyA.activeEvents.push({ eventType: RigidBodyEvent.COLLISION_ENTER, rigidBody: bodyB });
-						bodyB.activeEvents.push({ eventType: RigidBodyEvent.COLLISION_ENTER, rigidBody: bodyA });
+					if (ActiveEventIndexA == -1 && ActiveEventIndexB == -1 && isColliding) {
+						bodyA.activeEvents.push({ eventType: ERigidBodyEvent.onCollisionEnter, rigidBody: bodyB });
+						bodyB.activeEvents.push({ eventType: ERigidBodyEvent.onCollisionEnter, rigidBody: bodyA });
 						bodyA.onCollisionEnter(bodyB);
 						bodyB.onCollisionEnter(bodyA);
 					}
-					if (bodyAActiveEventIndex != -1 && bodyBActiveEventIndex != -1 && !isColliding) {
-						bodyA.activeEvents.splice(bodyAActiveEventIndex, 1);
-						bodyB.activeEvents.splice(bodyBActiveEventIndex, 1);
+					if (ActiveEventIndexA != -1 && ActiveEventIndexB != -1 && !isColliding) {
+						bodyA.activeEvents.splice(ActiveEventIndexA, 1);
+						bodyB.activeEvents.splice(ActiveEventIndexB, 1);
 						bodyA.onCollisionLeave(bodyB);
 						bodyB.onCollisionLeave(bodyA);
 					}
@@ -155,6 +155,7 @@ export abstract class RigidBody implements Component {
 	//#endregion Static
 }
 
+//? Maybe this class should be abstract
 export class RigidPoly extends RigidBody {
 
 	lines: RigidLine[] = [];
@@ -164,10 +165,11 @@ export class RigidPoly extends RigidBody {
 	constructor(
 		vector: Vector,
 		points: Coord[],
+		mass = 0,
 		layerMask = LayerMask.default,
 		gameObject: GameObject = null
 	) {
-		super(vector, layerMask, gameObject);
+		super(vector, mass, layerMask, gameObject);
 
 		if(points.length < 3) throw new Error('A polygon must have at least 3 points');
 		
@@ -176,12 +178,6 @@ export class RigidPoly extends RigidBody {
 		}
 		this.lines.push(new RigidLine([points.last(), points[0]]))
 	}
-
-	onMouseEnter: MouseCollisionEvent = () => {};
-	onMouseLeave: MouseCollisionEvent = () => {};
-	onClick: MouseCollisionEvent = () => {};
-	onCollisionEnter: CollisionEvent = () => {};
-	onCollisionLeave: CollisionEvent = () => {};
 
 	pointInside(point: Coord) {
 	}
@@ -217,6 +213,8 @@ export class RigidPoly extends RigidBody {
 		ctx.strokeStyle = color; */
 	}
 }
+
+//? Maybe this class should be abstract
 export class RigidCirc extends RigidBody {
 
 	get center() { return this.vector.coord }
@@ -224,18 +222,13 @@ export class RigidCirc extends RigidBody {
 	constructor(
 		vector: Vector,
 		public radius: number,
+		mass = 0,
 		layerMask = LayerMask.default,
 		gameObject: GameObject = null
 	) {
-		super(vector, layerMask, gameObject);
+		super(vector, mass, layerMask, gameObject);
 		this.radius = radius;
 	}
-
-	onMouseEnter: MouseCollisionEvent = () => {};
-	onMouseLeave: MouseCollisionEvent = () => {};
-	onClick: MouseCollisionEvent = () => {};
-	onCollisionEnter: CollisionEvent = () => {};
-	onCollisionLeave: CollisionEvent = () => {};
 
 	detectCollision(rBody: RigidBody) {
 		/* if (mathF.parentClass(rBody) == 'RigidRect') {

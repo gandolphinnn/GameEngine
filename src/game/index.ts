@@ -5,14 +5,14 @@ export class Game {
 	static start() {};
 	static update() {};
 }
-export class GameObject {
+export abstract class GameObject {
 
-	onMouseEnter: MouseCollisionEvent;
-	onCollisionStay: CollisionEvent;
-	onMouseLeave: MouseCollisionEvent;
 	onCollisionEnter: CollisionEvent;
-	onMouseStay: CollisionEvent;
+	onCollisionStay: CollisionEvent;
 	onCollisionLeave: CollisionEvent;
+	onMouseEnter: MouseCollisionEvent;
+	onMouseStay: MouseCollisionEvent;
+	onMouseLeave: MouseCollisionEvent;
 	
 	get mesh() { return this.components.find(c => c instanceof Mesh) as Mesh }
 	get rigidBody() { return this.components.find(c => c instanceof RigidBody) as RigidBody }
@@ -22,10 +22,14 @@ export class GameObject {
 	protected constructor(
 		public components: Component[]
 	) {
-		this.onMouseEnter = this.rigidBody.onMouseEnter;
-		this.onMouseLeave = this.rigidBody.onMouseLeave;
+		//? Maybe the order is wrong. Maybe the assignment should be reversed
 		this.onCollisionEnter = this.rigidBody.onCollisionEnter;
+		this.onCollisionStay = this.rigidBody.onCollisionStay;
 		this.onCollisionLeave = this.rigidBody.onCollisionLeave;
+		this.onMouseEnter = this.rigidBody.onMouseEnter;
+		this.onMouseStay = this.rigidBody.onMouseStay;
+		this.onMouseLeave = this.rigidBody.onMouseLeave;
+
 		GameObject._gameObjects.push(this);
 	}
 

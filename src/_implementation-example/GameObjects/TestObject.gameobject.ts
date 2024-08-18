@@ -1,5 +1,5 @@
 import { Coord, Mesh, Poly } from "@gandolphinnn/graphics";
-import { CollisionEvent, RigidBody, RigidPoly, Vector } from "@gandolphinnn/rigid";
+import { CollisionEvent, OnCollisionEnter, RigidBody, RigidPoly, Vector } from "@gandolphinnn/rigid";
 import { GameObject } from "@gandolphinnn/game";
 
 class PolygonTestObjectMesh extends Mesh {
@@ -16,6 +16,7 @@ class PolygonTestObjectMesh extends Mesh {
 	}
 }
 
+//TODO add a decorator, e.g. @RigidEventSubscription([ERigidBodyEvent.onCollisionEnter]), to chose which events to subscribe to
 class PolygonTestObjectBody extends RigidPoly {
 	constructor(
 		center: Coord,
@@ -28,7 +29,7 @@ class PolygonTestObjectBody extends RigidPoly {
 	}
 }
 
-export class PolygonTestObject extends GameObject {
+export class PolygonTestObject extends GameObject implements OnCollisionEnter {
 
 	constructor(
 		center: Coord,

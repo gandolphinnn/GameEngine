@@ -79,4 +79,11 @@ export class Vector {
 	static down(coord = Coord.origin, strength = 0) { return new Vector(coord, Angle.down(), strength) }
 	static left(coord = Coord.origin, strength = 0) { return new Vector(coord, Angle.left(), strength) }
 	static right(coord = Coord.origin, strength = 0) { return new Vector(coord, Angle.right(), strength) }
+
+	//! Copilot code, to be checked
+	static fromAtoB(coordA: Coord, coordB: Coord) {
+		const angle = new Angle(Math.atan2(coordB.y - coordA.y, coordB.x - coordA.x) * 180 / Math.PI);
+		const strength = Coord.distance(coordA, coordB);
+		return new Vector(coordA, angle, strength);
+	}
 }
