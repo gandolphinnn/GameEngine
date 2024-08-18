@@ -29,13 +29,13 @@ const circle	= new Circle(new Coord(227.9, 200), 75)
 					.setZ(1)
 					.setFillStyle(colors.White);
 
-const poly		= new Poly(new Coord(215, 400),new Coord(150, 200),new Coord(350, 200),new Coord(285, 400),new Coord(250, 450))
+const poly		= new Poly([new Coord(215, 400), new Coord(150, 200), new Coord(350, 200), new Coord(285, 400), new Coord(250, 450)])
 					.setZ(2)
 					.setFillStyle(colors.Sienna)
 					.setStrokeStyle(colors.SaddleBrown)
 					.setLineWidth(3);
 
-const line		= new Line(poly.lines[0].center, poly.lines[2].center)
+const line		= new Line([poly.lines[0].center, poly.lines[2].center])
 					.setZ(3)
 					.setStrokeStyle(colors.SaddleBrown)
 					.setLineWidth(3);
@@ -50,7 +50,7 @@ const text		= new Text(new Coord(250, 300), 'TEST')
 					.setZ(4)
 					.setAction(RenderAction.None);
 
-const mesh		= new Mesh(new Coord(250, 400), text, line, circle, slice, sector, poly);
+const mesh		= new Mesh(new Coord(250, 400), [text, line, circle, slice, sector, poly]);
 
 console.table(mesh.elements.toArray());
 

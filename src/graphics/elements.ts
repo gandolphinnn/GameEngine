@@ -126,7 +126,7 @@ export class Mesh extends CnvElement implements Component {
 	get isVisible() {
 		return this.doRender && this.elements.any(item => item.isVisible);
 	}
-	constructor(center: Coord, ...items: CnvElement[]) {
+	constructor(center: Coord, items: CnvElement[]) {
 		super(RenderAction.Both, center);
 		this.elements = Enumerable.from(items);
 	}
@@ -187,7 +187,7 @@ export class Line extends CnvDrawing {
 
 	get isVisible() { return this.action != RenderAction.None && this.points.some(p => p.isVisible) }
 
-	constructor(...points: [Coord, Coord]) {
+	constructor(points: [Coord, Coord]) {
 		super(RenderAction.Stroke, Coord.center(...points));
 		this.points = points;
 	}
@@ -251,9 +251,9 @@ export class Poly extends CnvDrawing {
 		let lines: Line[] = [];
 		if(this.points.length < 2) return lines;
 		for (let i = 1; i < this.points.length; i++) {
-			lines.push(new Line(this.points[i-1], this.points[i]));
+			lines.push(new Line([this.points[i-1], this.points[i]]));
 		}
-		lines.push(new Line(this.points.last(), this.points[0]))
+		lines.push(new Line([this.points.last(), this.points[0]]))
 		return lines;
 	}
 	get size() { return Coord.size(...this.points) }
@@ -275,7 +275,7 @@ export class Poly extends CnvDrawing {
 
 	get isVisible() { return this.action != RenderAction.None && this.points.some(p => p.isVisible) }
 
-	constructor(...points: Coord[]) {
+	constructor(points: Coord[]) {
 		super(RenderAction.Both, Coord.center(...points));
 		this.points = points;
 	}

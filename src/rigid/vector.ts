@@ -56,21 +56,21 @@ export class Vector {
 	 */
 	render(color = Color.default()) {
 		const vectorCoord = this.vectorCoord;
-		const arrowBody = new Line(this.coord, vectorCoord);
+		const arrowBody = new Line([this.coord, vectorCoord]);
 		arrowBody.style.mergeStrokeStyle(color);
 		arrowBody.render();
 		let headAngle1 = new Angle(this.angle.degrees +180 + VECTOR_ARROW_HEAD_ANGLE);
-		const arrowHead1 = new Line(vectorCoord, new Coord(
+		const arrowHead1 = new Line([vectorCoord, new Coord(
 			vectorCoord.x + headAngle1.cos * VECTOR_ARROW_HEAD_LENGTH,
 			vectorCoord.y + headAngle1.sin * VECTOR_ARROW_HEAD_LENGTH
-		));
+		)]);
 		arrowHead1.style.mergeStrokeStyle(color);
 		arrowHead1.render();
 		let headAngle2 = new Angle(this.angle.degrees + 180 - VECTOR_ARROW_HEAD_ANGLE);
-		const arrowHead2 = new Line(vectorCoord, new Coord(
+		const arrowHead2 = new Line([vectorCoord, new Coord(
 			vectorCoord.x + headAngle2.cos * VECTOR_ARROW_HEAD_LENGTH,
 			vectorCoord.y + headAngle2.sin * VECTOR_ARROW_HEAD_LENGTH
-		));
+		)]);
 		arrowHead2.style.mergeStrokeStyle(color);
 		arrowHead2.render();
 	}

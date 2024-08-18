@@ -259,7 +259,7 @@ export class Input extends Singleton {
 		const mouseText = new Text(new Coord(0,-55), '');
 		const mouseBtnText = new Text(new Coord(0,-35), '');
 		const keyText = new Text(new Coord(0,-15), '');
-		const mesh = new Mesh(new Coord(0,0), circ, keyText, mouseBtnText, mouseText)
+		const mesh = new Mesh(new Coord(0,0), [circ, keyText, mouseBtnText, mouseText])
 		const logInput = (toLog: Record<any, any>) => {
 			const recordArr = Enumerable.from(toLog).toArray().filter((btn) => btn.value.state !== BtnState.Up);
 			recordArr.sort((a, b) => a.key > b.key ? 1 : -1);

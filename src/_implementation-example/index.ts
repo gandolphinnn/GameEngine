@@ -1,6 +1,7 @@
+import { Coord, MainCanvas } from "@gandolphinnn/graphics";
 import { Game } from "@gandolphinnn/game";
-import { TestObject } from "./GameObjects/TestObject.gameobject";
+import { PolygonTestObject } from "./GameObjects/TestObject.gameobject";
 
 Game.start = () => {
-	new TestObject();
+	new PolygonTestObject(MainCanvas.center, [new Coord(0, 0), new Coord(100, 0), new Coord(100, 100), new Coord(0, 100)]);
 }

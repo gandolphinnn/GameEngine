@@ -152,7 +152,7 @@ export class MainCanvas extends Singleton {
 							.sort((a, b) => a-b);
 		let coord = new Coord(this.center.x - 500, this.center.y - (30 * sampleUnits.length / 2));
 
-		const line = new Line(Coord.origin, Coord.origin);
+		const line = new Line([Coord.origin, Coord.origin]);
 		line.style.mergeLineWidth(4);
 		const text = new Text(coord, '');
 		text.style.mergeFont('20px Arial').mergeTextAlign('right');
@@ -167,7 +167,7 @@ export class MainCanvas extends Singleton {
 		});
 	}
 	static drawSampleMetric(scale = 50) {
-		const line = new Line(Coord.origin, new Coord(0, this.cnv.height));
+		const line = new Line([Coord.origin, new Coord(0, this.cnv.height)]);
 		line.style.mergeLineWidth(MainCanvas.ratioToPixel(.1).width).mergeStrokeStyle(Color.byName('Black', .3));
 		const text = new Text(new Coord(0, 10), '');
 		text.style.mergeTextAlign('right').mergeFillStyle(Color.byName('Black', .5));

@@ -16,7 +16,7 @@ class TestObject extends GameObject {
 		const center = MainCanvas.center.copy();
 		super([
 			new RigidCirc(new Vector(center, new Angle(), 0), 10),
-			new Mesh(center, new Circle(center, 10))
+			new Mesh(center, [new Circle(center, 10)])
 		])
 	}
 

@@ -10,10 +10,10 @@ MainCanvas.drawStyle
 
 const text1		= new Text(MainCanvas.center.sumXY(-100, 0), 'Hello World').setFont('24px Arial').setTextAlign('center');
 const text2		= new Text(MainCanvas.center.sumXY(+100, 0), 'Hello World').setFont('bold italic 30px serif').setTextAlign('left');
-const texts		= new Mesh(MainCanvas.center, text1, text2)
-const line		= new Line(new Coord(50, 50), Coord.origin);
+const texts		= new Mesh(MainCanvas.center, [text1, text2])
+const line		= new Line([new Coord(50, 50), Coord.origin]);
 const rect		= new Rect(MainCanvas.center, {width: MainCanvas.cnv.width, height: 100});
-const poly		= new Poly(...Coord.regularPoly(MainCanvas.center, 7, 75));
+const poly		= new Poly(Coord.regularPoly(MainCanvas.center, 7, 75));
 const circle	= new Circle(MainCanvas.center, MainCanvas.cnv.height/2-50);
 const sector	= new CircleSector(MainCanvas.center, 50, new Angle(), new Angle(45));
 const slice		= new CircleSlice(MainCanvas.center, 50, new Angle(-80), new Angle(50), false);
