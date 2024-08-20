@@ -103,7 +103,7 @@ export abstract class RigidBody implements GameCycle {
 	 * this.collisionMap.get(bodyB) -> bodyA;
 	 * ```
 	 */
-	static collisionMap = new Map<RigidBody, RigidBody>();
+	static readonly collisionMap = new Map<RigidBody, RigidBody>();
 	
 	private static _rigidBodies: RigidBody[] = [];
 	static get rigidBodies() { return Object.freeze(this._rigidBodies) }

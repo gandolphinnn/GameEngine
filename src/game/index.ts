@@ -6,10 +6,16 @@ export class Game {
 	static update() {};
 }
 export abstract class GameObject implements GameCycle {
+	public get rigidBody(): RigidBody {
+		return this._rigidBody;
+	}
+	public set rigidBody(value: RigidBody) {
+		this._rigidBody = value;
+	}
 
 	get vector() { return this.rigidBody.vector as Vector }
 
-	private _events: Map<ERigidBodyEvent, CollisionEvent> = null;
+	private readonly _events: Map<ERigidBodyEvent, CollisionEvent> = null;
 	public get events(): Map<ERigidBodyEvent, CollisionEvent> {
 		if (this._events === null) {
 			const asAny = this as any;
@@ -24,7 +30,7 @@ export abstract class GameObject implements GameCycle {
 
 	protected constructor(
 		public mesh: Mesh,
-		public rigidBody: RigidBody,
+		private _rigidBody: RigidBody,
 	) {
 		GameObject._gameObjects.push(this);
 	}
