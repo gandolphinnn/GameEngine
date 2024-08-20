@@ -1,35 +1,31 @@
-import { MainCanvas, Mesh, Time, Component } from "@gandolphinnn/graphics";
-import { MouseCollisionEvent, CollisionEvent, Vector, LayerMask, RigidCirc, RigidBody } from "@gandolphinnn/rigid";
+import { MainCanvas, Mesh, Time, GameCycle } from "@gandolphinnn/graphics";
+import { MouseCollisionEvent, CollisionEvent, Vector, LayerMask, RigidCirc, RigidBody, ERigidBodyEvent, Collision } from "@gandolphinnn/rigid";
 
 export class Game {
 	static start() {};
 	static update() {};
 }
-export abstract class GameObject {
+export abstract class GameObject implements GameCycle {
 
-	onCollisionEnter: CollisionEvent;
-	onCollisionStay: CollisionEvent;
-	onCollisionLeave: CollisionEvent;
-	onMouseEnter: MouseCollisionEvent;
-	onMouseStay: MouseCollisionEvent;
-	onMouseLeave: MouseCollisionEvent;
-	
-	get mesh() { return this.components.find(c => c instanceof Mesh) as Mesh }
-	get rigidBody() { return this.components.find(c => c instanceof RigidBody) as RigidBody }
 	get vector() { return this.rigidBody.vector as Vector }
-	get rigidCirc() { return this.rigidBody as RigidCirc }
+
+	private _events: Map<ERigidBodyEvent, CollisionEvent> = null;
+	public get events(): Map<ERigidBodyEvent, CollisionEvent> {
+		if (this._events === null) {
+			const asAny = this as any;
+			for (let event in ERigidBodyEvent) {
+				if (typeof asAny[event] === 'function') {
+					this._events.set(ERigidBodyEvent[event as keyof typeof ERigidBodyEvent], asAny[event]);
+				}
+			}
+		}
+		return this._events;
+	}
 
 	protected constructor(
-		public components: Component[]
+		public mesh: Mesh,
+		public rigidBody: RigidBody,
 	) {
-		//? Maybe the order is wrong. Maybe the assignment should be reversed
-		this.onCollisionEnter = this.rigidBody.onCollisionEnter;
-		this.onCollisionStay = this.rigidBody.onCollisionStay;
-		this.onCollisionLeave = this.rigidBody.onCollisionLeave;
-		this.onMouseEnter = this.rigidBody.onMouseEnter;
-		this.onMouseStay = this.rigidBody.onMouseStay;
-		this.onMouseLeave = this.rigidBody.onMouseLeave;
-
 		GameObject._gameObjects.push(this);
 	}
 
@@ -46,22 +42,16 @@ export abstract class GameObject {
 	static start() {
 		GameObject.gameObjects.forEach(go => {
 			go.start();
-			go.components.forEach(c => {
-				if (typeof c.start === 'function') {
-					c.start();
-				}
-			});
+			go.mesh.start();
+			go.rigidBody.start();
 		});
 	}
 	static update() {
 		RigidBody.update();
 		GameObject.gameObjects.forEach(go => {
 			go.update();
-			go.components.forEach(c => {
-				if (typeof c.update === 'function') {
-					c.update();
-				}
-			});
+			go.mesh.update();
+			go.rigidBody.start();
 		});
 	}
 }

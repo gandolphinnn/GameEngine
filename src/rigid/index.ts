@@ -1,6 +1,6 @@
-import { Coord, Angle, Line, Component } from '@gandolphinnn/graphics'
+import { Coord, Angle, Line, GameCycle } from '@gandolphinnn/graphics'
 import { LayerMask } from './layerMask.js'
-import { CollisionEvent, MouseCollisionEvent, OnCollisionEnter, ERigidBodyEvent } from './types.js'
+import { CollisionEvent, MouseCollisionEvent, OnCollisionEnter, ERigidBodyEvent, Collision } from './types.js'
 import { Vector } from './vector.js'
 import { className } from '@gandolphinnn/utils'
 import { Game, GameObject } from '@gandolphinnn/game'
@@ -73,80 +73,80 @@ export class RigidLine {
 	}
 }
 
-export abstract class RigidBody implements Component {
-	eventListeners: ERigidBodyEvent[];
-	activeEvents: { eventType: ERigidBodyEvent, rigidBody?: RigidBody }[] = [];
+export abstract class RigidBody implements GameCycle {
 
 	constructor(
 		public vector = Vector.up(),
 		public mass = 0,
+		public gameObject: GameObject,
 		public layerMask = LayerMask.default,
-		public gameObject: GameObject = null
 	) {
 		RigidBody._rigidBodies.push(this);
-	}
-
-	private getEventIndex(eventType: ERigidBodyEvent, rigidBody: RigidBody) {
-		return this.activeEvents.findIndex(e => e.eventType == eventType && e.rigidBody == rigidBody);
 	}
 
 	start() {}
 	update() {
 		this.vector.advance();
-		//? In every frame, check every active event of the rigidBody
-		//this.event.activeEvents.forEach(); //todo implement
 	}
 
 	//#region Abstract
-	onCollisionEnter: CollisionEvent = () => {};
-	onCollisionStay: CollisionEvent = () => {};
-	onCollisionLeave: CollisionEvent = () => {};
-	onMouseEnter: MouseCollisionEvent = () => {};
-	onMouseStay: MouseCollisionEvent = () => {};
-	onMouseLeave: MouseCollisionEvent = () => {};
-
 	abstract detectCollision(rBody: RigidBody): boolean;
 	abstract render(): void;
 	//#endregion Abstract
 
 	//#region Static
+	/**
+	 * Map every collision happening between two rigid bodies.
+	 * For each pair of rigid bodies, if they are colliding, they are mapped to each other, with 2 different entries.
+	 * ```
+	 * this.collisionMap.get(bodyA) -> bodyB
+	 * this.collisionMap.get(bodyB) -> bodyA;
+	 * ```
+	 */
+	static collisionMap = new Map<RigidBody, RigidBody>();
+	
 	private static _rigidBodies: RigidBody[] = [];
 	static get rigidBodies() { return Object.freeze(this._rigidBodies) }
 
 	static getByLayerMask(layerMask = LayerMask.default) {
 		return this.rigidBodies.filter(rBody => rBody.layerMask == layerMask );
 	}
-
+	
 	static update() {
 		LayerMask.layerMasks.forEach(layerMask => {
 			const bodies = this.getByLayerMask(layerMask);
 			for (let i = 0; i < bodies.length - 1; i++) {
 				for (let j = i + 1; j < bodies.length; j++) {
 					const bodyA = bodies[i];
+					const goA = bodyA.gameObject;
 					const bodyB = bodies[j];
-
-					if (bodyA.eventListeners.length > 0 && bodyB.eventListeners.length > 0) {
+					const goB = bodyB.gameObject;
+			
+					if (goA.events.size > 0 && goB.events.size > 0) {
 						continue;
 					}
 
-					const EventListenersA = bodyA.eventListeners;
-					const ActiveEventIndexA = bodyA.getEventIndex(ERigidBodyEvent.onCollisionEnter, bodyB);
+					const areAlreadyColliding = this.collisionMap.get(bodyA) == bodyB || this.collisionMap.get(bodyB) == bodyA;
 					
-					const EventListenersB = bodyB.eventListeners;
-					const ActiveEventIndexB = bodyB.getEventIndex(ERigidBodyEvent.onCollisionEnter, bodyA);
+					const isColliding = bodyA.detectCollision(bodyB); //TODO Add much more data about the collision to use later
 
-					const isColliding = bodyA.detectCollision(bodyB);
-					if (ActiveEventIndexA == -1 && ActiveEventIndexB == -1 && isColliding) {
-						bodyA.activeEvents.push({ eventType: ERigidBodyEvent.onCollisionEnter, rigidBody: bodyB });
-						bodyB.activeEvents.push({ eventType: ERigidBodyEvent.onCollisionEnter, rigidBody: bodyA });
-						bodyA.onCollisionEnter(bodyB);
-						bodyB.onCollisionEnter(bodyA);
+					if (!areAlreadyColliding && isColliding) {
+						this.collisionMap.set(bodyA, bodyB);
+						this.collisionMap.set(bodyB, bodyA);
+						goA.events.get(ERigidBodyEvent.onCollisionEnter)?.({body: bodyB, contacts: []}); //TODO Add contacts
+						goB.events.get(ERigidBodyEvent.onCollisionEnter)?.({body: bodyA, contacts: []}); //TODO Add contacts
 					}
-					if (ActiveEventIndexA != -1 && ActiveEventIndexB != -1 && !isColliding) {
-						bodyA.activeEvents.splice(ActiveEventIndexA, 1);
-						bodyB.activeEvents.splice(ActiveEventIndexB, 1);
-						bodyA.onCollisionLeave(bodyB);
-						bodyB.onCollisionLeave(bodyA);
+
+					else if (areAlreadyColliding && isColliding) {
+						goA.events.get(ERigidBodyEvent.onCollisionStay)?.({body: bodyB, contacts: []}); //TODO Add contacts
+						goB.events.get(ERigidBodyEvent.onCollisionStay)?.({body: bodyA, contacts: []}); //TODO Add contacts
+					}
+
+					else if (areAlreadyColliding && !isColliding) {
+						this.collisionMap.delete(bodyA);
+						this.collisionMap.delete(bodyB);
+						goA.events.get(ERigidBodyEvent.onCollisionLeave)?.({body: bodyB, contacts: []});
+						goB.events.get(ERigidBodyEvent.onCollisionLeave)?.({body: bodyA, contacts: []});
 					}
 				}
 			}
@@ -169,7 +169,7 @@ export class RigidPoly extends RigidBody {
 		layerMask = LayerMask.default,
 		gameObject: GameObject = null
 	) {
-		super(vector, mass, layerMask, gameObject);
+		super(vector, mass, gameObject, layerMask);
 
 		if(points.length < 3) throw new Error('A polygon must have at least 3 points');
 		
@@ -226,7 +226,7 @@ export class RigidCirc extends RigidBody {
 		layerMask = LayerMask.default,
 		gameObject: GameObject = null
 	) {
-		super(vector, mass, layerMask, gameObject);
+		super(vector, mass, gameObject, layerMask);
 		this.radius = radius;
 	}
 

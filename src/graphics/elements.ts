@@ -6,9 +6,9 @@ export enum RenderAction {
 	None, Stroke, Fill, Both
 }
 
-export interface Component {
-	start?(): void;
-	update?(): void;
+export interface GameCycle {
+	start(): void;
+	update(): void;
 }
 
 export abstract class CnvElement {
@@ -113,7 +113,7 @@ export abstract class CnvElement {
 /**
  * A collection of CnvElements
  */
-export class Mesh extends CnvElement implements Component {
+export class Mesh extends CnvElement implements GameCycle {
 	elements: Enumerable.IEnumerable<CnvElement>;
 	doRender: boolean = true;
 	
@@ -138,6 +138,7 @@ export class Mesh extends CnvElement implements Component {
 		});
 		return this;
 	}
+	start() { }
 	update() {
 		this.render();
 	}

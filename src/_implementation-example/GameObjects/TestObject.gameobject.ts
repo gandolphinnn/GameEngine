@@ -1,5 +1,5 @@
 import { Coord, Mesh, Poly } from "@gandolphinnn/graphics";
-import { CollisionEvent, ERigidBodyEvent, OnCollisionEnter, RigidBody, RigidPoly, Vector } from "@gandolphinnn/rigid";
+import { Collision, CollisionEvent, ERigidBodyEvent, OnCollisionEnter, RigidBody, RigidPoly, Vector } from "@gandolphinnn/rigid";
 import { GameObject } from "@gandolphinnn/game";
 
 class PolygonTestObjectMesh extends Mesh {
@@ -46,16 +46,17 @@ export class PolygonTestObject extends GameObject implements OnCollisionEnter {
 		center: Coord,
 		points: Coord[]
 	) {
-		super([
+		super(
 			new PolygonTestObjectMesh(center, points),
 			new PolygonTestObjectBody(center, points)
-		])
+		)
 	}
 
 	start() {
 	}
 	update() {
 	}
-	onCollisionEnter: CollisionEvent = (other: RigidBody) => {
+	onCollisionEnter: CollisionEvent = (collision: Collision) => {
+		console.log('onCollisionEnter', collision);
 	}
 }
