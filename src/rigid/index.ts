@@ -91,6 +91,7 @@ export abstract class RigidBody implements GameCycle {
 	static update() {
 		LayerMask.layerMasks.forEach(layerMask => {
 			const bodies = this.getByLayerMask(layerMask);
+			console.log(bodies)
 			for (let i = 0; i < bodies.length - 1; i++) {
 				for (let j = i + 1; j < bodies.length; j++) {
 					const bodyA = bodies[i];
@@ -98,7 +99,7 @@ export abstract class RigidBody implements GameCycle {
 					const bodyB = bodies[j];
 					const goB = bodyB.gameObject;
 			
-					if (goA.events.size > 0 && goB.events.size > 0) {
+					if (goA.events.size == 0 || goB.events.size == 0) {
 						continue;
 					}
 

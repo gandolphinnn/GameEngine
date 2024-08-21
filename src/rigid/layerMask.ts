@@ -1,24 +1,20 @@
 export class LayerMask {
-	constructor(
+	private constructor(
 		public name: string
 	) {
-		if (!LayerMask.getByName(name))
+		if (!LayerMask.layerMasks.find(l => l.name == name))
 			LayerMask._layerMasks.push(this);
 	}
 
 	private static _layerMasks: LayerMask[] = [];
-	static init() {
-		LayerMask._layerMasks ??= [
-			new LayerMask("Default"),
-		];
-	}
 
 	static get layerMasks() {
-		return Object.freeze(LayerMask._layerMasks);
+		//return Object.freeze(LayerMask._layerMasks);
+		return LayerMask._layerMasks;
 	}
 
 	static getByName(name: string): LayerMask | undefined {
 		return this.layerMasks.find(l => l.name == name);
 	}
-	static get default() { return this.getByName("Default") }
+	static get default() { return new LayerMask("Default") }
 }

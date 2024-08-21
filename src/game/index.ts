@@ -6,6 +6,7 @@ export class Game {
 	static update() {};
 }
 export abstract class GameObject implements GameCycle {
+	private _rigidBody: RigidBody;
 	public get rigidBody(): RigidBody {
 		return this._rigidBody;
 	}
@@ -15,9 +16,10 @@ export abstract class GameObject implements GameCycle {
 
 	get vector() { return this.rigidBody.vector as Vector }
 
-	private readonly _events: Map<ERigidBodyEvent, CollisionEvent> = null;
+	private _events: Map<ERigidBodyEvent, CollisionEvent> = null;
 	public get events(): Map<ERigidBodyEvent, CollisionEvent> {
 		if (this._events === null) {
+			this._events = new Map();
 			const asAny = this as any;
 			for (let event in ERigidBodyEvent) {
 				if (typeof asAny[event] === 'function') {
@@ -30,8 +32,9 @@ export abstract class GameObject implements GameCycle {
 
 	protected constructor(
 		public mesh: Mesh,
-		private _rigidBody: RigidBody,
+		rigidBody: RigidBody
 	) {
+		this.rigidBody = rigidBody;
 		GameObject._gameObjects.push(this);
 	}
 
@@ -53,11 +56,10 @@ export abstract class GameObject implements GameCycle {
 		});
 	}
 	static update() {
-		RigidBody.update();
 		GameObject.gameObjects.forEach(go => {
 			go.update();
 			go.mesh.update();
-			go.rigidBody.start();
+			go.rigidBody.update();
 		});
 	}
 }
@@ -65,18 +67,23 @@ const animate: FrameRequestCallback = async (timestamp: DOMHighResTimeStamp) => 
 	Time.update(timestamp);
 
 	//? Only these lines are not fixed. The user might want to change these: implement a way to do so with an AppSettings
+	//TODO move these in Game.update() customization, just for test;
 	MainCanvas.clean();
 	Time.showData();
 	//? ^
 
 	Game.update();
+	RigidBody.update();
+	GameObject.update();
+
+	Game.update();
+	RigidBody.update();
 	GameObject.update();
 	
-	requestAnimationFrame(animate);
+	//requestAnimationFrame(animate);
 }
 
 window.onload = () => {
-	LayerMask.init();
 	Game.start();
 	GameObject.start();
 	animate(0);
