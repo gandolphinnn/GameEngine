@@ -1,6 +1,5 @@
 import { Mouse } from '@gandolphinnn/inputs'
-import { RigidBody } from './index.js'
-import { Coord } from '@gandolphinnn/graphics'
+import { Collision } from './collision.js'
 
 export enum ERigidBodyEvent {
 	onCollisionEnter,
@@ -20,11 +19,6 @@ export const RigidBodyMouseEvents = [
 	ERigidBodyEvent.onMouseStay,
 	ERigidBodyEvent.onMouseLeave
 ]
-
-export type Collision = {
-	body: RigidBody,
-	contacts: Coord[],
-}
 
 //TODO Convert param type to Collision and MouseCollision
 export type CollisionEvent = (collision: Collision) => void;

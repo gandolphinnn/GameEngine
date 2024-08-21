@@ -1,5 +1,5 @@
 import { MainCanvas, Mesh, Time, GameCycle } from "@gandolphinnn/graphics";
-import { MouseCollisionEvent, CollisionEvent, Vector, LayerMask, RigidCirc, RigidBody, ERigidBodyEvent, Collision } from "@gandolphinnn/rigid";
+import { CollisionEvent, Vector, LayerMask, RigidBody, ERigidBodyEvent } from "@gandolphinnn/rigid";
 
 export class Game {
 	static start() {};

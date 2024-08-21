@@ -100,6 +100,24 @@ export class Coord {
 	}
 
 	/**
+	 * Get the closest point to a reference coordinate with the distance
+	 */
+	static getClosestTo(reference: Coord, ...coords: Coord[]): { coord: Coord, distance: number } {
+		const distances = coords.map(coord => this.distance(reference, coord));
+		const minIndex = distances.indexOf(Math.min(...distances));
+		return { coord: coords[minIndex], distance: distances[minIndex] };
+	}
+
+	/**
+	 * Get the farthest point from a reference coordinate with the distance
+	 */
+	static getFarthestFrom(reference: Coord, ...coords: Coord[]): { coord: Coord, distance: number } {
+		const distances = coords.map(coord => this.distance(reference, coord));
+		const maxIndex = distances.indexOf(Math.max(...distances));
+		return { coord: coords[maxIndex], distance: distances[maxIndex] };
+	}
+
+	/**
 	 * Rotate some coordinates around a center by an angle
 	 */
 	static rotate(center: Coord, angle: Angle, ...coords: Coord[]): Coord[] {

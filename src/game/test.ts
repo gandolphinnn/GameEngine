@@ -1,13 +1,13 @@
 import { rand, rand0 } from "@gandolphinnn/utils";
 import { Coord, Circle, Angle, Mesh, MainCanvas, POINT_DEFAULT, Color } from "@gandolphinnn/graphics";
-import { RigidCirc, Vector, CollisionEvent, Collision } from "@gandolphinnn/rigid";
+import { RigidCircle, Vector, CollisionEvent, Collision } from "@gandolphinnn/rigid";
 import { Game, GameObject } from ".";
 
 class TestObject extends GameObject {
 
 	private _trail: Coord[] = [];
 
-	get rigidBody() { return super.rigidBody as RigidCirc }
+	get rigidBody() { return super.rigidBody as RigidCircle }
 	get radius() { return this.rigidBody.radius }
 	set radius(value: number) { this.rigidBody.radius = value; (this.mesh.elements.first() as Circle).radius = value }
 
@@ -17,7 +17,7 @@ class TestObject extends GameObject {
 		const center = MainCanvas.center.copy();
 		super(
 			new Mesh(center, [new Circle(center, 10)]),
-			new RigidCirc(new Vector(center, new Angle(), 0), 10)
+			new RigidCircle(new Vector(center, new Angle(), 0), 10)
 		)
 	}
 

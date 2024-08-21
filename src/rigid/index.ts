@@ -1,12 +1,15 @@
-import { Coord, Angle, Line, GameCycle } from '@gandolphinnn/graphics'
+import { Coord, Angle, Line, GameCycle, MainCanvas, Poly, CnvElement, Circle } from '@gandolphinnn/graphics'
 import { LayerMask } from './layerMask.js'
-import { CollisionEvent, MouseCollisionEvent, OnCollisionEnter, ERigidBodyEvent, Collision } from './types.js'
+import { CollisionEvent, MouseCollisionEvent, OnCollisionEnter, ERigidBodyEvent } from './types.js'
 import { Vector } from './vector.js'
-import { className } from '@gandolphinnn/utils'
+import { arrPivot, className } from '@gandolphinnn/utils'
 import { Game, GameObject } from '@gandolphinnn/game'
+import { Collision, ECollisionResult } from './collision.js'
+
 export * from './types.js'
 export * from './layerMask.js'
 export * from './vector.js'
+export * from './collision.js'
 
 export function RayCast (
 	origin: Coord,
@@ -17,27 +20,130 @@ export function RayCast (
 	const ray = new RigidLine([origin, new Coord(
 		origin.x + direction.cos * maxDistance,
 		origin.y + direction.sin * maxDistance
-	)], layerMask);
+	)]);
 	const bodies = RigidBody.getByLayerMask(layerMask);
 	const distances: { rigidBody: RigidBody, point: Coord, distance: number}[] = [];
 	for (const body of bodies) {
-		const hit = ray.checkCollision(body);
-		if (!hit) continue;
-		distances.push({ rigidBody: body, point: hit, distance: Coord.distance(origin, hit)});
+		const hit = new Collision(ray, body);
+		if (!hit.doCollide) continue;
+
+		const closest = Coord.getClosestTo(origin, ...hit.contacts);
+		distances.push({ rigidBody: body, point: closest.coord, distance: closest.distance});
 	}
 
 	if (distances.length == 0) return null;
 
-	return distances.sort((a, b) => a.distance - b.distance)[0];
+	const minDistance = Math.min(...arrPivot(distances).distance);
+	return distances[minDistance];
 }
 
-export class RigidLine {
+export abstract class RigidBody implements GameCycle {
+	
+	public layerMask = LayerMask.default;
+
+	get coord() { return this.vector.coord }
+	get angle() { return this.vector.angle }
+
+	constructor(
+		public vector = Vector.up(),
+		public mass = 0,
+		public gameObject: GameObject,
+	) {
+		RigidBody._rigidBodies.push(this);
+	}
+
+	start() {}
+	update() {
+		this.vector.advance();
+	}
+
+	render() {
+		this.cnvElement.render(false);
+	}
+
+	setLayerMask(layerMask: LayerMask) {
+		this.layerMask = layerMask;
+		return this;
+	}
+
+//#region Abstract
+	protected abstract cnvElement: CnvElement;
+//#endregion Abstract
+
+//#region Static
+	/**
+	 * Map every collision happening between two rigid bodies.
+	 * For each pair of rigid bodies, if they are colliding, they are mapped to each other, with 2 different entries.
+	 * ```
+	 * this.collisionMap.get(bodyA) -> bodyB
+	 * this.collisionMap.get(bodyB) -> bodyA;
+	 * ```
+	 */
+	static readonly collisionMap = new Map<RigidBody, RigidBody>();
+	
+	private static _rigidBodies: RigidBody[] = [];
+	static get rigidBodies() { return Object.freeze(this._rigidBodies) }
+
+	static getByLayerMask(layerMask = LayerMask.default) {
+		return this.rigidBodies.filter(rBody => rBody.layerMask == layerMask );
+	}
+	
+	static update() {
+		LayerMask.layerMasks.forEach(layerMask => {
+			const bodies = this.getByLayerMask(layerMask);
+			for (let i = 0; i < bodies.length - 1; i++) {
+				for (let j = i + 1; j < bodies.length; j++) {
+					const bodyA = bodies[i];
+					const goA = bodyA.gameObject;
+					const bodyB = bodies[j];
+					const goB = bodyB.gameObject;
+			
+					if (goA.events.size > 0 && goB.events.size > 0) {
+						continue;
+					}
+
+					const areAlreadyColliding = this.collisionMap.get(bodyA) == bodyB || this.collisionMap.get(bodyB) == bodyA;
+					
+					const collision = new Collision(bodyA, bodyB);
+					const isColliding = collision.doCollide;
+
+					if (!areAlreadyColliding && isColliding) {
+						this.collisionMap.set(bodyA, bodyB);
+						this.collisionMap.set(bodyB, bodyA);
+						goA.events.get(ERigidBodyEvent.onCollisionEnter)?.(collision);
+						goB.events.get(ERigidBodyEvent.onCollisionEnter)?.(collision);
+					}
+
+					else if (areAlreadyColliding && isColliding) {
+						goA.events.get(ERigidBodyEvent.onCollisionStay)?.(collision);
+						goB.events.get(ERigidBodyEvent.onCollisionStay)?.(collision);
+					}
+
+					else if (areAlreadyColliding && !isColliding) {
+						this.collisionMap.delete(bodyA);
+						this.collisionMap.delete(bodyB);
+						goA.events.get(ERigidBodyEvent.onCollisionLeave)?.(collision);
+						goB.events.get(ERigidBodyEvent.onCollisionLeave)?.(collision);
+					}
+				}
+			}
+		});
+	}
+//#endregion Static
+}
+
+export class RigidLine extends RigidBody {
+
+	cnvElement: Line;
+
+	//TODO constructor and super call
 	constructor(
 		public points: [Coord, Coord],
-		public layerMask = LayerMask.default
 	) {
+		super(Vector.up(), 0, null);
+		this.cnvElement = new Line(points);
 	}
-	checkCollision(rigidBody: RigidBody) {
+	detectCollision(rigidBody: RigidBody) {
 		switch (className(rigidBody)) {
 			case 'RigidLine': {
 				// https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
@@ -73,91 +179,10 @@ export class RigidLine {
 	}
 }
 
-export abstract class RigidBody implements GameCycle {
-
-	constructor(
-		public vector = Vector.up(),
-		public mass = 0,
-		public gameObject: GameObject,
-		public layerMask = LayerMask.default,
-	) {
-		RigidBody._rigidBodies.push(this);
-	}
-
-	start() {}
-	update() {
-		this.vector.advance();
-	}
-
-	//#region Abstract
-	abstract detectCollision(rBody: RigidBody): boolean;
-	abstract render(): void;
-	//#endregion Abstract
-
-	//#region Static
-	/**
-	 * Map every collision happening between two rigid bodies.
-	 * For each pair of rigid bodies, if they are colliding, they are mapped to each other, with 2 different entries.
-	 * ```
-	 * this.collisionMap.get(bodyA) -> bodyB
-	 * this.collisionMap.get(bodyB) -> bodyA;
-	 * ```
-	 */
-	static readonly collisionMap = new Map<RigidBody, RigidBody>();
-	
-	private static _rigidBodies: RigidBody[] = [];
-	static get rigidBodies() { return Object.freeze(this._rigidBodies) }
-
-	static getByLayerMask(layerMask = LayerMask.default) {
-		return this.rigidBodies.filter(rBody => rBody.layerMask == layerMask );
-	}
-	
-	static update() {
-		LayerMask.layerMasks.forEach(layerMask => {
-			const bodies = this.getByLayerMask(layerMask);
-			for (let i = 0; i < bodies.length - 1; i++) {
-				for (let j = i + 1; j < bodies.length; j++) {
-					const bodyA = bodies[i];
-					const goA = bodyA.gameObject;
-					const bodyB = bodies[j];
-					const goB = bodyB.gameObject;
-			
-					if (goA.events.size > 0 && goB.events.size > 0) {
-						continue;
-					}
-
-					const areAlreadyColliding = this.collisionMap.get(bodyA) == bodyB || this.collisionMap.get(bodyB) == bodyA;
-					
-					const isColliding = bodyA.detectCollision(bodyB); //TODO Add much more data about the collision to use later
-
-					if (!areAlreadyColliding && isColliding) {
-						this.collisionMap.set(bodyA, bodyB);
-						this.collisionMap.set(bodyB, bodyA);
-						goA.events.get(ERigidBodyEvent.onCollisionEnter)?.({body: bodyB, contacts: []}); //TODO Add contacts
-						goB.events.get(ERigidBodyEvent.onCollisionEnter)?.({body: bodyA, contacts: []}); //TODO Add contacts
-					}
-
-					else if (areAlreadyColliding && isColliding) {
-						goA.events.get(ERigidBodyEvent.onCollisionStay)?.({body: bodyB, contacts: []}); //TODO Add contacts
-						goB.events.get(ERigidBodyEvent.onCollisionStay)?.({body: bodyA, contacts: []}); //TODO Add contacts
-					}
-
-					else if (areAlreadyColliding && !isColliding) {
-						this.collisionMap.delete(bodyA);
-						this.collisionMap.delete(bodyB);
-						goA.events.get(ERigidBodyEvent.onCollisionLeave)?.({body: bodyB, contacts: []});
-						goB.events.get(ERigidBodyEvent.onCollisionLeave)?.({body: bodyA, contacts: []});
-					}
-				}
-			}
-		});
-	}
-	//#endregion Static
-}
-
-//? Maybe this class should be abstract
 export class RigidPoly extends RigidBody {
 
+	cnvElement: Poly;
+	
 	lines: RigidLine[] = [];
 
 	get points() { return this.lines.map(line => line.points[0]) }
@@ -166,10 +191,9 @@ export class RigidPoly extends RigidBody {
 		vector: Vector,
 		points: Coord[],
 		mass = 0,
-		layerMask = LayerMask.default,
 		gameObject: GameObject = null
 	) {
-		super(vector, mass, gameObject, layerMask);
+		super(vector, mass, gameObject);
 
 		if(points.length < 3) throw new Error('A polygon must have at least 3 points');
 		
@@ -177,10 +201,10 @@ export class RigidPoly extends RigidBody {
 			this.lines.push(new RigidLine([points[i-1], points[i]]));
 		}
 		this.lines.push(new RigidLine([points.last(), points[0]]))
+
+		this.cnvElement = new Poly(points);
 	}
 
-	pointInside(point: Coord) {
-	}
 	detectCollision(rBody: RigidBody) {
 		/* if (parentClass(rBody).name == 'RigidRect') {
 			let hitPoints = new Array(), line1, line2;
@@ -203,19 +227,11 @@ export class RigidPoly extends RigidBody {
 		} */
 		return false;
 	}
-	render() {
-		/* let color = ctx.strokeStyle;
-		ctx.strokeStyle = this.color;
-		for (let i = 0; i < this.points.length; i++) {
-			drawF.line(this.points[i], this.points[(i+1)%this.points.length]);
-		}
-		drawF.circle(this.coord, 3);
-		ctx.strokeStyle = color; */
-	}
 }
 
-//? Maybe this class should be abstract
-export class RigidCirc extends RigidBody {
+export class RigidCircle extends RigidBody {
+
+	protected cnvElement: CnvElement;
 
 	get center() { return this.vector.coord }
 
@@ -223,11 +239,12 @@ export class RigidCirc extends RigidBody {
 		vector: Vector,
 		public radius: number,
 		mass = 0,
-		layerMask = LayerMask.default,
 		gameObject: GameObject = null
 	) {
-		super(vector, mass, gameObject, layerMask);
+		super(vector, mass, gameObject);
 		this.radius = radius;
+		
+		this.cnvElement = new Circle(this.center, this.radius);
 	}
 
 	detectCollision(rBody: RigidBody) {
@@ -236,29 +253,9 @@ export class RigidCirc extends RigidBody {
 			return false;
 		}
 		else if(mathF.parentClass(rBody) == 'RigidCirc') {
-			let hitPoints = new Array();
-			let d = Math.sqrt((this.coord.x - rCirc.coord.x) ** 2 + (this.coord.y - rCirc.coord.y) ** 2);
-			if (d > this.radius + rCirc.radius) {
-				return false;			
-			}
-			else {
-				let x1 = this.coord.x, y1 = this.coord.y, r1 = this.radius;
-				let x2 = rCirc.coord.x, y2 = rCirc.coord.y, r2 = rCirc.radius;
-				let l = (r1**2 - r2**2 + d**2) / (2*d);
-				let h = Math.sqrt(r1**2 - l**2);
-				hitPoints.push(new Coord(l/d*(x2-x1) + h/d*(y2-y1) + x1, l/d*(y2-y1) - h/d*(x2-x1) + y1));
-				hitPoints.push(new Coord(l/d*(x2-x1) - h/d*(y2-y1) + x1, l/d*(y2-y1) + h/d*(x2-x1) + y1));
-			}
-			return hitPoints;
+			
 		} */
 		return false;
-	}
-	render() {
-		/* let color = ctx.strokeStyle;
-		ctx.strokeStyle = this.color;
-		drawF.circle(this.coord, this.radius, 'stroke');
-		drawF.circle(this.coord, 3);
-		ctx.strokeStyle = color; */
 	}
 }
 const rigidF = {

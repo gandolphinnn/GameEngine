@@ -80,6 +80,14 @@ export class Vector {
 	static left(coord = Coord.origin, strength = 0) { return new Vector(coord, Angle.left(), strength) }
 	static right(coord = Coord.origin, strength = 0) { return new Vector(coord, Angle.right(), strength) }
 
+	/**
+	 * Get the sum of all vectors
+	 */
+	static sum(...vectors: Vector[]): Vector {
+		throw new Error('Not implemented');
+		return Vector.up(); //TODO
+	}
+
 	//! Copilot code, to be checked
 	static fromAtoB(coordA: Coord, coordB: Coord) {
 		const angle = new Angle(Math.atan2(coordB.y - coordA.y, coordB.x - coordA.x) * 180 / Math.PI);

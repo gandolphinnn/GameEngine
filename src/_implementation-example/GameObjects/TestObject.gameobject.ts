@@ -16,18 +16,6 @@ class PolygonTestObjectMesh extends Mesh {
 	}
 }
 
-export function RigidEventSubscription(config: {positionOffset?: {x: number, y: number}, events: ERigidBodyEvent[]}) {
-	return function (target: any) {
-		//TODO target.prototype.positionOffset = config.positionOffset;
-		target.prototype.events = config.events;
-	}
-}
-
-@RigidEventSubscription({
-	events: [
-		ERigidBodyEvent.onCollisionEnter
-	]
-})
 class PolygonTestObjectBody extends RigidPoly {
 	constructor(
 		center: Coord,
