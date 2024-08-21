@@ -59,14 +59,16 @@ export class Collision {
 		].sort((a, b) => a.type.localeCompare(b.type));
 
 		const collisionDetectorName = `${orderedResolver[0].type}_${orderedResolver[1].type}`;
-		
-		const thisAsAny = this as any;
-		if (typeof thisAsAny[collisionDetectorName] !== 'function') {
-			throw new Error(`Collision detection method not implemented for ${collisionDetectorName}`);
-		}
 
-		const collisionDetector = thisAsAny[collisionDetectorName] as CollisionDetector;
-		this.result = collisionDetector(orderedResolver[0].body, orderedResolver[1].body);
+		switch (collisionDetectorName) {
+			case 'Circle_Circle': this.result = this.Circle_Circle(rBody1 as RigidCircle, rBody2 as RigidCircle); break;
+			case 'Circle_Line': this.result = this.Circle_Line(rBody1 as RigidCircle, rBody2 as RigidLine); break;
+			case 'Circle_Poly': this.result = this.Circle_Poly(rBody1 as RigidCircle, rBody2 as RigidPoly); break;
+			case 'Line_Line': this.result = this.Line_Line(rBody1 as RigidLine, rBody2 as RigidLine); break;
+			case 'Line_Poly': this.result = this.Line_Poly(rBody1 as RigidLine, rBody2 as RigidPoly); break;
+			case 'Poly_Poly': this.result = this.Poly_Poly(rBody1 as RigidPoly, rBody2 as RigidPoly); break;
+			default: throw new Error(`Collision detection method not implemented for ${collisionDetectorName}`);
+		}
 	}
 
 	private extractClassType(body: RigidBody) {
@@ -74,7 +76,7 @@ export class Collision {
 	}
 
 //#region Collision detectors
-	private Circle_Circle: CollisionDetector = (body1: RigidCircle, body2: RigidCircle): ECollisionResult => {
+	private Circle_Circle(body1: RigidCircle, body2: RigidCircle): ECollisionResult {
 		const distance = Coord.distance(body1.vector.coord, body2.vector.coord);
 		const x1 = body1.coord.x, y1 = body1.coord.y, r1 = body1.radius;
 		const x2 = body2.coord.x, y2 = body2.coord.y, r2 = body2.radius;
@@ -93,11 +95,12 @@ export class Collision {
 		//* Calculate the points of contact
 		const length = (r1**2 - r2**2 + distance**2) / (2*distance);
 		const height = Math.sqrt(r1**2 - length**2);
-		const distanceX = distance*(x2-x1);
-		const distanceY = distance*(y2-y1);
 
-		const contact1 = new Coord(length / distanceX + height /distanceY + x1, length / distanceY - height / distanceX + y1);
-		const contact2 = new Coord(length / distanceX - height /distanceY + x1, length / distanceY + height / distanceX + y1);
+		const len_dist = length / distance;
+		const hei_dist = height / distance;
+
+		const contact1 = new Coord(len_dist * (x2 - x1) + hei_dist * (y2 - y1) + x1, len_dist * (y2 - y1) - hei_dist * (x2 - x1) + y1);
+		const contact2 = new Coord(len_dist * (x2 - x1) - hei_dist * (y2 - y1) + x1, len_dist * (y2 - y1) + hei_dist * (x2 - x1) + y1);
 		
 		this.contacts.push(contact1);
 
@@ -120,23 +123,23 @@ export class Collision {
 		return ECollisionResult.OuterCollision;
 	}
 
-	private Circle_Line: CollisionDetector = (body1: RigidCircle, body2: RigidLine): ECollisionResult => {
+	private Circle_Line(body1: RigidCircle, body2: RigidLine): ECollisionResult {
 		return ECollisionResult.NoCollision;
 	}
 
-	private Circle_Poly: CollisionDetector = (body1: RigidCircle, body2: RigidPoly): ECollisionResult => {
+	private Circle_Poly(body1: RigidCircle, body2: RigidPoly): ECollisionResult {
 		return ECollisionResult.NoCollision;
 	}
 
-	private Line_Line: CollisionDetector = (body1: RigidLine, body2: RigidLine): ECollisionResult => {
+	private Line_Line(body1: RigidLine, body2: RigidLine): ECollisionResult {
 		return ECollisionResult.NoCollision;
 	}
 
-	private Line_Poly: CollisionDetector = (body1: RigidLine, body2: RigidPoly): ECollisionResult => {
+	private Line_Poly(body1: RigidLine, body2: RigidPoly): ECollisionResult {
 		return ECollisionResult.NoCollision;
 	}
 
-	private Poly_Poly: CollisionDetector = (body1: RigidPoly, body2: RigidPoly): ECollisionResult => {
+	private Poly_Poly(body1: RigidPoly, body2: RigidPoly): ECollisionResult {
 		return ECollisionResult.NoCollision;
 	}
 //#endregion Collision detectors

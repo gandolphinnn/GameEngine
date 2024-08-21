@@ -79,6 +79,7 @@ export class Vector {
 	static down(coord = Coord.origin, strength = 0) { return new Vector(coord, Angle.down(), strength) }
 	static left(coord = Coord.origin, strength = 0) { return new Vector(coord, Angle.left(), strength) }
 	static right(coord = Coord.origin, strength = 0) { return new Vector(coord, Angle.right(), strength) }
+	static random(strenth = 0) { return new Vector(Coord.random(), Angle.random(), strenth) }
 
 	/**
 	 * Get the sum of all vectors

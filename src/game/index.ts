@@ -1,4 +1,4 @@
-import { MainCanvas, Mesh, Time, GameCycle } from "@gandolphinnn/graphics";
+import { MainCanvas, Mesh, Time, GameCycle, CnvElement } from "@gandolphinnn/graphics";
 import { CollisionEvent, Vector, LayerMask, RigidBody, ERigidBodyEvent } from "@gandolphinnn/rigid";
 
 export class Game {
@@ -31,15 +31,16 @@ export abstract class GameObject implements GameCycle {
 	}
 
 	protected constructor(
-		public mesh: Mesh,
+		public cnvElement: CnvElement,
 		rigidBody: RigidBody
 	) {
 		this.rigidBody = rigidBody;
+		this.rigidBody.gameObject = this;
 		GameObject._gameObjects.push(this);
 	}
 
-	start() {};
-	update() {};
+	Start() {};
+	Update() {};
 
 	private static _gameObjects: GameObject[] = [];
 
@@ -50,16 +51,16 @@ export abstract class GameObject implements GameCycle {
 
 	static start() {
 		GameObject.gameObjects.forEach(go => {
-			go.start();
-			go.mesh.start();
-			go.rigidBody.start();
+			go.Start();
+			go.cnvElement.Start();
+			go.rigidBody.Start();
 		});
 	}
 	static update() {
 		GameObject.gameObjects.forEach(go => {
-			go.update();
-			go.mesh.update();
-			go.rigidBody.update();
+			go.Update();
+			go.cnvElement.Update();
+			go.rigidBody.Update();
 		});
 	}
 }
@@ -76,11 +77,7 @@ const animate: FrameRequestCallback = async (timestamp: DOMHighResTimeStamp) => 
 	RigidBody.update();
 	GameObject.update();
 
-	Game.update();
-	RigidBody.update();
-	GameObject.update();
-	
-	//requestAnimationFrame(animate);
+	requestAnimationFrame(animate);
 }
 
 window.onload = () => {

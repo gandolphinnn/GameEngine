@@ -1,4 +1,4 @@
-import { arrPivot, overflow } from "@gandolphinnn/utils";
+import { arrPivot, overflow, rand0 } from "@gandolphinnn/utils";
 import Enumerable from 'linq';
 import { Angle, Circle, MainCanvas } from "./index";
 
@@ -52,6 +52,10 @@ export class Coord {
 	 */
 	static get origin() {
 		return new Coord(0, 0);
+	}
+
+	static random() {
+		return new Coord(rand0(MainCanvas.cnv.width), rand0(MainCanvas.cnv.height));
 	}
 
 	/**

@@ -9,7 +9,7 @@ class TestObject extends GameObject {
 
 	get rigidCircle() { return this.rigidBody as RigidCircle }
 	get radius() { return this.rigidCircle.radius }
-	set radius(value: number) { this.rigidCircle.radius = value; (this.mesh.elements.first() as Circle).radius = value }
+	set radius(value: number) { this.rigidCircle.radius = value; (this.cnvElement.elements.first() as Circle).radius = value }
 
 	constructor(
 	) {
@@ -19,16 +19,16 @@ class TestObject extends GameObject {
 			new Mesh(center, [new Circle(center, 10)]),
 			new RigidCircle(new Vector(center, new Angle(), 0), 10)
 		)
-		this.rigidBody.setLayerMask(LayerMask.getByName("Test"));
+		this.rigidBody.setLayerMask(LayerMask.get("Test"));
 	}
 
-	start() {
+	Start() {
 		this.radius = rand(10, 20);
 		this.vector.angle.degrees = rand0(359);
 		this.vector.strength = rand(15, 80);
 		//console.log('start', this);
 	}
-	update() {
+	Update() {
 		//console.log('update');
 		if (this.vector.vectorCoord.x > MainCanvas.cnv.width - this.radius || this.vector.vectorCoord.x < this.radius) {
 			this.vector.bounce(new Angle(90));

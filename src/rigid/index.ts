@@ -39,6 +39,7 @@ export function RayCast (
 
 export abstract class RigidBody implements GameCycle {
 	
+	public gameObject: GameObject;
 	public layerMask = LayerMask.default;
 
 	get coord() { return this.vector.coord }
@@ -47,13 +48,12 @@ export abstract class RigidBody implements GameCycle {
 	constructor(
 		public vector = Vector.up(),
 		public mass = 0,
-		public gameObject: GameObject,
 	) {
 		RigidBody._rigidBodies.push(this);
 	}
 
-	start() {}
-	update() {
+	Start() {}
+	Update() {
 		this.vector.advance();
 	}
 
@@ -91,7 +91,6 @@ export abstract class RigidBody implements GameCycle {
 	static update() {
 		LayerMask.layerMasks.forEach(layerMask => {
 			const bodies = this.getByLayerMask(layerMask);
-			console.log(bodies)
 			for (let i = 0; i < bodies.length - 1; i++) {
 				for (let j = i + 1; j < bodies.length; j++) {
 					const bodyA = bodies[i];
@@ -141,7 +140,7 @@ export class RigidLine extends RigidBody {
 	constructor(
 		public points: [Coord, Coord],
 	) {
-		super(Vector.up(), 0, null);
+		super(Vector.up(), 0);
 		this.cnvElement = new Line(points);
 	}
 	detectCollision(rigidBody: RigidBody) {
@@ -192,9 +191,8 @@ export class RigidPoly extends RigidBody {
 		vector: Vector,
 		points: Coord[],
 		mass = 0,
-		gameObject: GameObject = null
 	) {
-		super(vector, mass, gameObject);
+		super(vector, mass);
 
 		if(points.length < 3) throw new Error('A polygon must have at least 3 points');
 		
@@ -240,9 +238,8 @@ export class RigidCircle extends RigidBody {
 		vector: Vector,
 		public radius: number,
 		mass = 0,
-		gameObject: GameObject = null
 	) {
-		super(vector, mass, gameObject);
+		super(vector, mass);
 		this.radius = radius;
 		
 		this.cnvElement = new Circle(this.center, this.radius);

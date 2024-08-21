@@ -1,4 +1,4 @@
-import { overflow } from "@gandolphinnn/utils";
+import { overflow, rand0 } from "@gandolphinnn/utils";
 
 /**
  * Angle starts from a line going horizontally right from the center, and proceeds clockwise.
@@ -48,4 +48,5 @@ export class Angle {
 	static down()	{ return new Angle(90) }
 	static left()	{ return new Angle(180) }
 	static up()		{ return new Angle(270) }
+	static random() { return new Angle(rand0(359)) }
 }

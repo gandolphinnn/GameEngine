@@ -40,9 +40,9 @@ export class PolygonTestObject extends GameObject implements OnCollisionEnter {
 		)
 	}
 
-	start() {
+	Start() {
 	}
-	update() {
+	Update() {
 	}
 	onCollisionEnter: CollisionEvent = (collision: Collision) => {
 		console.log('onCollisionEnter', collision);

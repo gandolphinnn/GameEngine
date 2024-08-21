@@ -7,11 +7,11 @@ export enum RenderAction {
 }
 
 export interface GameCycle {
-	start(): void;
-	update(): void;
+	Start(): void;
+	Update(): void;
 }
 
-export abstract class CnvElement {
+export abstract class CnvElement implements GameCycle {
 	action: RenderAction;
 	zIndex = 0;
 	style: Style = Style.empty();
@@ -30,6 +30,10 @@ export abstract class CnvElement {
 		this.action = action;
 		this._center = center;
 	}
+
+	Start(): void {}
+	Update(): void { this.render(false)}
+
 	moveBy(x: number, y: number) {
 		//? keep it like this to trigger the setter
 		this.center = this.center.sumXY(x, y)
@@ -113,7 +117,7 @@ export abstract class CnvElement {
 /**
  * A collection of CnvElements
  */
-export class Mesh extends CnvElement implements GameCycle {
+export class Mesh extends CnvElement {
 	elements: Enumerable.IEnumerable<CnvElement>;
 	doRender: boolean = true;
 	
@@ -137,10 +141,6 @@ export class Mesh extends CnvElement implements GameCycle {
 			item.moveBy(x, y);
 		});
 		return this;
-	}
-	start() { }
-	update() {
-		this.render();
 	}
 	render(drawPoints = false) {
 		if (this.isVisible) {
