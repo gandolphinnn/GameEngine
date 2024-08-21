@@ -66,7 +66,7 @@ export class Collision {
 		}
 
 		const collisionDetector = thisAsAny[collisionDetectorName] as CollisionDetector;
-		collisionDetector(orderedResolver[0].body, orderedResolver[1].body);
+		this.result = collisionDetector(orderedResolver[0].body, orderedResolver[1].body);
 	}
 
 	private extractClassType(body: RigidBody) {
