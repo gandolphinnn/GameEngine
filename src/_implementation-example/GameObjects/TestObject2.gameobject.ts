@@ -45,7 +45,6 @@ export class TestObject2 extends GameObject implements OnCollisionEnter {
 			new TestObject2Body(vector, radius)
 		)
 		this.rigidBody.setLayerMask(LayerMask.get("Test"));
-		console.log(this);
 	}
 
 	Update() {

@@ -6,8 +6,6 @@ import { TestObject2 } from "./GameObjects/TestObject2.gameobject";
 import { Vector } from "@gandolphinnn/rigid";
 
 function Sim1() {
-	console.log('Simulation 1');
-
 	POINT_DEFAULT.radius = 5;
 	POINT_DEFAULT.setFillStyle(Color.byName("Red"));
 
@@ -17,8 +15,6 @@ function Sim1() {
 	}
 }
 function Sim2() {
-	console.log('Simulation 2');
-
 	for (let i = 0; i < 50; i++) {
 		const radius = rand(20, 30);
 		const strength = 10//rand(3, 8);
@@ -49,5 +45,5 @@ Game.start = () => {
 
 Game.update = () => {
 	MainCanvas.clean();
-	Time.showData();
+	Time.showData(['fps']);
 }
