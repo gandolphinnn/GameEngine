@@ -54,8 +54,8 @@ export class Collision {
 
 		//* Get the bodies types and order them to avoid method repetition
 		const orderedResolver = [
-			{ type: this.extractClassType(rBody1), body: rBody1 },
-			{ type: this.extractClassType(rBody2), body: rBody2 }
+			{ type: this.parseClassType(rBody1), body: rBody1 },
+			{ type: this.parseClassType(rBody2), body: rBody2 }
 		].sort((a, b) => a.type.localeCompare(b.type));
 
 		const collisionDetectorName = `${orderedResolver[0].type}_${orderedResolver[1].type}`;
@@ -71,8 +71,16 @@ export class Collision {
 		}
 	}
 
-	private extractClassType(body: RigidBody) {
-		return className(body).replace('Rigid', '') as 'Circle' | 'Line' | 'Poly';
+	private parseClassType(body: RigidBody): 'Circle' | 'Line' | 'Poly' {
+		const name = className(body);
+		const classes = ['RigidCircle', 'RigidLine', 'RigidPoly'];	
+		if (classes.includes(name)) {
+			return name.replace('Rigid', '') as 'Circle' | 'Line' | 'Poly';
+		}
+		if (body.constructor.prototype !== Object.prototype) {
+			return this.parseClassType(Object.getPrototypeOf(body));
+		}
+		throw new Error(`Invalid rigid body type: ${name}`);
 	}
 
 //#region Collision detectors

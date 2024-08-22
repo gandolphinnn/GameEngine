@@ -83,7 +83,7 @@ export class Coord {
 	 * The x/y difference between 2 points. Order matters
 	 */
 	static difference(coord1: Coord, coord2: Coord) {
-		return {x: coord1.x - coord2.x, y: coord1.y - coord2.y};
+		return {x: coord2.x - coord1.x, y: coord2.y - coord1.y};
 	}
 
 	/**

@@ -1,4 +1,4 @@
-import { clamp, coalesce, decToHex, hexToDec } from "@gandolphinnn/utils";
+import { clamp, coalesce, decToHex, hexToDec, rand0 } from "@gandolphinnn/utils";
 
 export const HEX_LONG_PATTERN: RegExp = /^\#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
 export const HEX_SHORT_PATTERN: RegExp = /^\#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])$/
@@ -189,6 +189,9 @@ export class Color {
 	}
 	static default() {
 		return new Color(COLOR_DEFAULT.rgbaObj);
+	}
+	static random() {
+		return new Color({red: rand0(255), green: rand0(255), blue: rand0(255), alpha: 1});
 	}
 }
 

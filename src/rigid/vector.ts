@@ -89,9 +89,9 @@ export class Vector {
 		return Vector.up(); //TODO
 	}
 
-	//! Copilot code, to be checked
 	static fromAtoB(coordA: Coord, coordB: Coord) {
-		const angle = new Angle(Math.atan2(coordB.y - coordA.y, coordB.x - coordA.x) * 180 / Math.PI);
+		const difference = Coord.difference(coordA, coordB);
+		const angle = new Angle(Math.atan2(difference.y, difference.x) * 180 / Math.PI);
 		const strength = Coord.distance(coordA, coordB);
 		return new Vector(coordA, angle, strength);
 	}
