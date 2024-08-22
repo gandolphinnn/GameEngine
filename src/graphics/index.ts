@@ -2,7 +2,7 @@ import { Singleton, isNull, rand } from '@gandolphinnn/utils';
 import { Color, ColorName, COLORNAME_RGBA } from './color';
 import { Style } from './style';
 import { Coord, Size } from './coord';
-import { Circle, Line, Rect, RenderAction, Text } from './elements';
+import { Circle, Line, Poly, Rect, RenderAction, Text } from './elements';
 
 export * from './angle';
 export * from './color';
@@ -192,6 +192,24 @@ export class MainCanvas extends Singleton {
 			text.render();
 		}
 		new Circle(this.center, 5).render();
+	}
+
+	static drawFunction(func: (x: number) => number, sampling = 1, scale = 50, color: Color = Color.byName('Black')) {
+		const points: Coord[] = [];
+		const style = Style.default().mergeStrokeStyle(color);
+
+		for (let x = 0; x < this.cnv.width; x+= sampling) {
+			points.push(new Coord(x, this.center.y - func(x/scale) * scale));
+		}
+
+		MainCanvas.draw(style, () => {
+			MainCanvas.ctx.beginPath();
+			MainCanvas.ctx.moveTo(points[0].x, points[0].y);
+			points.forEach(point => {
+				MainCanvas.ctx.lineTo(point.x, point.y)
+			});
+			MainCanvas.ctx.stroke();
+		});
 	}
 	//#endregion Samples
 }

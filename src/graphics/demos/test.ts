@@ -7,7 +7,7 @@ test('rgbParse RGB', parseRGBA('rgb(300,6,5)'), {red: 255, green: 6, blue: 5, al
 test('rgbParse HEX1', parseRGBA('#abc'), {red: 10, green: 11, blue: 12, alpha: 1} as RGBA);
 test('rgbParse HEX2', parseRGBA('#abcdef'), {red: 171, green: 205, blue: 239, alpha: 1} as RGBA);
 test('Color.byName', Color.byName('AliceBlue'), {red: 240, green: 248, blue: 255, alpha: 1} as RGBA); */
-MainCanvas.drawSampleUnits(0, 100, 99, 420);
+/*MainCanvas.drawSampleUnits(0, 100, 99, 420);
 
 MainCanvas.drawSampleMetric(50);
 MainCanvas.drawStyle.mergeFillStyle(Color.byName('Grey'));
@@ -57,3 +57,6 @@ console.table(mesh.elements.toArray());
 mesh.moveBy(600, -50).render(true)
 mesh.moveBy(300, -50).render()
 /* */
+MainCanvas.drawFunction(x => {
+	return Math.sin(x) * 100;
+}, .1, 2);
