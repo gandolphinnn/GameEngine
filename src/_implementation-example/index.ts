@@ -1,4 +1,4 @@
-import { Color, Coord, MainCanvas, POINT_DEFAULT, Time } from "@gandolphinnn/graphics";
+import { Angle, Color, Coord, MainCanvas, POINT_DEFAULT, Time } from "@gandolphinnn/graphics";
 import { Game } from "@gandolphinnn/game";
 import { TestObject1 } from "./GameObjects/TestObject1.gameobject";
 import { rand } from "@gandolphinnn/utils";
@@ -15,12 +15,13 @@ function Sim1() {
 	}
 }
 function Sim2() {
-	for (let i = 0; i < 50; i++) {
-		const radius = rand(20, 30);
-		const strength = 10//rand(3, 8);
-		const vector = Vector.random(strength);
+	const coords = Coord.regularPoly(MainCanvas.center, 50, 400);
+	coords.forEach(coord => {
+		const radius = rand(10, 20);
+		const strength = 20//rand(3, 8);
+		const vector = new Vector(coord, Angle.random(), strength);
 		new TestObject2(radius, vector);
-	}
+	});
 	/* const vector = Vector.random(50)
 	new TestObject2(50, vector);
 	new TestObject2(100, Vector.down(new Coord(800, 500)), true); */
