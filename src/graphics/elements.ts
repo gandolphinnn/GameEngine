@@ -9,6 +9,7 @@ export enum RenderAction {
 export interface GameCycle {
 	Start(): void;
 	Update(): void;
+	FixedUpdate?(): void;
 }
 
 export abstract class CnvElement implements GameCycle {

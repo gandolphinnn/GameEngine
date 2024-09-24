@@ -11,7 +11,7 @@
 	"scripts": {
 		"live": "concurrently \"tsc --watch\" \"parcel index.html --open\"",
 		"nvm22": "nvm use 22.1.0",
-		"nvm14": "nvm use 14.21.3"
+		"nvm14": "nvm use 14.20.1"
 	},
 	"repository": {
 		"type": "git",

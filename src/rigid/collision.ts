@@ -1,5 +1,5 @@
 import { Coord } from "@gandolphinnn/graphics";
-import { RigidBody, RigidCircle, RigidLine, RigidPoly } from ".";
+import { RigidBody, RigidCircle, RigidLine, RigidPoly, Vector } from ".";
 import { className } from "@gandolphinnn/utils";
 
 type CollisionDetector = (body1: RigidBody, body2: RigidBody) => ECollisionResult;
@@ -19,30 +19,35 @@ export class Collision {
 	/**
 	 * The detailed result of the collision
 	 */
-	result: ECollisionResult = ECollisionResult.NoCollision;
+	public result: ECollisionResult = ECollisionResult.NoCollision;
 	
 	/**
 	 * The inner rigid body. Has values only if the bodies are one inside the other
 	 */
-	innerRigidBody: RigidBody = null;
+	public innerRigidBody: RigidBody = null;
 	/**
 	 * The outer rigid body. Has values only if the bodies are one inside the other
 	 */
-	outerRigidBody: RigidBody = null;
+	public outerRigidBody: RigidBody = null;
 
 	/**
 	 * The points of contact between the two bodies. Empty unless they are colliding and they are not overlapping
 	 */
-	contacts: Coord[] = [];
+	public contacts: Coord[] = [];
+
+	/**
+	 * The center of the contact points. Null unless the two bodies are colliding
+	 */
+	public contactCenter: Coord = null;
 
 	/**
 	 * True if the two bodies are colliding in every possible way
 	 */
-	get doCollide() {
+	public get doCollide() {
 		return this.result !== ECollisionResult.NoCollision;
 	}
 
-	constructor(
+	public constructor(
 		public rBody1: RigidBody,
 		public rBody2: RigidBody,
 	)
@@ -61,13 +66,56 @@ export class Collision {
 		const collisionDetectorName = `${orderedResolver[0].type}_${orderedResolver[1].type}`;
 
 		switch (collisionDetectorName) {
-			case 'Circle_Circle': this.result = this.Circle_Circle(rBody1 as RigidCircle, rBody2 as RigidCircle); break;
-			case 'Circle_Line': this.result = this.Circle_Line(rBody1 as RigidCircle, rBody2 as RigidLine); break;
-			case 'Circle_Poly': this.result = this.Circle_Poly(rBody1 as RigidCircle, rBody2 as RigidPoly); break;
-			case 'Line_Line': this.result = this.Line_Line(rBody1 as RigidLine, rBody2 as RigidLine); break;
-			case 'Line_Poly': this.result = this.Line_Poly(rBody1 as RigidLine, rBody2 as RigidPoly); break;
-			case 'Poly_Poly': this.result = this.Poly_Poly(rBody1 as RigidPoly, rBody2 as RigidPoly); break;
+			case 'Circle_Circle':
+				this.result = this.Circle_Circle(
+					orderedResolver[0].body as RigidCircle,
+					orderedResolver[1].body as RigidCircle
+				); break;
+			case 'Circle_Line':
+				this.result = this.Circle_Line(
+					orderedResolver[0].body as RigidCircle,
+					orderedResolver[1].body as RigidLine
+				); break;
+			case 'Circle_Poly':
+				this.result = this.Circle_Poly(
+					orderedResolver[0].body as RigidCircle,
+					orderedResolver[1].body as RigidPoly
+				); break;
+			case 'Line_Line':
+				this.result = this.Line_Line(
+					orderedResolver[0].body as RigidLine,
+					orderedResolver[1].body as RigidLine
+				); break;
+			case 'Line_Poly':
+				this.result = this.Line_Poly(
+					orderedResolver[0].body as RigidLine,
+					orderedResolver[1].body as RigidPoly
+				); break;
+			case 'Poly_Poly':
+				this.result = this.Poly_Poly(
+					orderedResolver[0].body as RigidPoly,
+					orderedResolver[1].body as RigidPoly
+				); break;
 			default: throw new Error(`Collision detection method not implemented for ${collisionDetectorName}`);
+		}
+
+		if (this.doCollide && this.contacts.length > 0)
+		{
+			this.contactCenter = Coord.center(...this.contacts);
+		}
+	}
+
+	public snap(body: RigidBody) {
+		if (this.contactCenter) {
+			
+		}
+	}
+
+	public bounce(body: RigidBody, bounceStrength: number = null) {
+		if (this.contactCenter) { //TODO test this
+			const newVector = Vector.fromAtoB(this.contactCenter, body.coord);
+			newVector.strength = bounceStrength ?? body.vector.strength;
+			body.vector = newVector;
 		}
 	}
 
