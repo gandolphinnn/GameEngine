@@ -49,4 +49,13 @@ export class Angle {
 	static left()	{ return new Angle(180) }
 	static up()		{ return new Angle(270) }
 	static random() { return new Angle(rand0(359)) }
+
+	static average(...angles: Angle[]) {
+		let x = 0, y = 0;
+		angles.forEach(angle => {
+			x += angle.cos
+			y += angle.sin
+		});
+		return new Angle(Math.atan2(y, x), 'Radian')
+	}
 }

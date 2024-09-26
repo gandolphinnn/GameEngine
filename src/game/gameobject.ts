@@ -15,7 +15,7 @@ export abstract class GameObject implements GameCycle {
 	/**
 	 * Get the vector's coordinate in the next frame
 	 */
-	get vectorCoord() { return this.vector.vectorCoord }
+	get vectorCoord() { return this.vector.updateCoord }
 
 	get coord() { return this.vector.coord }
 	set coord(coord: Coord) { this.vector.coord.moveTo(coord) }

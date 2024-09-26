@@ -48,10 +48,10 @@ export class TestObject2 extends GameObject implements OnCollisionEnter {
 	}
 
 	Update() {
-		if (this.vector.vectorCoord.x > MainCanvas.cnv.width - this.radius || this.vector.vectorCoord.x < this.radius) {
+		if (this.vector.updateCoord.x > MainCanvas.cnv.width - this.radius || this.vector.updateCoord.x < this.radius) {
 			this.vector.bounce(new Angle(90));
 		}
-		if (this.vector.vectorCoord.y > MainCanvas.cnv.height - this.radius || this.vector.vectorCoord.y < this.radius) {
+		if (this.vector.updateCoord.y > MainCanvas.cnv.height - this.radius || this.vector.updateCoord.y < this.radius) {
 			this.vector.bounce(new Angle(0));
 		}
 	}
@@ -74,6 +74,7 @@ export class TestObject2 extends GameObject implements OnCollisionEnter {
 		this.vector.bounce(angle);
 		this.cnvElement.setFillStyle(Color.random());
 	}
+
 	private drawCollision(collision: Collision) {
 		collision.contacts.forEach(p => {
 			MainCanvas.drawPoint(p);

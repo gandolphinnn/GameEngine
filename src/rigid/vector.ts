@@ -15,9 +15,19 @@ export class Vector {
 	get rightward() { return new Vector(this.coord, new Angle(this.angle.degrees + 90), this.strength) }
 
 	/**
+	 * Get the vector's coordinate in the next fixed update
+	 */
+	get fixedCoord() {
+		return new Coord(
+			this.coord.x + this.angle.cos * this.strength,
+			this.coord.y + this.angle.sin * this.strength
+		)
+	}
+	
+	/**
 	 * Get the vector's coordinate in the next frame
 	 */
-	get vectorCoord() {
+	get updateCoord() {
 		return new Coord(
 			this.coord.x + this.angle.cos * (this.strength / VECTOR_STRENGTH_PIXEL_RATIO) * (Time.deltaTime * DELTATIME_MULTIPLIER),
 			this.coord.y + this.angle.sin * (this.strength / VECTOR_STRENGTH_PIXEL_RATIO) * (Time.deltaTime * DELTATIME_MULTIPLIER)
@@ -35,11 +45,18 @@ export class Vector {
 	}
 
 	/**
+	 * Add another vector to this one
+	 */
+	impulse(vector: Vector) {
+
+	}
+
+	/**
 	 * Move the vector to its next frame position
 	 */
 	advance() {
-		this.coord.x = this.vectorCoord.x;
-		this.coord.y = this.vectorCoord.y;
+		this.coord.x = this.updateCoord.x;
+		this.coord.y = this.updateCoord.y;
 		return this;
 	}
 	/**
@@ -50,29 +67,39 @@ export class Vector {
 		this.angle.degrees = bounceAngle.degrees * 2 - this.angle.degrees;
 		return this;
 	}
+
+	/**
+	 * Render the vector on the canvas as a line.
+	 * Is intended to be used mainly during debug.
+	 */
+	render(ignoreDT = true, color = Color.default()) {
+		const vectorCoord = ignoreDT? this.fixedCoord : this.updateCoord;
+		new Line([this.coord, vectorCoord])
+			.mergeStrokeStyle(color)
+			.render();
+	}
+
 	/**
 	 * Render the vector on the canvas as an arrow.
 	 * Is intended to be used mainly during debug.
 	 */
-	render(color = Color.default()) {
-		const vectorCoord = this.vectorCoord;
-		const arrowBody = new Line([this.coord, vectorCoord]);
-		arrowBody.style.mergeStrokeStyle(color);
-		arrowBody.render();
+	renderArrow(ignoreDT = true, color = Color.default()) {
+		this.render(ignoreDT, color);
+
+		const vectorCoord = ignoreDT? this.fixedCoord : this.updateCoord;
 		let headAngle1 = new Angle(this.angle.degrees +180 + VECTOR_ARROW_HEAD_ANGLE);
-		const arrowHead1 = new Line([vectorCoord, new Coord(
+		new Line([vectorCoord, new Coord(
 			vectorCoord.x + headAngle1.cos * VECTOR_ARROW_HEAD_LENGTH,
 			vectorCoord.y + headAngle1.sin * VECTOR_ARROW_HEAD_LENGTH
-		)]);
-		arrowHead1.style.mergeStrokeStyle(color);
-		arrowHead1.render();
+		)]).mergeStrokeStyle(color)
+			.render();
+			
 		let headAngle2 = new Angle(this.angle.degrees + 180 - VECTOR_ARROW_HEAD_ANGLE);
-		const arrowHead2 = new Line([vectorCoord, new Coord(
+		new Line([vectorCoord, new Coord(
 			vectorCoord.x + headAngle2.cos * VECTOR_ARROW_HEAD_LENGTH,
 			vectorCoord.y + headAngle2.sin * VECTOR_ARROW_HEAD_LENGTH
-		)]);
-		arrowHead2.style.mergeStrokeStyle(color);
-		arrowHead2.render();
+		)]).mergeStrokeStyle(color)
+			.render();
 	}
 
 	static up(coord = Coord.origin, strength = 0) { return new Vector(coord, Angle.up(), strength) }
@@ -84,10 +111,6 @@ export class Vector {
 	/**
 	 * Get the sum of all vectors
 	 */
-	static sum(...vectors: Vector[]): Vector {
-		throw new Error('Not implemented');
-		return Vector.up(); //TODO
-	}
 
 	static fromAtoB(coordA: Coord, coordB: Coord) {
 		const difference = Coord.difference(coordA, coordB);
