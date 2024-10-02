@@ -1,4 +1,6 @@
-# @Gandolphinnn/npm_inputs
+[Main docs](../../..//README.md)
+
+# Inputs
 Key codes:
 <table>
 	<thead>

@@ -1,5 +1,6 @@
-# @Gandolphinnn/npm_rigid2
+[Main docs](../../..//README.md)
 
+# Rigid
 LayerMaks: solo i RigidBodies con lo stesso LayerMask verrano considerati durante la fase di calcolo delle collisioni.
 
 TODO:
