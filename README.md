@@ -60,11 +60,10 @@ TODO
   npm i @gandolphinnn/game_engine
   ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <a name="graphics"></a>
 
-#### Graphics
+### Graphics
 
 For the rendering of every element
 
@@ -72,7 +71,7 @@ For the rendering of every element
 
 <a name="inputs"></a>
 
-#### Inputs
+### Inputs
 
 For the user's inputs
 
@@ -80,7 +79,7 @@ For the user's inputs
 
 <a name="rigid"></a>
 
-#### Rigid
+### Rigid
 
 For the physics
 
@@ -88,7 +87,7 @@ For the physics
 
 <a name="game"></a>
 
-#### Game
+### Game
 
 For the game cycle and every other aspect of a game engine
 
@@ -114,7 +113,6 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- LICENSE -->
 

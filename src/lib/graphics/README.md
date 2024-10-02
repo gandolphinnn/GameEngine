@@ -1,4 +1,4 @@
-[Main docs](../../..//README.md)
+[Main docs](../../..//README.md#graphics)
 
 # Graphics
 

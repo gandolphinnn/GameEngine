@@ -1,3 +1,3 @@
-[Main docs](../../..//README.md)
+[Main docs](../../..//README.md#game)
 
 # Game

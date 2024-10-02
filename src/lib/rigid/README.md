@@ -1,4 +1,4 @@
-[Main docs](../../..//README.md)
+[Main docs](../../..//README.md#rigid)
 
 # Rigid
 LayerMaks: solo i RigidBodies con lo stesso LayerMask verrano considerati durante la fase di calcolo delle collisioni.

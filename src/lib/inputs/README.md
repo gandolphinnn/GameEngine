@@ -1,4 +1,4 @@
-[Main docs](../../..//README.md)
+[Main docs](../../..//README.md#inputs)
 
 # Inputs
 Key codes:
