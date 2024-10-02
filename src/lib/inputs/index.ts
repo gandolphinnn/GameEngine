@@ -1,8 +1,7 @@
 import { Singleton, clamp } from '@gandolphinnn/utils';
-import { Coord, MainCanvas, Circle, Color, Mesh, Text } from '@gandolphinnn/graphics';
+import { Coord, MainCanvas } from '@gandolphinnn/graphics';
 import { BtnState, Button, WheelAxis, WheelState } from './button.js';
 export * from './button.js';
-import Enumerable from 'linq/linq.js'
 
 //#region Types
 export type BtnCode = 0 | 1 | 2 | 3 | 4;
@@ -239,36 +238,6 @@ export class Input extends Singleton {
 			return BtnState.Up;
 
 		return Input.keys[keyCode].state;
-	}
-	static test() {
-		const animate: FrameRequestCallback = (timestamp: number) => {
-			MainCanvas.clean();
-			requestAnimationFrame(animate);
-			MainCanvas.drawSampleMetric(50);
-			circ.style.mergeFillStyle(Color.byName(Input.mouseIn? 'Black' : 'Red'));
-			
-			mesh.center = Input.mousePos;
-		
-			mouseText.content = `pos: (${Input.mousePos.x}, ${Input.mousePos.y}) wheel: (${Input.mouseWheel.x}, ${Input.mouseWheel.y}) isInside: ${Input.mouseIn}`;
-			mouseBtnText.content = `btns ${logInput(Input.mouseBtn)}`;
-			keyText.content = `keys ${logInput(Input.keys)}`;
-			
-			mesh.render();
-		}
-		const circ = new Circle(new Coord(0,0), 5);
-		const mouseText = new Text(new Coord(0,-55), '');
-		const mouseBtnText = new Text(new Coord(0,-35), '');
-		const keyText = new Text(new Coord(0,-15), '');
-		const mesh = new Mesh(new Coord(0,0), [circ, keyText, mouseBtnText, mouseText])
-		const logInput = (toLog: Record<any, any>) => {
-			const recordArr = Enumerable.from(toLog).toArray().filter((btn) => btn.value.state !== BtnState.Up);
-			recordArr.sort((a, b) => a.key > b.key ? 1 : -1);
-			const toRet = JSON.stringify(recordArr.map((btn) => {
-				return `(${btn.key}: ${BtnState[btn.value.state]})`
-			}));
-			return toRet.replace(/"/g, '')
-		}
-		window.requestAnimationFrame(animate);
 	}
 	//#endregion
 }
