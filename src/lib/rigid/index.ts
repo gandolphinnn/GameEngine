@@ -10,6 +10,7 @@ export * from './types.js'
 export * from './layerMask.js'
 export * from './vector.js'
 export * from './collision.js'
+export * from './impulse.js'
 
 export function RayCast (
 	origin: Coord,

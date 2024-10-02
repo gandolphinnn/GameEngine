@@ -1,4 +1,4 @@
-import { COLOR_DEFAULT, Circle, MainCanvas, Time } from '../index.js';
+import { COLOR_DEFAULT, Circle, MainCanvas, Time } from '@gandolphinnn/graphics';
 
 COLOR_DEFAULT.alpha = 0.1;
 const totShapes = 20000;

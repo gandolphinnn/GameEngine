@@ -1,6 +1,5 @@
-import { Vector } from './index.js';
+import { Vector, Impulse } from '@gandolphinnn/rigid';
 import { Angle, Color, MainCanvas } from '@gandolphinnn/graphics';
-import { Impulse } from './impulse.js';
 
 const v1 = new Impulse(Angle.up(), 200);
 new Vector(MainCanvas.center, v1.angle, v1.strength).render();
