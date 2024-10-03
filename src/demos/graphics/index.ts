@@ -1,5 +1,4 @@
-import { MainCanvas, Coord, Color, Text, Line, Poly, parseRGBA, RGBA, Circle, Angle, Mesh, RenderAction, CircleSector, CircleSlice } from '@gandolphinnn/graphics';
-import { test } from '@gandolphinnn/utils';
+import { MainCanvas, Coord, Img } from '@gandolphinnn/graphics';
 
 /* test('rgbParse INVALID', parseRGBA(''), null);
 test('rgbParse RGBA', parseRGBA('rgba(4,3,2,0.6)'), {red: 4, green: 3, blue: 2, alpha: 0.6} as RGBA);
@@ -57,6 +56,12 @@ console.table(mesh.elements.toArray());
 mesh.moveBy(600, -50).render(true)
 mesh.moveBy(300, -50).render()
 /* */
-MainCanvas.drawFunction(x => {
+/* MainCanvas.drawFunction(x => {
 	return Math.sin(x) * 100;
-}, .1, 2);
+}, .1, 2); */
+
+MainCanvas.cnv.style.backgroundColor = 'grey';
+
+const img = new Img(Coord.random(), 'blue', {width: 100, height: 200});
+
+img.draw();
