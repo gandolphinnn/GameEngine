@@ -1,6 +1,6 @@
 import { arrPivot, overflow, rand0 } from "@gandolphinnn/utils";
 import Enumerable from 'linq';
-import { Angle, Circle, MainCanvas } from "./index";
+import { Angle, Circle, MainCanvas, POINT_DEFAULT } from ".";
 
 export type Size = {
 	width: number;
@@ -45,6 +45,11 @@ export class Coord {
 		this.x = coord.x;
 		this.y = coord.y;
 		return this;
+	}
+
+	render() {
+		POINT_DEFAULT.center = this.copy();
+		POINT_DEFAULT.render();
 	}
 	
 	/**

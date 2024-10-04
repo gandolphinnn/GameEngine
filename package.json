@@ -9,6 +9,8 @@
 		"dist"
 	],
 	"scripts": {
+		"watch": "tsc --watch",
+		"serve": "parcel index.html --open",
 		"live": "concurrently \"tsc --watch\" \"parcel index.html --open\"",
 		"nvm22": "nvm use 22.1.0",
 		"nvm14": "nvm use 14.20.1"

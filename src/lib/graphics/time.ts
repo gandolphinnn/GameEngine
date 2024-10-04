@@ -1,4 +1,4 @@
-import { Color, Coord, Text } from "./index";
+import { Color, Coord, Text } from ".";
 
 type KeyOfTime = Exclude<keyof typeof Time, "prototype" | "update" | "logData" | "showData">;
 

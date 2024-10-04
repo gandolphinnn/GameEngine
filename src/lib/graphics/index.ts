@@ -13,10 +13,25 @@ export * from './time';
 export * from './image';
 
 export class MainCanvas extends Singleton {
+
+//#region Singleton boilerplate
 	private static _MainCanvas: Singleton = new MainCanvas();
 	private static get instance() {
 		return this._MainCanvas as MainCanvas;
 	};
+
+	_cnv: HTMLCanvasElement;
+	static get cnv() { return this.instance._cnv };
+	private static set cnv(cnv: HTMLCanvasElement) { this.instance._cnv = cnv };
+
+	_ctx: CanvasRenderingContext2D;
+	static get ctx() { return this.instance._ctx };
+	private static set ctx(ctx: CanvasRenderingContext2D) { this.instance._ctx = ctx };
+	
+	_center: Coord;
+	static get center() { return this.instance._center.copy() }
+//#endregion Singleton boilerplate
+
 	private constructor() {
 		super();
 		const body = document.querySelector('body')!;
@@ -25,7 +40,6 @@ export class MainCanvas extends Singleton {
 		this._cnv = body.querySelectorAll('canvas')[0];
 
 		if (isNull(this._cnv)) {
-			body.innerHTML = '';
 			this._cnv = document.createElement('canvas');
 			body.appendChild(this._cnv);
 		}
@@ -38,17 +52,6 @@ export class MainCanvas extends Singleton {
 		console.log('Main canvas set');
 	}
 
-	_cnv: HTMLCanvasElement;
-	static get cnv() { return this.instance._cnv };
-	private static set cnv(cnv: HTMLCanvasElement) { this.instance._cnv = cnv };
-
-	_ctx: CanvasRenderingContext2D;
-	static get ctx() { return this.instance._ctx };
-	private static set ctx(ctx: CanvasRenderingContext2D) { this.instance._ctx = ctx };
-	
-	_center: Coord;
-	static get center() { return this.instance._center.copy() }
-	
 	static drawStyle = Style.default();
 	static writeStyle = Style.default();
 
