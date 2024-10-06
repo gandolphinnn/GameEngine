@@ -10,31 +10,15 @@ export * from './coord';
 export * from './elements';
 export * from './style';
 export * from './time';
+export * from './image';
 
 export class MainCanvas extends Singleton {
+
+//#region Singleton boilerplate
 	private static _MainCanvas: Singleton = new MainCanvas();
 	private static get instance() {
 		return this._MainCanvas as MainCanvas;
 	};
-	private constructor() {
-		super();
-		const body = document.querySelector('body')!;
-		this._cnv = body.querySelectorAll('canvas')[0];
-
-		if (isNull(this._cnv)) {
-			body.innerHTML = '';
-			this._cnv = document.createElement('canvas');
-			this._cnv.width = window.innerWidth;
-			this._cnv.height = window.innerHeight;
-			body.style.overflow = 'hidden';
-			body.style.margin = '0px';
-			body.appendChild(this._cnv);
-		}
-		
-		this._ctx = this._cnv.getContext('2d')!;
-		this._center = new Coord(this._cnv.width / 2, this._cnv.height / 2);
-		console.log('Main canvas set');
-	}
 
 	_cnv: HTMLCanvasElement;
 	static get cnv() { return this.instance._cnv };
@@ -46,7 +30,28 @@ export class MainCanvas extends Singleton {
 	
 	_center: Coord;
 	static get center() { return this.instance._center.copy() }
-	
+//#endregion Singleton boilerplate
+
+	private constructor() {
+		super();
+		const body = document.querySelector('body')!;
+		body.style.overflow = 'hidden';
+		body.style.margin = '0px';
+		this._cnv = body.querySelectorAll('canvas')[0];
+
+		if (isNull(this._cnv)) {
+			this._cnv = document.createElement('canvas');
+			body.appendChild(this._cnv);
+		}
+		
+		this._cnv.width = window.innerWidth;
+		this._cnv.height = window.innerHeight;
+		
+		this._ctx = this._cnv.getContext('2d')!;
+		this._center = new Coord(this._cnv.width / 2, this._cnv.height / 2);
+		console.log('Main canvas set');
+	}
+
 	static drawStyle = Style.default();
 	static writeStyle = Style.default();
 
