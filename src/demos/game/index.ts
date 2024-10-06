@@ -4,6 +4,8 @@ import { TestObject1 } from "./GameObjects/TestObject1.gameobject";
 import { rand } from "@gandolphinnn/utils";
 import { TestObject2 } from "./GameObjects/TestObject2.gameobject";
 import { Vector } from "@gandolphinnn/rigid";
+import { AppSettings } from "@gandolphinnn/shared";
+import { GameSettings } from "./GameSettings";
 
 function Sim1() {
 	POINT_DEFAULT.radius = 5;
@@ -32,6 +34,8 @@ function Sim2() {
 }
 
 Game.start = () => {
+	console.log(AppSettings.LINE_WIDTH);
+	console.log(GameSettings.LINE_WIDTH);
 	const SIMULATION_NUM: number = 2
 
 	switch (SIMULATION_NUM) {
