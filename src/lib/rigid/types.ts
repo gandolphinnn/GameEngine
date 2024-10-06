@@ -9,19 +9,9 @@ export enum ERigidBodyEvent {
 	onMouseStay,
 	onMouseLeave
 }
-export const RigidBodyCollisionEvents = [
-	ERigidBodyEvent.onCollisionEnter,
-	ERigidBodyEvent.onCollisionStay,
-	ERigidBodyEvent.onCollisionLeave
-]
-export const RigidBodyMouseEvents = [
-	ERigidBodyEvent.onMouseEnter,
-	ERigidBodyEvent.onMouseStay,
-	ERigidBodyEvent.onMouseLeave
-]
 
-//TODO Convert param type to Collision and MouseCollision
 export type CollisionEvent = (collision: Collision) => void;
+//TODO Convert param type to MouseCollision
 export type MouseCollisionEvent = (mouse: Mouse) => void;
 
 /**

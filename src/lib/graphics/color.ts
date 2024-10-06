@@ -1,5 +1,7 @@
 import { clamp, coalesce, decToHex, hexToDec, rand0 } from "@gandolphinnn/utils";
+import { AppSettings } from '@gandolphinnn/shared';
 
+//#region System constants
 export const HEX_LONG_PATTERN: RegExp = /^\#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
 export const HEX_SHORT_PATTERN: RegExp = /^\#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])$/
 export const RGB_PATTERN: RegExp = /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/
@@ -147,6 +149,7 @@ export const COLORNAME_RGBA: Readonly<Record<ColorName, Readonly<RGBA>>> = Objec
 	'Yellow':				{red: 255,	green: 255,	blue: 0,	alpha: 1},
 	'YellowGreen':			{red: 154,	green: 205,	blue: 50,	alpha: 1}
 });
+//#endregion System constants
 
 export type ColorName = 'AliceBlue' | 'AntiqueWhite' | 'Aqua' | 'Aquamarine' | 'Azure' | 'Beige' | 'Bisque' | 'Black' | 'BlanchedAlmond' | 'Blue' | 'BlueViolet' | 'Brown' | 'BurlyWood' | 'CadetBlue' | 'Chartreuse' | 'Chocolate' | 'Coral' | 'CornflowerBlue' | 'Cornsilk' | 'Crimson' | 'Cyan' | 'DarkBlue' | 'DarkCyan' | 'DarkGoldenRod' | 'DarkGrey' | 'DarkGreen' | 'DarkKhaki' | 'DarkMagenta' | 'DarkOliveGreen' | 'DarkOrange' | 'DarkOrchid' | 'DarkRed' | 'DarkSalmon' | 'DarkSeaGreen' | 'DarkSlateBlue' | 'DarkSlateGrey' | 'DarkTurquoise' | 'DarkViolet' | 'DeepPink' | 'DeepSkyBlue' | 'DimGrey' | 'DodgerBlue' | 'FireBrick' | 'FloralWhite' | 'ForestGreen' | 'Fuchsia' | 'Gainsboro' | 'GhostWhite' | 'Gold' | 'GoldenRod' | 'Grey' | 'Green' | 'GreenYellow' | 'HoneyDew' | 'HotPink' | 'IndianRed' | 'Indigo' | 'Ivory' | 'Khaki' | 'Lavender' | 'LavenderBlush' | 'LawnGreen' | 'LemonChiffon' | 'LightBlue' | 'LightCoral' | 'LightCyan' | 'LightGoldenRodYellow' | 'LightGrey' | 'LightGreen' | 'LightPink' | 'LightSalmon' | 'LightSeaGreen' | 'LightSkyBlue' | 'LightSlateGrey' | 'LightSteelBlue' | 'LightYellow' | 'Lime' | 'LimeGreen' | 'Linen' | 'Magenta' | 'Maroon' | 'MediumAquaMarine' | 'MediumBlue' | 'MediumOrchid' | 'MediumPurple' | 'MediumSeaGreen' | 'MediumSlateBlue' | 'MediumSpringGreen' | 'MediumTurquoise' | 'MediumVioletRed' | 'MidnightBlue' | 'MintCream' | 'MistyRose' | 'Moccasin' | 'NavajoWhite' | 'Navy' | 'OldLace' | 'Olive' | 'OliveDrab' | 'Orange' | 'OrangeRed' | 'Orchid' | 'PaleGoldenRod' | 'PaleGreen' | 'PaleTurquoise' | 'PaleVioletRed' | 'PapayaWhip' | 'PeachPuff' | 'Peru' | 'Pink' | 'Plum' | 'PowderBlue' | 'Purple' | 'RebeccaPurple' | 'Red' | 'RosyBrown' | 'RoyalBlue' | 'SaddleBrown' | 'Salmon' | 'SandyBrown' | 'SeaGreen' | 'SeaShell' | 'Sienna' | 'Silver' | 'SkyBlue' | 'SlateBlue' | 'SlateGrey' | 'Snow' | 'SpringGreen' | 'SteelBlue' | 'Tan' | 'Teal' | 'Thistle' | 'Tomato' | 'Turquoise' | 'Violet' | 'Wheat' | 'White' | 'WhiteSmoke' | 'Yellow' | 'YellowGreen'
 export type RGBA = {
@@ -175,6 +178,9 @@ export class Color {
 		this.blue = newRGBA.blue;
 		this.alpha = newRGBA.alpha;
 	}
+	static byObj(rgba: RGBA, alpha?: number) {
+		return new Color(rgba, alpha)
+	}
 	static byName(colorName: ColorName, alpha?: number) {
 		return this.byObj(COLORNAME_RGBA[colorName], alpha);
 	}
@@ -184,11 +190,8 @@ export class Color {
 	static byValues(red: number, green: number, blue: number, alpha?: number) {
 		return this.byObj({red: red, green: green, blue: blue, alpha: alpha})
 	}
-	static byObj(rgba: RGBA, alpha?: number) {
-		return new Color(rgba, alpha)
-	}
 	static default() {
-		return new Color(COLOR_DEFAULT.rgbaObj);
+		return this.byObj(AppSettings.COLOR_NAME);
 	}
 	static random() {
 		return new Color({red: rand0(255), green: rand0(255), blue: rand0(255), alpha: 1});
@@ -215,9 +218,3 @@ export function parseRGBA(str: string) {
 	const [_, red, green, blue, alpha] = match.map(match[0][0] == '#'? hexToDec : parseFloat);
 	return clampRGBA({red: red, green: green, blue: blue, alpha: coalesce(alpha, 1)});
 }
-
-/**
- * @WARNING don't assing anything to this, instead use "Color.default()"
- * @WARNING changing this will impact every future call to Color.default()
-*/
-export const COLOR_DEFAULT	= Color.byName('Black');
