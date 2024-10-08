@@ -10,10 +10,10 @@
 		"baseUrl": "./",
 		"paths": {
 			"@gandolphinnn/shared": ["src/lib/shared/index.ts"],
-			"@gandolphinnn/graphics": ["src/lib/graphics/index.ts"],
+			"@gandolphinnn/graphics": ["src/lib/graphics/src/index.ts"],
 			"@gandolphinnn/inputs": ["src/lib/inputs/index.ts"],
 			"@gandolphinnn/rigid": ["src/lib/rigid/index.ts"],
-			"@gandolphinnn/game": ["src/lib/game/index.ts"],
+			"@gandolphinnn/game": ["src/lib/game/src/index.ts"],
 			"*": ["node_modules"]
 		}
 	},

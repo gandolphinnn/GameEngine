@@ -1,5 +1,5 @@
-import { GameCycle, Coord, Angle, CnvElement } from "@gandolphinnn/graphics";
-import { RigidBody, ERigidBodyEvent, CollisionEvent } from "@gandolphinnn/rigid";
+import { GameCycle, Coord, Angle, CnvElement } from '@gandolphinnn/graphics';
+import { RigidBody, ERigidBodyEvent, CollisionEvent } from '@gandolphinnn/rigid';
 
 export abstract class GameObject implements GameCycle {
 	private _rigidBody: RigidBody;

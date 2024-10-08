@@ -1,6 +1,6 @@
-import { arrPivot, overflow, rand0 } from "@gandolphinnn/utils";
+import { arrPivot, overflow, rand0 } from '@gandolphinnn/utils';
 import Enumerable from 'linq';
-import { Angle, Circle, MainCanvas, POINT_DEFAULT } from ".";
+import { Angle, Circle, MainCanvas, POINT_DEFAULT } from '.';
 
 export type Size = {
 	width: number;

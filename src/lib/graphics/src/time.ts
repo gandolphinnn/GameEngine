@@ -1,6 +1,6 @@
-import { Color, Coord, Text } from ".";
+import { Color, Coord, Text } from '.';
 
-type KeyOfTime = Exclude<keyof typeof Time, "prototype" | "update" | "logData" | "showData">;
+type KeyOfTime = Exclude<keyof typeof Time, 'prototype' | 'update' | 'logData' | 'showData'>;
 
 const TO_SHOW: KeyOfTime[] = [
 	'deltaTime',

@@ -1,8 +1,6 @@
-import { Time } from "@gandolphinnn/graphics";
-import { RigidBody } from "@gandolphinnn/rigid";
-import { GameObject } from "./gameobject";
-
-export * from "./gameobject";
+import { Time } from '@gandolphinnn/graphics';
+import { RigidBody } from '@gandolphinnn/rigid';
+import { GameObject } from '.';
 
 export class Game {
 	static start() {};

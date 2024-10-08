@@ -1,6 +1,6 @@
-import { overflow } from "@gandolphinnn/utils";
+import { overflow } from '@gandolphinnn/utils';
 import Enumerable from 'linq';
-import { MainCanvas, Style, SubStyle, Size, Coord, Angle } from ".";
+import { MainCanvas, Style, SubStyle, Size, Coord, Angle } from '.';
 
 export enum RenderAction {
 	None, Stroke, Fill, Both

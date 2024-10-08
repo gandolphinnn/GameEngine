@@ -1,4 +1,4 @@
-import { overflow, rand0 } from "@gandolphinnn/utils";
+import { overflow, rand0 } from '@gandolphinnn/utils';
 
 /**
  * Angle starts from a line going horizontally right from the center, and proceeds clockwise.

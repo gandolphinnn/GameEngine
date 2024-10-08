@@ -1,7 +1,5 @@
 import { AppSettings } from '@gandolphinnn/shared';
-import { Color } from './index';
-
-export type SubStyle = Color | CanvasGradient | CanvasPattern;
+import { Color, SubStyle } from '.';
 
 /**
  * Defines the style of a CnvElement.

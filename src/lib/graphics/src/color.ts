@@ -1,4 +1,4 @@
-import { clamp, coalesce, decToHex, hexToDec, rand0 } from "@gandolphinnn/utils";
+import { clamp, coalesce, decToHex, hexToDec, rand0 } from '@gandolphinnn/utils';
 import { AppSettings } from '@gandolphinnn/shared';
 
 //#region System constants

@@ -1,16 +1,5 @@
 import { Singleton, isNull, rand } from '@gandolphinnn/utils';
-import { Color, ColorName, COLORNAME_RGBA } from './color';
-import { Style } from './style';
-import { Coord, Size } from './coord';
-import { Circle, Line, Poly, Rect, RenderAction, Text } from './elements';
-
-export * from './angle';
-export * from './color';
-export * from './coord';
-export * from './elements';
-export * from './style';
-export * from './time';
-export * from './image';
+import { Color, ColorName, COLORNAME_RGBA, Style, Coord, Size, Circle, Line, Rect, Text, POINT_DEFAULT } from '.';
 
 export class MainCanvas extends Singleton {
 
@@ -218,7 +207,3 @@ export class MainCanvas extends Singleton {
 	}
 	//#endregion Samples
 }
-
-export const POINT_DEFAULT = new Circle(Coord.origin, 3)
-								.setAction(RenderAction.Fill)
-								.setFillStyle(Color.byName('Black'));

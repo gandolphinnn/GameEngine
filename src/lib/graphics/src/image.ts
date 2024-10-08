@@ -1,4 +1,4 @@
-import { CnvDrawing, Coord, MainCanvas, Rect, RenderAction, Size } from ".";
+import { Coord, MainCanvas, Rect, RenderAction, Size } from '.';
 
 export class Img extends Rect {
 
