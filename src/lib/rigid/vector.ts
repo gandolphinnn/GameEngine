@@ -1,12 +1,5 @@
 import { Coord, Angle, Line, Color, Time } from '@gandolphinnn/graphics'
-
-export const VECTOR_ARROW_HEAD_LENGTH = 10;
-export const VECTOR_ARROW_HEAD_ANGLE = 30;
-/**
- * X VectorStrength = 1 Pixel
- */
-export const VECTOR_STRENGTH_PIXEL_RATIO = 10;
-export const DELTATIME_MULTIPLIER = 100;
+import { AppSettings } from '@gandolphinnn/shared'
 
 export class Vector {
 	get forward() { return new Vector(this.coord, this.angle, this.strength) }
@@ -29,8 +22,8 @@ export class Vector {
 	 */
 	get updateCoord() {
 		return new Coord(
-			this.coord.x + this.angle.cos * (this.strength / VECTOR_STRENGTH_PIXEL_RATIO) * (Time.deltaTime * DELTATIME_MULTIPLIER),
-			this.coord.y + this.angle.sin * (this.strength / VECTOR_STRENGTH_PIXEL_RATIO) * (Time.deltaTime * DELTATIME_MULTIPLIER)
+			this.coord.x + this.angle.cos * (this.strength / AppSettings.VECTOR_STRENGTH_PIXEL_RATIO) * (Time.deltaTime * AppSettings.DELTATIME_MULTIPLIER),
+			this.coord.y + this.angle.sin * (this.strength / AppSettings.VECTOR_STRENGTH_PIXEL_RATIO) * (Time.deltaTime * AppSettings.DELTATIME_MULTIPLIER)
 		)
 	}
 	
@@ -87,17 +80,17 @@ export class Vector {
 		this.render(ignoreDT, color);
 
 		const vectorCoord = ignoreDT? this.fixedCoord : this.updateCoord;
-		let headAngle1 = new Angle(this.angle.degrees +180 + VECTOR_ARROW_HEAD_ANGLE);
+		let headAngle1 = new Angle(this.angle.degrees +180 + AppSettings.VECTOR_ARROW_HEAD_ANGLE);
 		new Line([vectorCoord, new Coord(
-			vectorCoord.x + headAngle1.cos * VECTOR_ARROW_HEAD_LENGTH,
-			vectorCoord.y + headAngle1.sin * VECTOR_ARROW_HEAD_LENGTH
+			vectorCoord.x + headAngle1.cos * AppSettings.DEBUG_VECTOR_ARROW_HEAD_LENGTH,
+			vectorCoord.y + headAngle1.sin * AppSettings.DEBUG_VECTOR_ARROW_HEAD_LENGTH
 		)]).mergeStrokeStyle(color)
 			.render();
 			
-		let headAngle2 = new Angle(this.angle.degrees + 180 - VECTOR_ARROW_HEAD_ANGLE);
+		let headAngle2 = new Angle(this.angle.degrees + 180 - AppSettings.VECTOR_ARROW_HEAD_ANGLE);
 		new Line([vectorCoord, new Coord(
-			vectorCoord.x + headAngle2.cos * VECTOR_ARROW_HEAD_LENGTH,
-			vectorCoord.y + headAngle2.sin * VECTOR_ARROW_HEAD_LENGTH
+			vectorCoord.x + headAngle2.cos * AppSettings.DEBUG_VECTOR_ARROW_HEAD_LENGTH,
+			vectorCoord.y + headAngle2.sin * AppSettings.DEBUG_VECTOR_ARROW_HEAD_LENGTH
 		)]).mergeStrokeStyle(color)
 			.render();
 	}

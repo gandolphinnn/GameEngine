@@ -1,4 +1,5 @@
-import { Color, COLOR_DEFAULT } from './index';
+import { AppSettings } from '@gandolphinnn/shared';
+import { Color } from './index';
 
 export type SubStyle = Color | CanvasGradient | CanvasPattern;
 
@@ -115,7 +116,13 @@ export class Style {
 		return new Style();
 	}
 	static default() {
-		return Style.from(STYLE_DEFAULT);
+		return new Style(
+			Color.byObj(AppSettings.FILL_STYLE),
+			Color.byObj(AppSettings.STROKE_STYLE),
+			AppSettings.LINE_WIDTH,
+			AppSettings.TEXT_ALIGN,
+			AppSettings.FONT
+		);
 	}
 	
 	/**
@@ -131,9 +138,3 @@ export class Style {
 		return typeof value == 'string'? Color.byStr(value) : value;
 	}
 }
-
-/**
- * @WARNING don't assing anything to this, instead use "Style.default()"
- * @WARNING changing this constant's properties will impact every future call to Style.default()
-*/
-export const STYLE_DEFAULT	= new Style(COLOR_DEFAULT, COLOR_DEFAULT, 1, 'center', '10px Arial');

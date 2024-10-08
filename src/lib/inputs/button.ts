@@ -1,20 +1,9 @@
+import { AppSettings } from '@gandolphinnn/shared';
+
 export enum BtnState {
 	Up, Down, Released, Hold, Dbl
 }
 export type WheelState = 0 | 1 | -1;
-
-/**
- * Delay in milliseconds for the button to change state 
- */
-const MS_DELAY_BTN = {
-	[BtnState.Up]: 300, //? Delay from Button.Released to Button.Up
-	[BtnState.Down]: 400 //? Delay from Button.Down or Button.Dbl to Button.Hold
-}
-
-/**
- * Delay from Wheel.x or Wheel.y == -1 or 1 to == 0
- */
-const MS_DELAY_WHEEL_RESET: number = 400;
 
 /**
  * Grouping of states
@@ -43,7 +32,7 @@ class InputTimer {
 export class WheelAxis extends InputTimer {
 	private _state: WheelState;
 	get state() {
-		if (this._state !== 0 && this.elapsed >= MS_DELAY_WHEEL_RESET) {
+		if (this._state !== 0 && this.elapsed >= AppSettings.MS_DELAY_WHEEL) {
 			this._state = 0;
 		}
 		return this._state;
@@ -64,10 +53,10 @@ export class WheelAxis extends InputTimer {
 export class Button extends InputTimer {
 	private _state: BtnState;
 	get state() {
-		if (this.elapsed >= MS_DELAY_BTN[BtnState.Down] && (this._state == BtnState.Down || this._state == BtnState.Dbl))
+		if (this.elapsed >= AppSettings.MS_DELAY_BTN_DOWN && (this._state == BtnState.Down || this._state == BtnState.Dbl))
 			this._state = BtnState.Hold;
 
-		if (this.elapsed >= MS_DELAY_BTN[BtnState.Up] && this._state == BtnState.Released)
+		if (this.elapsed >= AppSettings.MS_DELAY_BTN_UP && this._state == BtnState.Released)
 			this._state = BtnState.Up;
 
 		return this._state;

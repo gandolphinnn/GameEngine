@@ -14,7 +14,7 @@ export * from './image';
 
 export class MainCanvas extends Singleton {
 
-//#region Singleton boilerplate
+	//#region Singleton boilerplate
 	private static _MainCanvas: Singleton = new MainCanvas();
 	private static get instance() {
 		return this._MainCanvas as MainCanvas;
@@ -30,7 +30,7 @@ export class MainCanvas extends Singleton {
 	
 	_center: Coord;
 	static get center() { return this.instance._center.copy() }
-//#endregion Singleton boilerplate
+	//#endregion Singleton boilerplate
 
 	private constructor() {
 		super();
