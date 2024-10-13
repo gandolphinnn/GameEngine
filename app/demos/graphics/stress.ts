@@ -1,6 +1,6 @@
-import { COLOR_DEFAULT, Circle, MainCanvas, Time } from '@gandolphinnn/graphics';
+import { Circle, MainCanvas, Time } from '@gandolphinnn/graphics';
 
-COLOR_DEFAULT.alpha = 0.1;
+//COLOR_DEFAULT.alpha = 0.1;
 const totShapes = 20000;
 const radius = 10;
 
