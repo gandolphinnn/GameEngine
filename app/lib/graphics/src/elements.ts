@@ -1,15 +1,10 @@
 import { overflow } from '@gandolphinnn/utils';
 import Enumerable from 'linq';
 import { MainCanvas, Style, SubStyle, Size, Coord, Angle } from '.';
+import { GameCycle } from '@gandolphinnn/shared';
 
 export enum RenderAction {
 	None, Stroke, Fill, Both
-}
-
-export interface GameCycle {
-	Start(): void;
-	Update(): void;
-	FixedUpdate?(): void;
 }
 
 export abstract class CnvElement implements GameCycle {

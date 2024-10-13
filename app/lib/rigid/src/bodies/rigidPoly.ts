@@ -1,4 +1,4 @@
-import { GameCycle, CnvElement, Coord, Poly } from '@gandolphinnn/graphics'
+import { CnvElement, Coord, Poly } from '@gandolphinnn/graphics'
 import { GameObject } from '@gandolphinnn/game'
 import { Collision, ERigidBodyEvent, LayerMask, RigidBody, RigidLine, Vector } from '..';
 
