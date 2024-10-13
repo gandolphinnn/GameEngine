@@ -64,7 +64,7 @@ export class TestObject1 extends GameObject implements OnCollisionEnter {
 			this._trail.shift();
 		}
 		this._trail.forEach(p => {
-			MainCanvas.drawPoint(p);
+			p.render();
 		});
 		
 	}

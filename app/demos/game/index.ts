@@ -1,16 +1,14 @@
-import { Angle, Color, Coord, MainCanvas, POINT_DEFAULT, Time } from "@gandolphinnn/graphics";
-import { Game } from "@gandolphinnn/game";
-import { TestObject1 } from "./GameObjects/TestObject1.gameobject";
 import { rand } from "@gandolphinnn/utils";
-import { TestObject2 } from "./GameObjects/TestObject2.gameobject";
-import { Vector } from "@gandolphinnn/rigid";
 import { AppSettings } from "@gandolphinnn/shared";
+import { Angle,  Coord, MainCanvas, Time } from "@gandolphinnn/graphics";
+import { Vector } from "@gandolphinnn/rigid";
+import { Game } from "@gandolphinnn/game";
+
+import { TestObject1 } from "./GameObjects/TestObject1.gameobject";
+import { TestObject2 } from "./GameObjects/TestObject2.gameobject";
 import { GameSettings } from "./GameSettings";
 
 function Sim1() {
-	POINT_DEFAULT.radius = 5;
-	POINT_DEFAULT.setFillStyle(Color.byName("Red"));
-
 	//* For now limit to 1 object to test the correct order of the events
 	for (let i = 0; i < 1; i++) {
 		new TestObject1([new Coord(100, 100), new Coord(150, 100), new Coord(150, 150)]);

@@ -1,5 +1,5 @@
 import { Singleton, isNull, rand } from '@gandolphinnn/utils';
-import { Color, ColorName, COLORNAME_RGBA, Style, Coord, Size, Circle, Line, Rect, Text, POINT_DEFAULT } from '.';
+import { Color, ColorName, COLORNAME_RGBA, Style, Coord, Size, Circle, Line, Rect, Text } from '.';
 
 export class MainCanvas extends Singleton {
 
@@ -108,13 +108,6 @@ export class MainCanvas extends Singleton {
 		this.ctx.font = toApply.font;
 		renderCallBack();
 		this.ctx.restore();
-	}
-	/**
-	 * Draw a point on the canvas. Uses the POINT_DEFAULT circle
-	 */
-	static drawPoint(point: Coord) {
-		POINT_DEFAULT.center = point.copy();
-		POINT_DEFAULT.render();
 	}
 
 	//#region Samples

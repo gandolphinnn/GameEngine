@@ -1,11 +1,7 @@
 import { arrPivot, overflow, rand0 } from '@gandolphinnn/utils';
 import Enumerable from 'linq';
-import { Angle, Circle, MainCanvas, POINT_DEFAULT } from '.';
-
-export type Size = {
-	width: number;
-	height: number;
-}
+import { Angle, Circle, Color, MainCanvas, RenderAction, Size } from '.';
+import { AppSettings } from '@gandolphinnn/shared';
 
 export class Coord {
 	/**
@@ -48,8 +44,10 @@ export class Coord {
 	}
 
 	render() {
-		POINT_DEFAULT.center = this.copy();
-		POINT_DEFAULT.render();
+		new Circle(this, AppSettings.POINT_RADIUS)
+								.setAction(RenderAction.Fill)
+								.setFillStyle(Color.byName('Black'))
+								.render();
 	}
 	
 	/**

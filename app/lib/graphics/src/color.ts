@@ -191,7 +191,7 @@ export class Color {
 		return this.byObj({red: red, green: green, blue: blue, alpha: alpha})
 	}
 	static default() {
-		return this.byObj(AppSettings.COLOR_NAME);
+		return this.byObj(AppSettings.COLOR_RGBA);
 	}
 	static random() {
 		return new Color({red: rand0(255), green: rand0(255), blue: rand0(255), alpha: 1});

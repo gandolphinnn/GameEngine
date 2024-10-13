@@ -1,7 +1,12 @@
-import { Circle, Color, Coord, RenderAction } from ".";
+import { Color } from ".";
 
 export type SubStyle = Color | CanvasGradient | CanvasPattern;
 
-export const POINT_DEFAULT = new Circle(Coord.origin, 3)
-								.setAction(RenderAction.Fill)
-								.setFillStyle(Color.byName('Black'));
+export type Size = {
+	width: number;
+	height: number;
+}
+
+export enum RenderAction {
+	None, Stroke, Fill, Both
+}

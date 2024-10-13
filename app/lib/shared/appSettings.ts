@@ -11,12 +11,13 @@ export class AppSettings extends Singleton {
 		super();
 	}
 
-	protected _COLOR_NAME: RGBA = {red: 0, green: 0, blue: 0, alpha: 1};
+	protected _COLOR_RGBA: RGBA = {red: 0, green: 0, blue: 0, alpha: 1};
 	protected _FILL_STYLE: RGBA = {red: 0, green: 0, blue: 0, alpha: 1};
 	protected _STROKE_STYLE: RGBA = {red: 0, green: 0, blue: 0, alpha: 1};
 	protected _LINE_WIDTH: number = 1;
 	protected _TEXT_ALIGN: CanvasTextAlign = 'center';
 	protected _FONT: string = '10px Arial';
+	protected _POINT_RADIUS: number = 3;
 	protected _VECTOR_STRENGTH_PIXEL_RATIO: number = 10;
 	protected _DELTATIME_MULTIPLIER: number = 100;
 	protected _VECTOR_ARROW_HEAD_LENGTH: number = 10;
@@ -28,10 +29,10 @@ export class AppSettings extends Singleton {
 
 	//#region Graphics	
 	/**
-	 * The color name used in `Color.default()`
+	 * The color used in `Color.default()`
 	*/
-	public static get COLOR_NAME(): RGBA {
-		return this.instance._COLOR_NAME;
+	public static get COLOR_RGBA(): RGBA {
+		return this.instance._COLOR_RGBA;
 	}
 	
 	/**
@@ -67,6 +68,13 @@ export class AppSettings extends Singleton {
 	*/
 	public static get FONT(): string {
 		return this.instance._FONT;
+	}
+	
+	/**
+	 * The radius used in `Coord.render()`
+	*/
+	public static get POINT_RADIUS(): number {
+		return this.instance._POINT_RADIUS;
 	}
 	//#endregion Graphics
 	

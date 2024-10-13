@@ -1,5 +1,5 @@
-import { Angle, Circle, Color, Coord, MainCanvas, Mesh, Poly, RenderAction, RGBA } from "@gandolphinnn/graphics";
-import { Collision, CollisionEvent, ERigidBodyEvent, LayerMask, OnCollisionEnter, RigidBody, RigidCircle, RigidPoly, Vector } from "@gandolphinnn/rigid";
+import { Angle, Circle, Color, Coord, MainCanvas, RenderAction } from "@gandolphinnn/graphics";
+import { Collision, CollisionEvent, LayerMask, OnCollisionEnter, RigidCircle, Vector } from "@gandolphinnn/rigid";
 import { GameObject } from "@gandolphinnn/game";
 
 class TestObject2Mesh extends Circle {
@@ -77,7 +77,7 @@ export class TestObject2 extends GameObject implements OnCollisionEnter {
 
 	private drawCollision(collision: Collision) {
 		collision.contacts.forEach(p => {
-			MainCanvas.drawPoint(p);
+			p.render();
 		});
 		/* if (collision.innerRigidBody && collision.innerRigidBody === this.rigidBody) {
 			this.cnvElement.setAction(RenderAction.Fill);

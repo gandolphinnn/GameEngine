@@ -1,11 +1,7 @@
 import { overflow } from '@gandolphinnn/utils';
 import Enumerable from 'linq';
-import { MainCanvas, Style, SubStyle, Size, Coord, Angle } from '.';
+import { MainCanvas, Style, SubStyle, Size, Coord, Angle, RenderAction } from '.';
 import { GameCycle } from '@gandolphinnn/shared';
-
-export enum RenderAction {
-	None, Stroke, Fill, Both
-}
 
 export abstract class CnvElement implements GameCycle {
 	action: RenderAction;
@@ -106,7 +102,7 @@ export abstract class CnvElement implements GameCycle {
 	}
 	protected drawPoints(points: Coord[] = []) {
 		[this.center, ...points].forEach(point => {
-			MainCanvas.drawPoint(point);
+			point.render();
 		});
 	}
 }
@@ -144,7 +140,7 @@ export class Mesh extends CnvElement {
 				item.render(drawPoints);
 			});
 		}
-		if(drawPoints) MainCanvas.drawPoint(this.center);
+		if(drawPoints) this.center.render();
 		return this;
 	}
 }
