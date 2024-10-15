@@ -11,4 +11,4 @@ const v3 = new Impulse(Angle.left(), 100);
 new Vector(MainCanvas.center, v3.angle, v3.strength).render();
 
 const vSum = Impulse.sum(v1, v2, v3);
-new Vector(MainCanvas.center, vSum.angle, vSum.strength).render(true, Color.byName("Green"));
+new Vector(MainCanvas.center, vSum.angle, vSum.strength).render(true, Color.byName('Green'));

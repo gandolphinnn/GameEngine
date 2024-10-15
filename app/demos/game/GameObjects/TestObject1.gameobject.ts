@@ -1,7 +1,7 @@
-import { Angle, Circle, Coord, MainCanvas, Mesh, Poly } from "@gandolphinnn/graphics";
-import { Collision, CollisionEvent, ERigidBodyEvent, LayerMask, OnCollisionEnter, RigidBody, RigidCircle, RigidPoly, Vector } from "@gandolphinnn/rigid";
-import { GameObject } from "@gandolphinnn/game";
-import { rand, rand0 } from "@gandolphinnn/utils";
+import { rand, rand0 } from '@gandolphinnn/utils';
+import { Angle, Circle, Coord, MainCanvas, Poly } from '@gandolphinnn/graphics';
+import { Collision, CollisionEvent, LayerMask, OnCollisionEnter, RigidCircle, RigidPoly, Vector } from '@gandolphinnn/rigid';
+import { GameObject } from '@gandolphinnn/game';
 
 class TestObject1Mesh extends Poly {
 	constructor(
@@ -42,7 +42,7 @@ export class TestObject1 extends GameObject implements OnCollisionEnter {
 			new TestObject1Mesh(points),
 			new TestObject1Body(center, points)
 		)
-		this.rigidBody.setLayerMask(LayerMask.get("Test"));
+		this.rigidBody.setLayerMask(LayerMask.get('Test'));
 	}
 
 	Start() {

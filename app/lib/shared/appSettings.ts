@@ -1,6 +1,6 @@
-import { Color, ColorName, RGBA, Style } from "@gandolphinnn/graphics";
-import { PreventableCodes } from "@gandolphinnn/inputs";
-import { Singleton } from "@gandolphinnn/utils";
+import { Singleton } from '@gandolphinnn/utils';
+import { RGBA } from '@gandolphinnn/graphics';
+import { PreventableCodes } from '@gandolphinnn/inputs';
 
 export class AppSettings extends Singleton {
 	protected static _AppSettings: Singleton = new AppSettings();

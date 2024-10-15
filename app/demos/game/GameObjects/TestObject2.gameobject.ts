@@ -1,6 +1,6 @@
-import { Angle, Circle, Color, Coord, MainCanvas, RenderAction } from "@gandolphinnn/graphics";
-import { Collision, CollisionEvent, LayerMask, OnCollisionEnter, RigidCircle, Vector } from "@gandolphinnn/rigid";
-import { GameObject } from "@gandolphinnn/game";
+import { Angle, Circle, Color, Coord, MainCanvas, RenderAction } from '@gandolphinnn/graphics';
+import { Collision, CollisionEvent, LayerMask, OnCollisionEnter, RigidCircle, Vector } from '@gandolphinnn/rigid';
+import { GameObject } from '@gandolphinnn/game';
 
 class TestObject2Mesh extends Circle {
 	constructor(
@@ -44,7 +44,7 @@ export class TestObject2 extends GameObject implements OnCollisionEnter {
 			new TestObject2Mesh(vector.coord, radius),
 			new TestObject2Body(vector, radius)
 		)
-		this.rigidBody.setLayerMask(LayerMask.get("Test"));
+		this.rigidBody.setLayerMask(LayerMask.get('Test'));
 	}
 
 	Update() {

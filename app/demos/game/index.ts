@@ -1,12 +1,12 @@
-import { rand } from "@gandolphinnn/utils";
-import { AppSettings } from "@gandolphinnn/shared";
-import { Angle,  Coord, MainCanvas, Time } from "@gandolphinnn/graphics";
-import { Vector } from "@gandolphinnn/rigid";
-import { Game } from "@gandolphinnn/game";
+import { rand } from '@gandolphinnn/utils';
+import { AppSettings } from '@gandolphinnn/shared';
+import { Angle,  Coord, MainCanvas, Time } from '@gandolphinnn/graphics';
+import { Vector } from '@gandolphinnn/rigid';
+import { Game } from '@gandolphinnn/game';
 
-import { TestObject1 } from "./GameObjects/TestObject1.gameobject";
-import { TestObject2 } from "./GameObjects/TestObject2.gameobject";
-import { GameSettings } from "./GameSettings";
+import { GameSettings } from './GameSettings';
+import { TestObject1 } from './GameObjects/TestObject1.gameobject';
+import { TestObject2 } from './GameObjects/TestObject2.gameobject';
 
 function Sim1() {
 	//* For now limit to 1 object to test the correct order of the events

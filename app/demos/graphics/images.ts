@@ -1,4 +1,4 @@
-import { Coord, Img, MainCanvas, RenderAction } from "@gandolphinnn/graphics";
+import { Coord, Img, RenderAction } from '@gandolphinnn/graphics';
 
 export function ImagesDemo() {
 	

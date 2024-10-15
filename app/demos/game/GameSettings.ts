@@ -1,5 +1,5 @@
-import { Singleton } from "@gandolphinnn/utils";
-import { AppSettings } from "@gandolphinnn/shared";
+import { Singleton } from '@gandolphinnn/utils';
+import { AppSettings } from '@gandolphinnn/shared';
 
 export class GameSettings extends AppSettings {
 	//#region Boilerplate

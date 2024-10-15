@@ -18,5 +18,5 @@ export class LayerMask {
 		LayerMask._layerMasks.push(newLayerMask);
 		return newLayerMask;
 	}
-	static get default() { return new LayerMask("Default") }
+	static get default() { return new LayerMask('Default') }
 }
