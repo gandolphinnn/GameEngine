@@ -1,5 +1,5 @@
 import { Mouse } from '@gandolphinnn/inputs'
-import { Collision } from './collision.js'
+import { Collision } from '.'
 
 export enum ERigidBodyEvent {
 	onCollisionEnter,

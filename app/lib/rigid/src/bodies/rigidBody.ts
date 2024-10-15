@@ -1,7 +1,7 @@
+import { GameCycle } from '@gandolphinnn/shared';
 import { CnvElement } from '@gandolphinnn/graphics'
 import { GameObject } from '@gandolphinnn/game'
 import { Collision, ERigidBodyEvent, LayerMask, Vector } from '..';
-import { GameCycle } from '@gandolphinnn/shared';
 
 export abstract class RigidBody implements GameCycle {
 	

@@ -1,55 +1,6 @@
 import { AppSettings } from '@gandolphinnn/shared';
+import { BtnState, EVENT_BTNSTATE, InputTimer } from '.';
 
-export enum BtnState {
-	Up, Down, Released, Hold, Dbl
-}
-export type WheelState = 0 | 1 | -1;
-
-/**
- * Grouping of states
- */
-const EVENT_BTNSTATE = {
-	[BtnState.Up]: [BtnState.Up, BtnState.Released],
-	[BtnState.Down]: [BtnState.Down, BtnState.Hold, BtnState.Dbl]
-}
-
-export function getTodayTimeStamp() {
-	const date = new Date();
-	return ((date.getHours() * 60 + date.getMinutes())*60 + date.getSeconds()) * 1000 + date.getMilliseconds();
-}
-class InputTimer {
-	protected _timeStamp: number;
-	protected get elapsed() {
-		return getTodayTimeStamp() - this._timeStamp;
-	}
-	constructor() {
-		this._timeStamp = getTodayTimeStamp();
-	}
-	protected setTS() {
-		this._timeStamp = getTodayTimeStamp();
-	}
-}
-export class WheelAxis extends InputTimer {
-	private _state: WheelState;
-	get state() {
-		if (this._state !== 0 && this.elapsed >= AppSettings.MS_DELAY_WHEEL) {
-			this._state = 0;
-		}
-		return this._state;
-	}
-	set state(state: WheelState) {
-		if (this.state === state) {
-			return;
-		}
-		this.setTS();
-		this._state = state;
-	}
-
-	constructor() {
-		super();
-		this._state = 0;
-	}
-}
 export class Button extends InputTimer {
 	private _state: BtnState;
 	get state() {

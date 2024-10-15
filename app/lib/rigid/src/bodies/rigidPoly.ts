@@ -1,6 +1,5 @@
-import { CnvElement, Coord, Poly } from '@gandolphinnn/graphics'
-import { GameObject } from '@gandolphinnn/game'
-import { Collision, ERigidBodyEvent, LayerMask, RigidBody, RigidLine, Vector } from '..';
+import { Coord, Poly } from '@gandolphinnn/graphics'
+import { RigidBody, RigidLine, Vector } from '..';
 
 export class RigidPoly extends RigidBody {
 

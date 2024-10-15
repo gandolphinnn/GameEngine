@@ -1,4 +1,4 @@
-import { Angle, Coord } from "@gandolphinnn/graphics"
+import { Angle, Coord } from '@gandolphinnn/graphics'
 
 export class Impulse {
 	

@@ -1,10 +1,3 @@
-import { Coord, Angle } from '@gandolphinnn/graphics'
-import { LayerMask } from './layerMask'
-import { arrPivot } from '@gandolphinnn/utils'
-import { Collision } from './collision'
-import { RigidLine } from './bodies/rigidLine'
-import { RigidBody } from './bodies/rigidBody'
-
 export * from './types'
 export * from './layerMask'
 export * from './vector'
@@ -16,7 +9,6 @@ export * from './bodies/rigidPoly'
 export * from './bodies/rigidCircle'
 export * from './raycast'
 
-const rigidF = {
 	/**
 	 * Convert from unix timestamp to time.
 	 * @param {RigirRect | RigidCirc} rBody1 The first rigidBody.
@@ -26,7 +18,7 @@ const rigidF = {
 	 * * an array with the coordinates of the intersections
 	 * * an empty array if they are one inside the other without intersection 
 	 */
-	/* collision(rBody1, rBody2) {
+	/* function collision(rBody1, rBody2) {
 		let hitPoints = new Array();
 		//* rect and rect
 		if (mathF.parentClass(rBody1) == 'RigidRect' && mathF.parentClass(rBody2) == 'RigidRect') {
@@ -82,8 +74,8 @@ const rigidF = {
 			return hitPoints;
 		}
 		return hitPoints;
-	}, */
-	/* closestPointRectCirc: (rRect, rCirc) => {
+	}
+	function closestPointRectCirc (rRect, rCirc) {
 		let corn = rRect.corners, a, b, c, p1, p2, p = rCirc.coord, hitP;
 		for (let i = 0; i < corn.length; i++) {
 			p1 = corn[i];
@@ -101,19 +93,10 @@ const rigidF = {
 			hitPoints.push(hitP);
 		}
 		return hitPoints;
-	}, */
-	/* snap: (rBody, fixedBody) => {
-		if (rigidF.collision(rBody, fixedBody)) {
-
-		}
-	},
-	rayCast(coord, degr, rBodies) {
-
 	} */
-}
-
+/* 
 function pointInPoly(point: Coord, vs: unknown) {
-	/* // pointInPoly algorithm from
+	// pointInPoly algorithm from
 	// https://observablehq.com/@tmcw/understanding-point-in-polygon
 
 	var x = point.x, y = point.y;
@@ -128,5 +111,5 @@ function pointInPoly(point: Coord, vs: unknown) {
 		if (intersect) inside = !inside;
 	}
 
-	return inside; */
-};
+	return inside;
+}; */

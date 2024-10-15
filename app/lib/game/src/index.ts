@@ -1,2 +1,2 @@
 export * from './game';
-export * from './gameobject';
+export * from './gameObject';

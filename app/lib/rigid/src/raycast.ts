@@ -1,6 +1,6 @@
-import { arrPivot } from "@gandolphinnn/utils";
-import { Coord, Angle } from "@gandolphinnn/graphics";
-import { Collision, LayerMask, RigidBody, RigidLine } from ".";
+import { arrPivot } from '@gandolphinnn/utils';
+import { Coord, Angle } from '@gandolphinnn/graphics';
+import { Collision, LayerMask, RigidBody, RigidLine } from '.';
 
 export function RayCast (
 	origin: Coord,

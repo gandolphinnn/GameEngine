@@ -1,7 +1,7 @@
-import { overflow } from '@gandolphinnn/utils';
 import Enumerable from 'linq';
-import { MainCanvas, Style, SubStyle, Size, Coord, Angle, RenderAction } from '.';
+import { overflow } from '@gandolphinnn/utils';
 import { GameCycle } from '@gandolphinnn/shared';
+import { MainCanvas, Style, SubStyle, Size, Coord, Angle, RenderAction } from '.';
 
 export abstract class CnvElement implements GameCycle {
 	action: RenderAction;
