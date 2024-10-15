@@ -1,5 +1,6 @@
 import { Singleton } from '@gandolphinnn/utils';
 import { AppSettings } from '@gandolphinnn/shared';
+import { KeyOfTime } from '@gandolphinnn/graphics';
 
 export class GameSettings extends AppSettings {
 	//#region Boilerplate
@@ -13,4 +14,5 @@ export class GameSettings extends AppSettings {
 	//#endregion Boilerplate
 
 	protected _LINE_WIDTH = 10;
+	protected _TIME_DEBUG_PARAMS: KeyOfTime[] = ['fps'];
 }
