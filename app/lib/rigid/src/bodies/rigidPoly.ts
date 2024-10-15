@@ -1,5 +1,5 @@
 import { Coord, Poly } from '@gandolphinnn/graphics'
-import { RigidBody, RigidLine, Vector } from '..';
+import { RigidBody, RigidLine, Vector } from '../..';
 
 export class RigidPoly extends RigidBody {
 

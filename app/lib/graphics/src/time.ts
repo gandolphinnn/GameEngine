@@ -1,13 +1,7 @@
-import { Color, Coord, Text } from '.';
+import { AppSettings } from '@gandolphinnn/shared';
+import { Color, Coord, Text } from '..';
 
-type KeyOfTime = Exclude<keyof typeof Time, 'prototype' | 'update' | 'logData' | 'showData'>;
-
-const TO_SHOW: KeyOfTime[] = [
-	'deltaTime',
-	'timeScale',
-	'timestamp',
-	'fps',
-]
+export type KeyOfTime = Exclude<keyof typeof Time, 'prototype' | 'update' | 'logData' | 'showData'>;
 
 export class Time {
 	/**
@@ -85,9 +79,9 @@ export class Time {
 			this.fpsUpdateCount++;
 		}
 	}
-	static logData(toShow: KeyOfTime[] = TO_SHOW) {
+	static logData() {
 		console.table({
-			...toShow.reduce((acc: any, prop) => {
+			...AppSettings.TIME_DEBUG_PARAMS.reduce((acc: any, prop) => {
 				const asAny = this as any;
 				if (typeof asAny[prop] === 'function') return acc;
 
@@ -96,10 +90,10 @@ export class Time {
 			}, {})
 		});
 	}
-	static showData(toShow: KeyOfTime[] = TO_SHOW) {
+	static showData() {
 		const t = new Text(new Coord(5, 0), '');
 		t.style.mergeTextAlign('left').mergeFont('12px Arial').mergeFillStyle(Color.byName('Black'));
-		toShow.forEach(prop => {
+		AppSettings.TIME_DEBUG_PARAMS.forEach(prop => {
 			const asAny = this as any;
 			if (typeof asAny[prop] === 'function') return;
 			t.content = `${prop}: ${parseFloat(asAny[prop].toFixed(4))}`;

@@ -1,5 +1,5 @@
 import { AppSettings } from '@gandolphinnn/shared';
-import { InputTimer, WheelState } from '.';
+import { InputTimer, WheelState } from '..';
 
 export class WheelAxis extends InputTimer {
 	private _state: WheelState;

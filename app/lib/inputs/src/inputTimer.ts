@@ -1,4 +1,4 @@
-import { BtnState } from '.';
+import { BtnState } from '..';
 
 /**
  * Grouping of states

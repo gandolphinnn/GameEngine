@@ -18,6 +18,7 @@ export class AppSettings extends Singleton {
 	protected _TEXT_ALIGN: CanvasTextAlign = 'center';
 	protected _FONT: string = '10px Arial';
 	protected _POINT_RADIUS: number = 3;
+	protected _TIME_DEBUG_PARAMS: KeyOfTime[] = ['deltaTime', 'timeScale', 'timestamp', 'fps']
 	protected _VECTOR_STRENGTH_PIXEL_RATIO: number = 10;
 	protected _DELTATIME_MULTIPLIER: number = 100;
 	protected _VECTOR_ARROW_HEAD_LENGTH: number = 10;
@@ -75,6 +76,13 @@ export class AppSettings extends Singleton {
 	*/
 	public static get POINT_RADIUS(): number {
 		return this.instance._POINT_RADIUS;
+	}
+	
+	/**
+	 * The array of values to use in `Time.logData() and Time.showData()`
+	*/
+	public static get TIME_DEBUG_PARAMS(): KeyOfTime[] {
+		return this.instance._TIME_DEBUG_PARAMS;
 	}
 	//#endregion Graphics
 	

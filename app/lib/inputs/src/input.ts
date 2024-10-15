@@ -1,7 +1,7 @@
 import { clamp, Singleton } from '@gandolphinnn/utils';
 import { AppSettings } from '@gandolphinnn/shared';
 import { MainCanvas } from '@gandolphinnn/graphics';
-import { BtnCode, BtnState, Button, KeyCode, Mouse, PreventableCodes, WheelState } from '.';
+import { BtnCode, BtnState, Button, KeyCode, Mouse, PreventableCodes, WheelState } from '..';
 
 export class Input extends Singleton {
 	private static _Input: Singleton = new Input();

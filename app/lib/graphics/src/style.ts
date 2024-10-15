@@ -1,5 +1,5 @@
 import { AppSettings } from '@gandolphinnn/shared';
-import { Color, SubStyle } from '.';
+import { Color, SubStyle } from '..';
 
 /**
  * Defines the style of a CnvElement.

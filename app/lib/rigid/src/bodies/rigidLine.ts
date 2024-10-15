@@ -1,6 +1,6 @@
 import { className } from '@gandolphinnn/utils';
 import { Coord, Line } from '@gandolphinnn/graphics'
-import { RigidBody, Vector } from '..';
+import { RigidBody, Vector } from '../..';
 
 
 

@@ -1,6 +1,6 @@
 import { className } from '@gandolphinnn/utils';
 import { Coord } from '@gandolphinnn/graphics';
-import { RigidBody, RigidCircle, RigidLine, RigidPoly, Vector } from '.';
+import { RigidBody, RigidCircle, RigidLine, RigidPoly, Vector } from '..';
 
 type CollisionDetector = (body1: RigidBody, body2: RigidBody) => ECollisionResult;
 

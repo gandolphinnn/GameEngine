@@ -1,5 +1,5 @@
 import { Coord } from '@gandolphinnn/graphics';
-import { BtnCode, Button, WheelAxis } from '.';
+import { BtnCode, Button, WheelAxis } from '..';
 
 export class Mouse {
 	position: Coord;

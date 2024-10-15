@@ -1,5 +1,5 @@
 import { AppSettings } from '@gandolphinnn/shared';
-import { BtnState, EVENT_BTNSTATE, InputTimer } from '.';
+import { BtnState, EVENT_BTNSTATE, InputTimer } from '..';
 
 export class Button extends InputTimer {
 	private _state: BtnState;

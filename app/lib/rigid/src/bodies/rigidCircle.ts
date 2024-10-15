@@ -1,5 +1,5 @@
 import { CnvElement, Circle } from '@gandolphinnn/graphics'
-import { RigidBody, Vector } from '..';
+import { RigidBody, Vector } from '../..';
 
 export class RigidCircle extends RigidBody {
 

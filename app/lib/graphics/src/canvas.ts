@@ -1,5 +1,5 @@
 import { Singleton, isNull, rand } from '@gandolphinnn/utils';
-import { Color, ColorName, COLORNAME_RGBA, Style, Coord, Size, Circle, Line, Rect, Text } from '.';
+import { Color, ColorName, COLORNAME_RGBA, Style, Coord, Size, Circle, Line, Rect, Text } from '..';
 
 export class MainCanvas extends Singleton {
 

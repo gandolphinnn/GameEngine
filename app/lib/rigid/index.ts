@@ -1,13 +1,13 @@
-export * from './types'
-export * from './layerMask'
-export * from './vector'
-export * from './collision'
-export * from './impulse'
-export * from './bodies/rigidBody'
-export * from './bodies/rigidLine'
-export * from './bodies/rigidPoly'
-export * from './bodies/rigidCircle'
-export * from './raycast'
+export * from './src/types'
+export * from './src/layerMask'
+export * from './src/vector'
+export * from './src/collision'
+export * from './src/impulse'
+export * from './src/bodies/rigidBody'
+export * from './src/bodies/rigidLine'
+export * from './src/bodies/rigidPoly'
+export * from './src/bodies/rigidCircle'
+export * from './src/raycast'
 
 	/**
 	 * Convert from unix timestamp to time.

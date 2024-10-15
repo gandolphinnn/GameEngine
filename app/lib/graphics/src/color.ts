@@ -1,6 +1,6 @@
 import { clamp, coalesce, decToHex, hexToDec, rand0 } from '@gandolphinnn/utils';
 import { AppSettings } from '@gandolphinnn/shared';
-import { ColorName, RGBA } from '.';
+import { ColorName, RGBA } from '..';
 
 //#region System constants
 const HEX_LONG_PATTERN = /^\#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/

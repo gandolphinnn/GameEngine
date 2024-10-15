@@ -1,7 +1,7 @@
 import Enumerable from 'linq';
 import { arrPivot, overflow, rand0 } from '@gandolphinnn/utils';
 import { AppSettings } from '@gandolphinnn/shared';
-import { Angle, Circle, Color, MainCanvas, RenderAction, Size } from '.';
+import { Angle, Circle, Color, MainCanvas, RenderAction, Size } from '..';
 
 export class Coord {
 	/**
