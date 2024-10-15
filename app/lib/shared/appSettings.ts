@@ -1,5 +1,5 @@
 import { Singleton } from '@gandolphinnn/utils';
-import { RGBA } from '@gandolphinnn/graphics';
+import { KeyOfTime, RGBA } from '@gandolphinnn/graphics';
 import { PreventableCodes } from '@gandolphinnn/inputs';
 
 export class AppSettings extends Singleton {
