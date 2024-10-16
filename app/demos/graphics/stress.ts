@@ -1,4 +1,5 @@
-import { Circle, MainCanvas, Time } from '@gandolphinnn/graphics';
+import { Time } from '@gandolphinnn/shared';
+import { Circle, MainCanvas } from '@gandolphinnn/graphics';
 
 //COLOR_DEFAULT.alpha = 0.1;
 const totShapes = 20000;

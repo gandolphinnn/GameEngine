@@ -1,7 +1,5 @@
-import { AppSettings } from '@gandolphinnn/shared';
-import { Color, Coord, Text } from '..';
-
-export type KeyOfTime = Exclude<keyof typeof Time, 'prototype' | 'update' | 'logData' | 'showData'>;
+import { Color, Coord, Text } from '@gandolphinnn/graphics';
+import { AppSettings } from '.';
 
 export class Time {
 	/**

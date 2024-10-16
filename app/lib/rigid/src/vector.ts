@@ -1,5 +1,5 @@
-import { AppSettings } from '@gandolphinnn/shared'
-import { Coord, Angle, Line, Color, Time } from '@gandolphinnn/graphics'
+import { AppSettings, Time } from '@gandolphinnn/shared'
+import { Coord, Angle, Line, Color } from '@gandolphinnn/graphics'
 
 export class Vector {
 	get forward() { return new Vector(this.coord, this.angle, this.strength) }

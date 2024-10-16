@@ -48,5 +48,5 @@ Game.start = () => {
 
 Game.update = () => {
 	MainCanvas.clean();
-	Time.showData(['fps']);
+	Time.showData();
 }
