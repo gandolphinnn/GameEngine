@@ -11,6 +11,7 @@ export class AppSettings extends Singleton {
 		super();
 	}
 
+	protected _DEBUG: boolean = true;
 	protected _COLOR_RGBA: RGBA = {red: 0, green: 0, blue: 0, alpha: 1};
 	protected _FILL_STYLE: RGBA = {red: 0, green: 0, blue: 0, alpha: 1};
 	protected _STROKE_STYLE: RGBA = {red: 0, green: 0, blue: 0, alpha: 1};
@@ -27,6 +28,13 @@ export class AppSettings extends Singleton {
 	protected _MS_DELAY_BTN_DOWN: number = 400;
 	protected _MS_DELAY_WHEEL: number = 400;
 	protected _UNPREVENTED_CODES: PreventableCodes[] = ['F5', 'F12', 'wheel'];
+
+	/**
+	 * Is the app in debug mode
+	*/
+	public static get DEBUG(): boolean {
+		return this.instance._DEBUG;
+	}
 
 	//#region Graphics	
 	/**

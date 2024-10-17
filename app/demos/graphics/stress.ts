@@ -1,7 +1,7 @@
-import { Time } from '@gandolphinnn/shared';
+import { AppSettings, Time } from '@gandolphinnn/shared';
 import { Circle, MainCanvas } from '@gandolphinnn/graphics';
 
-//COLOR_DEFAULT.alpha = 0.1;
+AppSettings.COLOR_RGBA.alpha = 0.1;
 const totShapes = 20000;
 const radius = 10;
 
