@@ -2,21 +2,21 @@
 	"compilerOptions": {
 		"target": "ES2022",
 		"sourceMap": true,
-		"rootDir": "src",
+		"rootDir": "app",
 		"outDir": "dist",
 		"noImplicitAny": true,
 		"declaration": true,
 		"moduleResolution": "Node",
 		"baseUrl": "./",
 		"paths": {
-			"@gandolphinnn/shared": ["src/lib/shared/index.ts"],
-			"@gandolphinnn/graphics": ["src/lib/graphics/index.ts"],
-			"@gandolphinnn/inputs": ["src/lib/inputs/index.ts"],
-			"@gandolphinnn/rigid": ["src/lib/rigid/index.ts"],
-			"@gandolphinnn/game": ["src/lib/game/index.ts"],
+			"@gandolphinnn/shared": ["app/lib/shared/index.ts"],
+			"@gandolphinnn/graphics": ["app/lib/graphics/index.ts"],
+			"@gandolphinnn/inputs": ["app/lib/inputs/index.ts"],
+			"@gandolphinnn/rigid": ["app/lib/rigid/index.ts"],
+			"@gandolphinnn/game": ["app/lib/game/index.ts"],
 			"*": ["node_modules"]
 		}
 	},
-	"include": ["src"],
+	"include": ["app"],
 	"exclude": ["node_modules", "dist"]
 }
