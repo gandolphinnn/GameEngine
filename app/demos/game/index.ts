@@ -1,6 +1,6 @@
 import { rand } from '@gandolphinnn/utils';
-import { AppSettings } from '@gandolphinnn/shared';
-import { Angle,  Coord, MainCanvas, Time } from '@gandolphinnn/graphics';
+import { AppSettings, Time } from '@gandolphinnn/shared';
+import { Angle,  Coord, MainCanvas } from '@gandolphinnn/graphics';
 import { Vector } from '@gandolphinnn/rigid';
 import { Game } from '@gandolphinnn/game';
 
