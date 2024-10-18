@@ -9,6 +9,8 @@
 		"dist"
 	],
 	"scripts": {
+		"lint": "eslint . --ext .ts",
+		"lint-fix": "eslint . --ext .ts --fix",
 		"watch": "tsc --watch",
 		"serve": "parcel index.html --open",
 		"live": "concurrently \"tsc --watch\" \"parcel index.html --open\"",
@@ -26,5 +28,10 @@
 	"homepage": "https://github.com/gandolphinnn/GameEngine#readme",
 	"dependencies": {
 		"@gandolphinnn/utils": "^3.1.0"
+	},
+	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^5.31.0",
+		"@typescript-eslint/parser": "^5.31.0",
+		"eslint": "^8.20.0"
 	}
 }

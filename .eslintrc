@@ -1,0 +1,30 @@
+{
+	"root": true,
+	"parser": "@typescript-eslint/parser",
+	"plugins": [
+		"@typescript-eslint"
+	],
+	"rules": {
+		"@typescript-eslint/naming-convention": [
+			"warn",
+			{
+				"selector": "variable",
+				"format": ["camelCase"]
+			}
+		],
+		"@typescript-eslint/semi": "warn",
+		"curly": "warn",
+		"eqeqeq": "warn",
+		"no-throw-literal": "warn",
+		"semi": "warn",
+		"no-trailing-spaces": "warn",
+		"space-in-parens": "warn",
+		"space-before-blocks": "warn",
+		"no-unused-vars": "warn"
+	},
+	"ignorePatterns": [
+		"node_modules/",
+		"dist/",
+		"**/*.d.ts"
+	]
+}
