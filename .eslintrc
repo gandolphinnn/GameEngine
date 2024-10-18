@@ -5,22 +5,56 @@
 		"@typescript-eslint"
 	],
 	"rules": {
-		"@typescript-eslint/naming-convention": [
-			"warn",
+		/* "@typescript-eslint/naming-convention": [
+			"error",
+			{
+				"selector": "default",
+				"format": ["camelCase"],
+				"leadingUnderscore": "allow"
+			},
 			{
 				"selector": "variable",
-				"format": ["camelCase"]
+				"format": ["camelCase"],
+				"leadingUnderscore": "allow"
+			},
+			{
+				"selector": "variable",
+				"modifiers": ["const"],
+				"format": ["UPPER_CASE"],
+				"leadingUnderscore": "allow"
+			},
+			{
+				"selector": "classMethod",
+				"format": ["PascalCase"]
+			},
+			{
+				"selector": "typeMethod",
+				"format": ["PascalCase"]
+			},
+			{
+				"selector": "typeLike",
+				"format": ["PascalCase"]
+			}
+		], */
+		"quotes": [							// single quotes
+			"error",
+			"single",
+			{
+				"avoidEscape": true,
+				"allowTemplateLiterals": true
 			}
 		],
-		"@typescript-eslint/semi": "warn",
-		"curly": "warn",
-		"eqeqeq": "warn",
-		"no-throw-literal": "warn",
-		"semi": "warn",
-		"no-trailing-spaces": "warn",
-		"space-in-parens": "warn",
-		"space-before-blocks": "warn",
-		"no-unused-vars": "warn"
+		"curly": "warn",					// braces for control flow
+		"eqeqeq": "warn",					// strict equality
+		"no-throw-literal": "warn",			// throwing Error objects
+		"semi": "warn",						// semicolons
+		"no-trailing-spaces": "warn",		// no trailing spaces
+		"space-in-parens": "warn",			// spaces inside parentheses
+		"space-before-blocks": "warn",		// spaces before blocks
+		"no-unused-vars": "warn",			// no unused variables
+		"prefer-const": "warn",				// prefer const over let
+		"no-console": "warn",				// no console.log
+		"no-var": "error",					// no var keyword
 	},
 	"ignorePatterns": [
 		"node_modules/",
