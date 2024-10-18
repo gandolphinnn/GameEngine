@@ -6,7 +6,7 @@ import { BtnState } from '..';
 export const EVENT_BTNSTATE = {
 	[BtnState.Up]: [BtnState.Up, BtnState.Released],
 	[BtnState.Down]: [BtnState.Down, BtnState.Hold, BtnState.Dbl]
-}
+};
 
 function getTodayTimeStamp() {
 	const date = new Date();

@@ -6,11 +6,11 @@ console.log(p);
 MainCanvas.drawSampleMetric(p);
 MainCanvas.drawStyle
 			.setFillStyle(Color.byValues(0, 0, 255, .4))
-			.setStrokeStyle(Color.byValues(0, 0, 0, 1))
+			.setStrokeStyle(Color.byValues(0, 0, 0, 1));
 
 const text1		= new Text(MainCanvas.center.sumXY(-100, 0), 'Hello World').setFont('24px Arial').setTextAlign('center');
 const text2		= new Text(MainCanvas.center.sumXY(+100, 0), 'Hello World').setFont('bold italic 30px serif').setTextAlign('left');
-const texts		= new Mesh(MainCanvas.center, [text1, text2])
+const texts		= new Mesh(MainCanvas.center, [text1, text2]);
 const line		= new Line([new Coord(50, 50), Coord.origin]);
 const rect		= new Rect(MainCanvas.center, {width: MainCanvas.cnv.width, height: 100});
 const poly		= new Poly(Coord.regularPoly(MainCanvas.center, 7, 75));

@@ -10,15 +10,15 @@ export class MainCanvas extends Singleton {
 	};
 
 	_cnv: HTMLCanvasElement;
-	static get cnv() { return this.instance._cnv };
-	private static set cnv(cnv: HTMLCanvasElement) { this.instance._cnv = cnv };
+	static get cnv() { return this.instance._cnv; };
+	private static set cnv(cnv: HTMLCanvasElement) { this.instance._cnv = cnv; };
 
 	_ctx: CanvasRenderingContext2D;
-	static get ctx() { return this.instance._ctx };
-	private static set ctx(ctx: CanvasRenderingContext2D) { this.instance._ctx = ctx };
-	
+	static get ctx() { return this.instance._ctx; };
+	private static set ctx(ctx: CanvasRenderingContext2D) { this.instance._ctx = ctx; };
+
 	_center: Coord;
-	static get center() { return this.instance._center.copy() }
+	static get center() { return this.instance._center.copy(); }
 	//#endregion Singleton boilerplate
 
 	private constructor() {
@@ -32,10 +32,10 @@ export class MainCanvas extends Singleton {
 			this._cnv = document.createElement('canvas');
 			body.appendChild(this._cnv);
 		}
-		
+
 		this._cnv.width = window.innerWidth;
 		this._cnv.height = window.innerHeight;
-		
+
 		this._ctx = this._cnv.getContext('2d')!;
 		this._center = new Coord(this._cnv.width / 2, this._cnv.height / 2);
 		console.log('Main canvas set');
@@ -44,8 +44,8 @@ export class MainCanvas extends Singleton {
 	static drawStyle = Style.default();
 	static writeStyle = Style.default();
 
-	static get bgColor() { return Color.byStr(this.cnv.style.backgroundColor) }
-	static set bgColor(color: Color) { this.cnv.style.backgroundColor = color.rgbaStr }
+	static get bgColor() { return Color.byStr(this.cnv.style.backgroundColor); }
+	static set bgColor(color: Color) { this.cnv.style.backgroundColor = color.rgbaStr; }
 
 	/**
 	 * Returns a random X value inside the canvas, with optional internal padding
@@ -87,7 +87,7 @@ export class MainCanvas extends Singleton {
 	 * Save the context, apply the style, execute the callback and restore the context
 	 */
 	static draw(drawStyle: Style, renderCallBack: Function) {
-		this.ctx.save();		
+		this.ctx.save();
 		const toApply = Style.from(this.drawStyle, drawStyle);
 		this.ctx.fillStyle = toApply.fillStyleVal;
 		this.ctx.strokeStyle = toApply.strokeStyleVal;
@@ -99,7 +99,7 @@ export class MainCanvas extends Singleton {
 	 * Save the context, apply the style, execute the callback and restore the context
 	 */
 	static write(writeStyle: Style, renderCallBack: Function) {
-		this.ctx.save();		
+		this.ctx.save();
 		const toApply = Style.from(this.writeStyle, writeStyle);
 		this.ctx.fillStyle = toApply.fillStyleVal;
 		this.ctx.strokeStyle = toApply.strokeStyleVal;
@@ -133,11 +133,11 @@ export class MainCanvas extends Singleton {
 			text.render();
 		}
 	}
-	static drawSampleUnits(...testUnits: number[]) {		
-		let sampleUnits = [...new Set([1, 5, 10, 50, 100, 250, 500, 1000, ...testUnits])]
+	static drawSampleUnits(...testUnits: number[]) {
+		const sampleUnits = [...new Set([1, 5, 10, 50, 100, 250, 500, 1000, ...testUnits])]
 							.filter(v => v > 0)
 							.sort((a, b) => a-b);
-		let coord = new Coord(this.center.x - 500, this.center.y - (30 * sampleUnits.length / 2));
+		const coord = new Coord(this.center.x - 500, this.center.y - (30 * sampleUnits.length / 2));
 
 		const line = new Line([Coord.origin, Coord.origin]);
 		line.style.mergeLineWidth(4);
@@ -148,8 +148,8 @@ export class MainCanvas extends Singleton {
 			line.points[0] = Coord.sumXY(coord, 10, 0);
 			line.points[1] = Coord.sumXY(coord, unit + 10, 0);
 			text.content = unit.toString();
-			line.render()
-			text.render(); 
+			line.render();
+			text.render();
 			coord.sumXY(0, 30);
 		});
 	}
@@ -158,7 +158,7 @@ export class MainCanvas extends Singleton {
 		line.style.mergeLineWidth(MainCanvas.ratioToPixel(.1).width).mergeStrokeStyle(Color.byName('Black', .3));
 		const text = new Text(new Coord(0, 10), '');
 		text.style.mergeTextAlign('right').mergeFillStyle(Color.byName('Black', .5));
-		
+
 		for (let x = scale; x < this.cnv.width; x += scale) { //? Vertical lines
 			line.center = new Coord(x, this.center.y);
 			line.render();
@@ -193,7 +193,7 @@ export class MainCanvas extends Singleton {
 			MainCanvas.ctx.beginPath();
 			MainCanvas.ctx.moveTo(points[0].x, points[0].y);
 			points.forEach(point => {
-				MainCanvas.ctx.lineTo(point.x, point.y)
+				MainCanvas.ctx.lineTo(point.x, point.y);
 			});
 			MainCanvas.ctx.stroke();
 		});

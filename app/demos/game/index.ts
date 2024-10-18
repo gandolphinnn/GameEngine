@@ -18,7 +18,7 @@ function Sim2() {
 	const coords = Coord.regularPoly(MainCanvas.center, 50, 400);
 	coords.forEach(coord => {
 		const radius = rand(10, 20);
-		const strength = 20//rand(3, 8);
+		const strength = 20;//rand(3, 8);
 		const vector = new Vector(coord, Angle.random(), strength);
 		new TestObject2(radius, vector);
 	});
@@ -34,7 +34,7 @@ function Sim2() {
 Game.start = () => {
 	console.log(AppSettings.LINE_WIDTH);
 	console.log(GameSettings.LINE_WIDTH);
-	const SIMULATION_NUM: number = 2
+	const SIMULATION_NUM: number = 2;
 
 	switch (SIMULATION_NUM) {
 		case 1:
@@ -44,9 +44,9 @@ Game.start = () => {
 			Sim2();
 			break;
 	}
-}
+};
 
 Game.update = () => {
 	MainCanvas.clean();
 	Time.showData();
-}
+};

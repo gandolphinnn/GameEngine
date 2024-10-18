@@ -7,8 +7,8 @@ import { Coord, RenderAction, CnvElement } from '../..';
 export class Mesh extends CnvElement {
 	elements: Enumerable.IEnumerable<CnvElement>;
 	doRender: boolean = true;
-	
-	get center() { return this._center }
+
+	get center() { return this._center; }
 	set center(center: Coord) {
 		const diff = Coord.difference(center, this.center);
 		this.moveBy(diff.x, diff.y);
@@ -35,7 +35,7 @@ export class Mesh extends CnvElement {
 				item.render(drawPoints);
 			});
 		}
-		if(drawPoints) this.center.render();
+		if(drawPoints) {this.center.render();}
 		return this;
 	}
 }

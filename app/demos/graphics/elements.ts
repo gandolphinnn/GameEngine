@@ -12,7 +12,7 @@ export function ElementsDemo() {
 		White: Color.byName('White'),
 		SaddleBrown: Color.byName('SaddleBrown'),
 		Sienna: Color.byName('Sienna'),
-	}
+	};
 
 	const sector	= new CircleSector(new Coord(274, 200), 75, new Angle(250), new Angle(0), false)
 						.setZ(0)

@@ -10,10 +10,10 @@ export class Input extends Singleton {
 	};
 
 	private _mouse = new Mouse();
-	static get mouse() { return this.instance._mouse };
-	
+	static get mouse() { return this.instance._mouse; };
+
 	private _keys: Record<KeyCode, Button>;
-	static get keys() { return this.instance._keys };
+	static get keys() { return this.instance._keys; };
 
 	private constructor() {
 		super();
@@ -157,14 +157,14 @@ export class Input extends Singleton {
 		});
 
 		window.addEventListener('keydown', e => {
-			if (e.repeat || !this._mouse.isInside) return;
+			if (e.repeat || !this._mouse.isInside) {return;}
 			const code = Input.GetKeyCode(e.code);
 			this.preventDefault(code, e);
 			this.toggleKeybtn(code, BtnState.Down);
 		});
 
 		window.addEventListener('keyup', e => {
-			if (!this._mouse.isInside) return;
+			if (!this._mouse.isInside) {return;}
 			const code = Input.GetKeyCode(e.code);
 			this.toggleKeybtn(code, BtnState.Up);
 		});
@@ -177,16 +177,16 @@ export class Input extends Singleton {
 
 	private preventDefault(code: PreventableCodes, e: Event) {
 		if (AppSettings.UNPREVENTED_CODES.indexOf(code) == -1)
-			e.preventDefault()
+			{e.preventDefault();}
 	}
 	private toggleMouseBtn(btnIndex: BtnCode, newState: BtnState.Up | BtnState.Down) {
 		if (this._mouse.btn[btnIndex] === undefined)
-			this._mouse.btn[btnIndex] = new Button();
+			{this._mouse.btn[btnIndex] = new Button();}
 		this._mouse.btn[btnIndex].toggle(newState);
 	}
 	private toggleKeybtn(code: KeyCode, newState: BtnState.Up | BtnState.Down) {
 		if (this._keys[code] === undefined)
-			this._keys[code] = new Button();
+			{this._keys[code] = new Button();}
 
 		this._keys[code].toggle(newState);
 	}
@@ -206,13 +206,13 @@ export class Input extends Singleton {
 	}
 	static btnState(btnCode: BtnCode) {
 		if (Input.mouse.btn[btnCode] === undefined)
-			return BtnState.Up;
+			{return BtnState.Up;}
 
 		return Input.mouse.btn[btnCode].state;
 	}
 	static keyState(keyCode: KeyCode) {
 		if (Input.keys[keyCode] === undefined)
-			return BtnState.Up;
+			{return BtnState.Up;}
 
 		return Input.keys[keyCode].state;
 	}

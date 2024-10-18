@@ -8,8 +8,8 @@ export abstract class CnvElement implements GameCycle {
 	style: Style = Style.empty();
 
 	protected _center: Coord;
-	get center() { return this._center }
-	set center(center: Coord) { this._center = center }
+	get center() { return this._center; }
+	set center(center: Coord) { this._center = center; }
 
 	/**
 	 * Check if the element is visible on the canvas
@@ -23,11 +23,11 @@ export abstract class CnvElement implements GameCycle {
 	}
 
 	Start(): void {}
-	Update(): void { this.render(false)}
+	Update(): void { this.render(false);}
 
 	moveBy(x: number, y: number) {
 		//? keep it like this to trigger the setter
-		this.center = this.center.sumXY(x, y)
+		this.center = this.center.sumXY(x, y);
 		return this;
 	}
 	setZ(zIndex: number) {

@@ -16,13 +16,13 @@ export function RayCast (
 	const distances: { rigidBody: RigidBody, point: Coord, distance: number}[] = [];
 	for (const body of bodies) {
 		const hit = new Collision(ray, body);
-		if (!hit.doCollide) continue;
+		if (!hit.doCollide) {continue;}
 
 		const closest = Coord.getClosestTo(origin, ...hit.contacts);
 		distances.push({ rigidBody: body, point: closest.coord, distance: closest.distance});
 	}
 
-	if (distances.length == 0) return null;
+	if (distances.length == 0) {return null;}
 
 	const minDistance = Math.min(...arrPivot(distances).distance);
 	return distances[minDistance];

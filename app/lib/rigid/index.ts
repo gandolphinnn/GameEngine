@@ -1,22 +1,22 @@
-export * from './src/types'
-export * from './src/layerMask'
-export * from './src/vector'
-export * from './src/collision'
-export * from './src/impulse'
-export * from './src/bodies/rigidBody'
-export * from './src/bodies/rigidLine'
-export * from './src/bodies/rigidPoly'
-export * from './src/bodies/rigidCircle'
-export * from './src/raycast'
+export * from './src/types';
+export * from './src/layerMask';
+export * from './src/vector';
+export * from './src/collision';
+export * from './src/impulse';
+export * from './src/bodies/rigidBody';
+export * from './src/bodies/rigidLine';
+export * from './src/bodies/rigidPoly';
+export * from './src/bodies/rigidCircle';
+export * from './src/raycast';
 
 	/**
 	 * Convert from unix timestamp to time.
 	 * @param {RigirRect | RigidCirc} rBody1 The first rigidBody.
 	 * @param {RigirRect | RigidCirc} rBody2 The second rigidBody.
-	 * @return {boolean | array} 
+	 * @return {boolean | array}
 	 * * false if they don't collide
 	 * * an array with the coordinates of the intersections
-	 * * an empty array if they are one inside the other without intersection 
+	 * * an empty array if they are one inside the other without intersection
 	 */
 	/* function collision(rBody1, rBody2) {
 		let hitPoints = new Array();
@@ -40,7 +40,7 @@ export * from './src/raycast'
 		else if (mathF.parentClass(rBody1) == 'RigidCirc' && mathF.parentClass(rBody2) == 'RigidCirc') {
 			let d = Math.sqrt((rBody1.coord.x - rBody2.coord.x) ** 2 + (rBody1.coord.y - rBody2.coord.y) ** 2);
 			if (d > rBody1.radius + rBody2.radius) { //? no intersections and outside
-				return false;			
+				return false;
 			}
 			else if (d + rBody1.radius >= rBody2.radius && d + rBody2.radius >= rBody1.radius) { //? intersection
 				let x1 = rBody1.coord.x, y1 = rBody1.coord.y, r1 = rBody1.radius;
@@ -94,7 +94,7 @@ export * from './src/raycast'
 		}
 		return hitPoints;
 	} */
-/* 
+/*
 function pointInPoly(point: Coord, vs: unknown) {
 	// pointInPoly algorithm from
 	// https://observablehq.com/@tmcw/understanding-point-in-polygon

@@ -21,11 +21,11 @@ export class Rect extends CnvDrawing {
 			Coord.sumXY(this.center, -deltaX, deltaY),
 		];
 	}
-	get perimeter() { return (this.size.height + this.size.width) * 2 }
-	get area() { return this.size.height * this.size.width }
-	get ratio() { return this.size.width / this.size.height }
+	get perimeter() { return (this.size.height + this.size.width) * 2; }
+	get area() { return this.size.height * this.size.width; }
+	get ratio() { return this.size.width / this.size.height; }
 
-	get isVisible() { return this.action != RenderAction.None && this.points.some(p => p.isVisible) }
+	get isVisible() { return this.action != RenderAction.None && this.points.some(p => p.isVisible); }
 
 	constructor(center: Coord, size: Size) {
 		super(RenderAction.Both, center);

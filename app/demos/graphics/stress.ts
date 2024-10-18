@@ -11,11 +11,11 @@ const radius = 10;
 const animate: FrameRequestCallback = async (timestamp: DOMHighResTimeStamp) => {
 	Time.update(timestamp);
 	MainCanvas.clean();
-	
+
 	Update();
 
 	requestAnimationFrame(animate);
-}
+};
 
 /**
  * This will be the main update function, where all the logic will be placed.
@@ -28,6 +28,6 @@ const Update = () => {
 		new Circle(MainCanvas.randomCoord(100), radius).render();
 	}
 	//#endregion Stress code
-}
+};
 
 animate(0);

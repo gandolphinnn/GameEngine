@@ -15,10 +15,10 @@ const animate: FrameRequestCallback = async (timestamp: DOMHighResTimeStamp) => 
 	GameObject.update();
 
 	requestAnimationFrame(animate);
-}
+};
 
 window.onload = () => {
 	Game.start();
 	GameObject.start();
 	animate(0);
-}
+};

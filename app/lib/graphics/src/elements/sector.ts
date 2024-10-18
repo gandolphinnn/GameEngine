@@ -9,24 +9,24 @@ export class CircleSector extends CnvDrawing {
 	end: Angle;
 	counterClockwise: boolean;
 
-	get theta() { return new Angle(this.counterClockwise? this.end.degrees - this.start.degrees: this.start.degrees - this.end.degrees) }
+	get theta() { return new Angle(this.counterClockwise? this.end.degrees - this.start.degrees: this.start.degrees - this.end.degrees); }
 
-	get diameter() { return this.radius * 2 }
-	set diameter(diameter: number) { this.radius = diameter / 2 }
-	
+	get diameter() { return this.radius * 2; }
+	set diameter(diameter: number) { this.radius = diameter / 2; }
+
 	get isVisible() {
 		return this.action != RenderAction.None
 			&& this.center.x >= -this.radius
 			&& this.center.y >= -this.radius
 			&& this.center.x <= MainCanvas.cnv.width + this.radius
-			&& this.center.y <= MainCanvas.cnv.height + this.radius
+			&& this.center.y <= MainCanvas.cnv.height + this.radius;
 	}
 
 	constructor(center: Coord, radius: number, start: Angle, end: Angle, counterClockwise = true) {
 		super(RenderAction.Both, center);
 		this.radius = radius;
-		this.start = start; 
-		this.end = end; 
+		this.start = start;
+		this.end = end;
 		this.counterClockwise = counterClockwise;
 	}
 	render(drawPoints = false) {
@@ -34,10 +34,10 @@ export class CircleSector extends CnvDrawing {
 			MainCanvas.ctx.beginPath();
 			MainCanvas.ctx.arc(this.center.x, this.center.y, this.radius, this.start.radians, this.end.radians, this.counterClockwise);
 			MainCanvas.ctx.lineTo(this.center.x, this.center.y);
-			MainCanvas.ctx.closePath()
+			MainCanvas.ctx.closePath();
 			this.execAction();
 		});
-		if(drawPoints) this.drawPoints();
+		if(drawPoints) {this.drawPoints();}
 		return this;
 	}
 }

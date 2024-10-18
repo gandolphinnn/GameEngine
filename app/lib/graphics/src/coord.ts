@@ -11,7 +11,7 @@ export class Coord {
 		return this.x >= 0
 			&& this.y >= 0
 			&& this.x <= MainCanvas.cnv.width
-			&& this.y <= MainCanvas.cnv.height
+			&& this.y <= MainCanvas.cnv.height;
 	}
 
 	constructor(
@@ -23,7 +23,7 @@ export class Coord {
 	/**
 	 * Return a new Coord with the same x and y
 	 */
-	copy() { return new Coord(this.x, this.y) }
+	copy() { return new Coord(this.x, this.y); }
 
 	/**
 	 * Sum x/y to THIS coordinate
@@ -49,7 +49,7 @@ export class Coord {
 								.setFillStyle(Color.byName('Black'))
 								.render();
 	}
-	
+
 	/**
 	 * Get a default coordinate (0, 0)
 	 */
@@ -65,7 +65,7 @@ export class Coord {
 	 * Get a new coordinate with the sum of x/y
 	 */
 	static sumXY(coord: Coord, x: number, y: number) {
-		return new Coord(coord.x + x, coord.y + y)
+		return new Coord(coord.x + x, coord.y + y);
 	}
 
 	/**
@@ -93,7 +93,7 @@ export class Coord {
 	 * The width/height size of an area defined by multiple points
 	 */
 	static size(...coords: Coord[]) {
-		const pivoted: { x: number[], y: number[] } = arrPivot(coords);	
+		const pivoted: { x: number[], y: number[] } = arrPivot(coords);
 		const cMax = new Coord(Math.max(...pivoted.x), Math.max(...pivoted.y));
 		const cMin = new Coord(Math.min(...pivoted.x), Math.min(...pivoted.y));
 		return {width: Math.abs(cMax.x - cMin.x), height: Math.abs(cMax.y - cMin.y)} as Size;

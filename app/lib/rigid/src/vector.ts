@@ -1,11 +1,11 @@
-import { AppSettings, Time } from '@gandolphinnn/shared'
-import { Coord, Angle, Line, Color } from '@gandolphinnn/graphics'
+import { AppSettings, Time } from '@gandolphinnn/shared';
+import { Coord, Angle, Line, Color } from '@gandolphinnn/graphics';
 
 export class Vector {
-	get forward() { return new Vector(this.coord, this.angle, this.strength) }
-	get backward() { return new Vector(this.coord, new Angle(this.angle.degrees + 180), this.strength) }
-	get leftward() { return new Vector(this.coord, new Angle(this.angle.degrees - 90), this.strength) }
-	get rightward() { return new Vector(this.coord, new Angle(this.angle.degrees + 90), this.strength) }
+	get forward() { return new Vector(this.coord, this.angle, this.strength); }
+	get backward() { return new Vector(this.coord, new Angle(this.angle.degrees + 180), this.strength); }
+	get leftward() { return new Vector(this.coord, new Angle(this.angle.degrees - 90), this.strength); }
+	get rightward() { return new Vector(this.coord, new Angle(this.angle.degrees + 90), this.strength); }
 
 	/**
 	 * Get the vector's coordinate in the next fixed update
@@ -14,9 +14,9 @@ export class Vector {
 		return new Coord(
 			this.coord.x + this.angle.cos * this.strength,
 			this.coord.y + this.angle.sin * this.strength
-		)
+		);
 	}
-	
+
 	/**
 	 * Get the vector's coordinate in the next frame
 	 */
@@ -24,9 +24,9 @@ export class Vector {
 		return new Coord(
 			this.coord.x + this.angle.cos * (this.strength / AppSettings.VECTOR_STRENGTH_PIXEL_RATIO) * (Time.deltaTime * AppSettings.DELTATIME_MULTIPLIER),
 			this.coord.y + this.angle.sin * (this.strength / AppSettings.VECTOR_STRENGTH_PIXEL_RATIO) * (Time.deltaTime * AppSettings.DELTATIME_MULTIPLIER)
-		)
+		);
 	}
-	
+
 	constructor(
 		public coord: Coord,
 		public angle: Angle,
@@ -80,14 +80,14 @@ export class Vector {
 		this.render(ignoreDT, color);
 
 		const vectorCoord = ignoreDT? this.fixedCoord : this.updateCoord;
-		let headAngle1 = new Angle(this.angle.degrees +180 + AppSettings.VECTOR_ARROW_HEAD_ANGLE);
+		const headAngle1 = new Angle(this.angle.degrees +180 + AppSettings.VECTOR_ARROW_HEAD_ANGLE);
 		new Line([vectorCoord, new Coord(
 			vectorCoord.x + headAngle1.cos * AppSettings.DEBUG_VECTOR_ARROW_HEAD_LENGTH,
 			vectorCoord.y + headAngle1.sin * AppSettings.DEBUG_VECTOR_ARROW_HEAD_LENGTH
 		)]).mergeStrokeStyle(color)
 			.render();
-			
-		let headAngle2 = new Angle(this.angle.degrees + 180 - AppSettings.VECTOR_ARROW_HEAD_ANGLE);
+
+		const headAngle2 = new Angle(this.angle.degrees + 180 - AppSettings.VECTOR_ARROW_HEAD_ANGLE);
 		new Line([vectorCoord, new Coord(
 			vectorCoord.x + headAngle2.cos * AppSettings.DEBUG_VECTOR_ARROW_HEAD_LENGTH,
 			vectorCoord.y + headAngle2.sin * AppSettings.DEBUG_VECTOR_ARROW_HEAD_LENGTH
@@ -95,11 +95,11 @@ export class Vector {
 			.render();
 	}
 
-	static up(coord = Coord.origin, strength = 0) { return new Vector(coord, Angle.up(), strength) }
-	static down(coord = Coord.origin, strength = 0) { return new Vector(coord, Angle.down(), strength) }
-	static left(coord = Coord.origin, strength = 0) { return new Vector(coord, Angle.left(), strength) }
-	static right(coord = Coord.origin, strength = 0) { return new Vector(coord, Angle.right(), strength) }
-	static random(strenth = 0) { return new Vector(Coord.random(), Angle.random(), strenth) }
+	static up(coord = Coord.origin, strength = 0) { return new Vector(coord, Angle.up(), strength); }
+	static down(coord = Coord.origin, strength = 0) { return new Vector(coord, Angle.down(), strength); }
+	static left(coord = Coord.origin, strength = 0) { return new Vector(coord, Angle.left(), strength); }
+	static right(coord = Coord.origin, strength = 0) { return new Vector(coord, Angle.right(), strength); }
+	static random(strenth = 0) { return new Vector(Coord.random(), Angle.random(), strenth); }
 
 	/**
 	 * Get the sum of all vectors

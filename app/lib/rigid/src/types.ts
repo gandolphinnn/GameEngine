@@ -1,5 +1,5 @@
-import { Mouse } from '@gandolphinnn/inputs'
-import { Collision } from '..'
+import { Mouse } from '@gandolphinnn/inputs';
+import { Collision } from '..';
 
 export enum ERigidBodyEvent {
 	onCollisionEnter,

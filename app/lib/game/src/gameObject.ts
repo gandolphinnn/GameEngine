@@ -11,28 +11,28 @@ export abstract class GameObject implements GameCycle {
 		this._rigidBody = value;
 	}
 
-	get vector() { return this.rigidBody.vector }
+	get vector() { return this.rigidBody.vector; }
 
 	/**
 	 * Get the vector's coordinate in the next frame
 	 */
-	get vectorCoord() { return this.vector.updateCoord }
+	get vectorCoord() { return this.vector.updateCoord; }
 
-	get coord() { return this.vector.coord }
-	set coord(coord: Coord) { this.vector.coord.moveTo(coord) }
+	get coord() { return this.vector.coord; }
+	set coord(coord: Coord) { this.vector.coord.moveTo(coord); }
 
-	get angle() { return this.vector.angle }
-	set angle(angle: Angle) { this.vector.angle.degrees = angle.degrees }
+	get angle() { return this.vector.angle; }
+	set angle(angle: Angle) { this.vector.angle.degrees = angle.degrees; }
 
-	get strength() { return this.vector.strength }
-	set strength(strength: number) { this.vector.strength = strength }
+	get strength() { return this.vector.strength; }
+	set strength(strength: number) { this.vector.strength = strength; }
 
 	private _events: Map<ERigidBodyEvent, CollisionEvent> = null;
 	public get events(): Map<ERigidBodyEvent, CollisionEvent> {
 		if (this._events === null) {
 			this._events = new Map();
 			const asAny = this as any;
-			for (let event in ERigidBodyEvent) {
+			for (const event in ERigidBodyEvent) {
 				if (typeof asAny[event] === 'function') {
 					this._events.set(ERigidBodyEvent[event as keyof typeof ERigidBodyEvent], asAny[event]);
 				}
@@ -67,7 +67,7 @@ export abstract class GameObject implements GameCycle {
 			go.rigidBody.Start();
 		});
 	}
-	
+
 	static update() {
 		GameObject.gameObjects.forEach(go => {
 			go.Update();

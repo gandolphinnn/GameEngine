@@ -5,10 +5,10 @@ export class Button extends InputTimer {
 	private _state: BtnState;
 	get state() {
 		if (this.elapsed >= AppSettings.MS_DELAY_BTN_DOWN && (this._state == BtnState.Down || this._state == BtnState.Dbl))
-			this._state = BtnState.Hold;
+			{this._state = BtnState.Hold;}
 
 		if (this.elapsed >= AppSettings.MS_DELAY_BTN_UP && this._state == BtnState.Released)
-			this._state = BtnState.Up;
+			{this._state = BtnState.Up;}
 
 		return this._state;
 	}
@@ -24,7 +24,7 @@ export class Button extends InputTimer {
 		super();
 		this.state = BtnState.Up;
 	}
-	
+
 	toggle(newState: BtnState.Up | BtnState.Down) {
 		const currentState = this.state; //? MUST PICK the getter
 		if (EVENT_BTNSTATE[newState].indexOf(currentState) != -1) { //? If the new State is similar to the current state (like released and up)

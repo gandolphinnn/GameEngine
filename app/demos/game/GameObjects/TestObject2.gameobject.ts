@@ -10,7 +10,7 @@ class TestObject2Mesh extends Circle {
 		super(
 			center,
 			radius
-		)
+		);
 		this.setAction(RenderAction.Fill).setFillStyle(Color.random());
 	}
 }
@@ -25,15 +25,15 @@ class TestObject2Body extends RigidCircle {
 			vector,
 			radius,
 			mass
-		)
+		);
 	}
 }
 
 export class TestObject2 extends GameObject implements OnCollisionEnter {
 
-	get rigidCircle() { return this.rigidBody as RigidCircle }
-	get radius() { return this.rigidCircle.radius }
-	set radius(value: number) { this.rigidCircle.radius = value; (this.cnvElement as Circle).radius = value }
+	get rigidCircle() { return this.rigidBody as RigidCircle; }
+	get radius() { return this.rigidCircle.radius; }
+	set radius(value: number) { this.rigidCircle.radius = value; (this.cnvElement as Circle).radius = value; }
 
 	constructor(
 		radius: number,
@@ -43,7 +43,7 @@ export class TestObject2 extends GameObject implements OnCollisionEnter {
 		super(
 			new TestObject2Mesh(vector.coord, radius),
 			new TestObject2Body(vector, radius)
-		)
+		);
 		this.rigidBody.setLayerMask(LayerMask.get('Test'));
 	}
 
@@ -58,7 +58,7 @@ export class TestObject2 extends GameObject implements OnCollisionEnter {
 	onCollisionEnter: CollisionEvent = (collision: Collision) => {
 		this.drawCollision(collision);
 		this.bounceOffSurface(collision);
-	}
+	};
 	/* onCollisionStay: CollisionEvent = (collision: Collision) => {
 		this.drawCollision(collision);
 	}
@@ -69,7 +69,7 @@ export class TestObject2 extends GameObject implements OnCollisionEnter {
 	private bounceOffSurface(collision: Collision) {
 		const collisionCenter = Coord.center(...collision.contacts);
 		const angle = Vector.fromAtoB(this.vector.coord, collisionCenter).angle;
-		if (Number.isNaN(angle.degrees)) return;
+		if (Number.isNaN(angle.degrees)) {return;}
 		angle.degrees += 90;
 		this.vector.bounce(angle);
 		this.cnvElement.setFillStyle(Color.random());

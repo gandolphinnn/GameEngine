@@ -68,7 +68,7 @@ export class Time {
 		this.frameCount++;
 		this.fpsCount++;
 		this.fpsInterval = this.timestamp - this.fpsTime;
-		
+
 		//? Update the FPS value if the time interval is greater than the update interval
 		if (this.fpsInterval > this.fpsUpdateInterval) {
 			this.fps = Math.round(this.fpsCount / (this.fpsInterval / 1000));
@@ -81,7 +81,7 @@ export class Time {
 		console.table({
 			...AppSettings.TIME_DEBUG_PARAMS.reduce((acc: any, prop) => {
 				const asAny = this as any;
-				if (typeof asAny[prop] === 'function') return acc;
+				if (typeof asAny[prop] === 'function') {return acc;}
 
 				acc[prop] = parseFloat(asAny[prop].toFixed(4));
 				return acc;
@@ -93,7 +93,7 @@ export class Time {
 		t.style.mergeTextAlign('left').mergeFont('12px Arial').mergeFillStyle(Color.byName('Black'));
 		AppSettings.TIME_DEBUG_PARAMS.forEach(prop => {
 			const asAny = this as any;
-			if (typeof asAny[prop] === 'function') return;
+			if (typeof asAny[prop] === 'function') {return;}
 			t.content = `${prop}: ${parseFloat(asAny[prop].toFixed(4))}`;
 			t.moveBy(0, 15);
 			t.render();

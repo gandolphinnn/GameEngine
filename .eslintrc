@@ -14,25 +14,39 @@
 			},
 			{
 				"selector": "variable",
-				"format": ["camelCase"],
-				"leadingUnderscore": "allow"
-			},
-			{
-				"selector": "variable",
-				"modifiers": ["const"],
+				"modifiers": ["const", "exported"],
 				"format": ["UPPER_CASE"],
 				"leadingUnderscore": "allow"
 			},
 			{
-				"selector": "classMethod",
+				"selector": ["classProperty"],
+				"modifiers": ["readonly"],
+				"format": ["camelCase", "UPPER_CASE"],
+				"leadingUnderscore": "allow"
+			},
+			{
+				"selector": ["accessor"],
+				"format": ["camelCase", "UPPER_CASE"],
+				"leadingUnderscore": "allow"
+			},
+			{
+				"selector": ["method", "typeLike", "function"], // ALL methods, functions and types
 				"format": ["PascalCase"]
 			},
 			{
-				"selector": "typeMethod",
-				"format": ["PascalCase"]
+				"selector": "objectLiteralProperty",
+				"format": ["PascalCase", "camelCase"]
 			},
 			{
-				"selector": "typeLike",
+				"selector": "objectLiteralProperty",
+				"format": null,
+				"custom": {
+					"regex": "^\\d+$",
+					"match": true
+				}
+			},
+			{
+				"selector": "enumMember",
 				"format": ["PascalCase"]
 			}
 		], */

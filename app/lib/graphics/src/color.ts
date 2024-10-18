@@ -3,10 +3,10 @@ import { AppSettings } from '@gandolphinnn/shared';
 import { ColorName, RGBA } from '..';
 
 //#region System constants
-const HEX_LONG_PATTERN = /^\#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
-const HEX_SHORT_PATTERN = /^\#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])$/
-const RGB_PATTERN = /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/
-const RGBA_PATTERN = /^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})(?:,\s*([01](?:\.\d+)?)\))?$/
+const HEX_LONG_PATTERN = /^\#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/;
+const HEX_SHORT_PATTERN = /^\#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])$/;
+const RGB_PATTERN = /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/;
+const RGBA_PATTERN = /^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})(?:,\s*([01](?:\.\d+)?)\))?$/;
 export const COLORNAME_RGBA: Readonly<Record<ColorName, Readonly<RGBA>>> = Object.freeze({
 	'AliceBlue':			{red: 240,	green: 248,	blue: 255,	alpha: 1},
 	'AntiqueWhite':			{red: 250,	green: 235,	blue: 215,	alpha: 1},
@@ -158,21 +158,21 @@ export class Color {
 	blue: number;
 	alpha: number;
 
-	get hexStr() { return `#${decToHex(this.red)}${decToHex(this.green)}${decToHex(this.blue)}` }
-	get rgbaStr() { return `rgba(${this.red},${this.green},${this.blue},${this.alpha})` }
-	get rgbaObj() { return {red: this.red, green: this.green, blue: this.blue, alpha: this.alpha} as RGBA }
+	get hexStr() { return `#${decToHex(this.red)}${decToHex(this.green)}${decToHex(this.blue)}`; }
+	get rgbaStr() { return `rgba(${this.red},${this.green},${this.blue},${this.alpha})`; }
+	get rgbaObj() { return {red: this.red, green: this.green, blue: this.blue, alpha: this.alpha} as RGBA; }
 
 	private constructor(rgba: RGBA, alpha?: number) {
 		let newRGBA = {...rgba} as RGBA;
-		newRGBA.alpha = coalesce(alpha, newRGBA.alpha)
-		newRGBA = clampRGBA(newRGBA);		
+		newRGBA.alpha = coalesce(alpha, newRGBA.alpha);
+		newRGBA = clampRGBA(newRGBA);
 		this.red = newRGBA.red;
 		this.green = newRGBA.green;
 		this.blue = newRGBA.blue;
 		this.alpha = newRGBA.alpha;
 	}
 	static byObj(rgba: RGBA, alpha?: number) {
-		return new Color(rgba, alpha)
+		return new Color(rgba, alpha);
 	}
 	static byName(colorName: ColorName, alpha?: number) {
 		return this.byObj(COLORNAME_RGBA[colorName], alpha);
@@ -181,7 +181,7 @@ export class Color {
 		return this.byObj(parseRGBA(string), alpha);
 	}
 	static byValues(red: number, green: number, blue: number, alpha?: number) {
-		return this.byObj({red: red, green: green, blue: blue, alpha: alpha})
+		return this.byObj({red: red, green: green, blue: blue, alpha: alpha});
 	}
 	static default() {
 		return this.byObj(AppSettings.COLOR_RGBA);
@@ -202,8 +202,8 @@ export function clampRGBA(rgba: RGBA) {
  */
 export function parseRGBA(str: string) {
 	//? try to parse with every pattern
-	let match = coalesce(str.match(RGBA_PATTERN), str.match(RGB_PATTERN), str.match(HEX_LONG_PATTERN), str.match(HEX_SHORT_PATTERN)) as RegExpMatchArray;
-	
+	const match = coalesce(str.match(RGBA_PATTERN), str.match(RGB_PATTERN), str.match(HEX_LONG_PATTERN), str.match(HEX_SHORT_PATTERN)) as RegExpMatchArray;
+
 	if (!match) {
 		return null;
 	}

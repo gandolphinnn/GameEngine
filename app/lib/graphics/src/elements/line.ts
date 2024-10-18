@@ -9,7 +9,7 @@ export class Line extends CnvDrawing {
 		return Coord.distance(this.points[0], this.points[1]);
 	}
 
-	get isVisible() { return this.action != RenderAction.None && this.points.some(p => p.isVisible) }
+	get isVisible() { return this.action != RenderAction.None && this.points.some(p => p.isVisible); }
 
 	constructor(points: [Coord, Coord]) {
 		super(RenderAction.Stroke, Coord.center(...points));
@@ -18,12 +18,12 @@ export class Line extends CnvDrawing {
 	/**
 	 * return a NEW COORD based on the 2 points
 	 */
-	get center() { return Coord.center(...this.points)}
+	get center() { return Coord.center(...this.points);}
 	set center(center: Coord) {
-		const diff = Coord.difference(center, this.center)
+		const diff = Coord.difference(center, this.center);
 		this._center = center;
-		this.points[0].sumXY(diff.x, diff.y)
-		this.points[1].sumXY(diff.x, diff.y)
+		this.points[0].sumXY(diff.x, diff.y);
+		this.points[1].sumXY(diff.x, diff.y);
 	}
 	render(drawPoints = false) {
 		MainCanvas.draw(this.style, () => {
@@ -32,7 +32,7 @@ export class Line extends CnvDrawing {
 			MainCanvas.ctx.lineTo(this.points[1].x, this.points[1].y);
 			this.execAction();
 		});
-		if(drawPoints) this.drawPoints(this.points);
+		if(drawPoints) {this.drawPoints(this.points);}
 		return this;
 	}
 }

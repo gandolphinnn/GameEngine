@@ -9,7 +9,7 @@ class TestObject1Mesh extends Poly {
 	) {
 		super(
 			points
-		)
+		);
 	}
 }
 
@@ -21,7 +21,7 @@ class TestObject1Body extends RigidPoly {
 		super(
 			Vector.down(center),
 			points
-		)
+		);
 	}
 }
 
@@ -30,9 +30,9 @@ export class TestObject1 extends GameObject implements OnCollisionEnter {
 
 	private _trail: Coord[] = [];
 
-	get rigidCircle() { return this.rigidBody as RigidCircle }
-	get radius() { return this.rigidCircle.radius }
-	set radius(value: number) { this.rigidCircle.radius = value; (this.cnvElement as Circle).radius = value }
+	get rigidCircle() { return this.rigidBody as RigidCircle; }
+	get radius() { return this.rigidCircle.radius; }
+	set radius(value: number) { this.rigidCircle.radius = value; (this.cnvElement as Circle).radius = value; }
 
 	constructor(
 		points: Coord[]
@@ -41,7 +41,7 @@ export class TestObject1 extends GameObject implements OnCollisionEnter {
 		super(
 			new TestObject1Mesh(points),
 			new TestObject1Body(center, points)
-		)
+		);
 		this.rigidBody.setLayerMask(LayerMask.get('Test'));
 	}
 
@@ -66,9 +66,8 @@ export class TestObject1 extends GameObject implements OnCollisionEnter {
 		this._trail.forEach(p => {
 			p.render();
 		});
-		
 	}
 	onCollisionEnter: CollisionEvent = (collision: Collision) => {
 		console.log('onCollisionEnter', collision);
-	}
+	};
 }

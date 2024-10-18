@@ -12,7 +12,7 @@ export enum ECollisionResult {
 }
 
 /**
- * 
+ *
  */
 export class Collision {
 
@@ -20,7 +20,7 @@ export class Collision {
 	 * The detailed result of the collision
 	 */
 	public result: ECollisionResult = ECollisionResult.NoCollision;
-	
+
 	/**
 	 * The inner rigid body. Has values only if the bodies are one inside the other
 	 */
@@ -107,7 +107,7 @@ export class Collision {
 
 	public snap(body: RigidBody) {
 		if (this.contactCenter) {
-			
+
 		}
 	}
 
@@ -121,7 +121,7 @@ export class Collision {
 
 	private parseClassType(body: RigidBody): 'Circle' | 'Line' | 'Poly' {
 		const name = className(body);
-		const classes = ['RigidCircle', 'RigidLine', 'RigidPoly'];	
+		const classes = ['RigidCircle', 'RigidLine', 'RigidPoly'];
 		if (classes.includes(name)) {
 			return name.replace('Rigid', '') as 'Circle' | 'Line' | 'Poly';
 		}
@@ -136,12 +136,12 @@ export class Collision {
 		const distance = Coord.distance(body1.vector.coord, body2.vector.coord);
 		const x1 = body1.coord.x, y1 = body1.coord.y, r1 = body1.radius;
 		const x2 = body2.coord.x, y2 = body2.coord.y, r2 = body2.radius;
-		
+
 		//* No collision
 		if (distance > r1 + r2) {
-			return ECollisionResult.NoCollision;	
+			return ECollisionResult.NoCollision;
 		}
-		
+
 
 		//* Overlap check
 		if (distance == 0 && r1 == r2) {
@@ -157,7 +157,7 @@ export class Collision {
 
 		const contact1 = new Coord(len_dist * (x2 - x1) + hei_dist * (y2 - y1) + x1, len_dist * (y2 - y1) - hei_dist * (x2 - x1) + y1);
 		const contact2 = new Coord(len_dist * (x2 - x1) - hei_dist * (y2 - y1) + x1, len_dist * (y2 - y1) + hei_dist * (x2 - x1) + y1);
-		
+
 		this.contacts.push(contact1);
 
 		if (Coord.distance(contact1, contact2) > 0) {

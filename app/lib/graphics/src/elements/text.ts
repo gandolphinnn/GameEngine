@@ -5,7 +5,7 @@ import { MainCanvas, Style, SubStyle, Size, Coord, Angle, RenderAction, CnvEleme
 export class Text extends CnvElement {
 	content: string;
 
-	get isVisible() { return this.action != RenderAction.None }
+	get isVisible() { return this.action != RenderAction.None; }
 
 	constructor(center: Coord, content: string) {
 		super(RenderAction.Fill, center);
@@ -19,8 +19,8 @@ export class Text extends CnvElement {
 			if (this.action == RenderAction.Both || this.action == RenderAction.Stroke) {
 				MainCanvas.ctx.strokeText(this.content, this.center.x, this.center.y);
 			}
-		})
-		if(drawPoints) this.drawPoints();
+		});
+		if(drawPoints) {this.drawPoints();}
 		return this;
 	}
 }

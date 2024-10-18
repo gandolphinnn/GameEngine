@@ -12,11 +12,11 @@ export class LayerMask {
 
 	static get(name: string) {
 		const layerMask = LayerMask._layerMasks.find(l => l.name == name);
-		if (layerMask) return layerMask;
+		if (layerMask) {return layerMask;}
 
 		const newLayerMask = new LayerMask(name);
 		LayerMask._layerMasks.push(newLayerMask);
 		return newLayerMask;
 	}
-	static get default() { return new LayerMask('Default') }
+	static get default() { return new LayerMask('Default'); }
 }

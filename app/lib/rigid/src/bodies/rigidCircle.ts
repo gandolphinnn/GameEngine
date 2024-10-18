@@ -1,11 +1,11 @@
-import { CnvElement, Circle } from '@gandolphinnn/graphics'
+import { CnvElement, Circle } from '@gandolphinnn/graphics';
 import { RigidBody, Vector } from '../..';
 
 export class RigidCircle extends RigidBody {
 
 	protected cnvElement: CnvElement;
 
-	get center() { return this.vector.coord }
+	get center() { return this.vector.coord; }
 
 	constructor(
 		vector: Vector,
@@ -14,7 +14,7 @@ export class RigidCircle extends RigidBody {
 	) {
 		super(vector, mass);
 		this.radius = radius;
-		
+
 		this.cnvElement = new Circle(this.center, this.radius);
 	}
 
@@ -24,7 +24,7 @@ export class RigidCircle extends RigidBody {
 			return false;
 		}
 		else if(mathF.parentClass(rBody) == 'RigidCirc') {
-			
+
 		} */
 		return false;
 	}

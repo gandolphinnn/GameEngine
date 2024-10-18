@@ -1,15 +1,15 @@
 import { GameCycle } from '@gandolphinnn/shared';
-import { CnvElement } from '@gandolphinnn/graphics'
-import { GameObject } from '@gandolphinnn/game'
+import { CnvElement } from '@gandolphinnn/graphics';
+import { GameObject } from '@gandolphinnn/game';
 import { Collision, ERigidBodyEvent, LayerMask, Vector } from '../..';
 
 export abstract class RigidBody implements GameCycle {
-	
+
 	public gameObject: GameObject;
 	public layerMask = LayerMask.default;
 
-	get coord() { return this.vector.coord }
-	get angle() { return this.vector.angle }
+	get coord() { return this.vector.coord; }
+	get angle() { return this.vector.angle; }
 
 	constructor(
 		public vector = Vector.up(),
@@ -46,14 +46,14 @@ export abstract class RigidBody implements GameCycle {
 	 * ```
 	 */
 	static readonly collisionMap = new Map<RigidBody, RigidBody>();
-	
+
 	private static _rigidBodies: RigidBody[] = [];
-	static get rigidBodies() { return Object.freeze(this._rigidBodies) }
+	static get rigidBodies() { return Object.freeze(this._rigidBodies); }
 
 	static getByLayerMask(layerMask = LayerMask.default) {
-		return this.rigidBodies.filter(rBody => rBody.layerMask == layerMask );
+		return this.rigidBodies.filter(rBody => rBody.layerMask == layerMask);
 	}
-	
+
 	static update() {
 		LayerMask.layerMasks.forEach(layerMask => {
 			const bodies = this.getByLayerMask(layerMask);
@@ -63,13 +63,13 @@ export abstract class RigidBody implements GameCycle {
 					const goA = bodyA.gameObject;
 					const bodyB = bodies[j];
 					const goB = bodyB.gameObject;
-			
+
 					if (goA.events.size == 0 || goB.events.size == 0) {
 						continue;
 					}
 
 					const areAlreadyColliding = this.collisionMap.get(bodyA) == bodyB || this.collisionMap.get(bodyB) == bodyA;
-					
+
 					const collision = new Collision(bodyA, bodyB);
 					const isColliding = collision.doCollide;
 

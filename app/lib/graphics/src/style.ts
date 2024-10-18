@@ -3,17 +3,17 @@ import { Color, SubStyle } from '..';
 
 /**
  * Defines the style of a CnvElement.
- * 
+ *
  * ### Text Alignment
  * @warning the textAlign property is counter-intuitive in plain JavaScript:
  * "left" means the center is just to the left of the text
- * 
+ *
  * ### SubStyle
  * A SubStyle is a Color, CanvasGradient or CanvasPattern.
  * Is used to define the fillStyle and strokeStyle properties.
- * 
+ *
  * For conversion to and from CanvasRenderingContext2D valid values, use the fillStyleVal and strokeStyleVal properties.
- * 
+ *
  * ### Merge Methods
  * "set" methods just set the property, while "merge" methods will perform merging logic:
  * - UNDEFINED is for not specified values, so nothing will be changed
@@ -21,19 +21,19 @@ import { Color, SubStyle } from '..';
  * - A valid value will be set normally
  */
 export class Style {
-	fillStyle?: SubStyle
-	strokeStyle?: SubStyle
-	lineWidth?: number
+	fillStyle?: SubStyle;
+	strokeStyle?: SubStyle;
+	lineWidth?: number;
 	/**
 	 * @warning "left" means the center is just to the left of the text
 	*/
-	textAlign?: CanvasTextAlign
-	font?: string
+	textAlign?: CanvasTextAlign;
+	font?: string;
 
-	get fillStyleVal() { return Style.subStyleToValue(this.fillStyle) }
-	set fillStyleVal(subStyleValue: string | CanvasGradient | CanvasPattern) { this.fillStyle = Style.valueToSubStyle(subStyleValue) }
-	get strokeStyleVal() { return Style.subStyleToValue(this.strokeStyle) }
-	set strokeStyleVal(subStyleValue: string | CanvasGradient | CanvasPattern) { this.strokeStyle = Style.valueToSubStyle(subStyleValue) }
+	get fillStyleVal() { return Style.subStyleToValue(this.fillStyle); }
+	set fillStyleVal(subStyleValue: string | CanvasGradient | CanvasPattern) { this.fillStyle = Style.valueToSubStyle(subStyleValue); }
+	get strokeStyleVal() { return Style.subStyleToValue(this.strokeStyle); }
+	set strokeStyleVal(subStyleValue: string | CanvasGradient | CanvasPattern) { this.strokeStyle = Style.valueToSubStyle(subStyleValue); }
 
 	constructor(fillStyle?: SubStyle, strokeStyle?: SubStyle, lineWidth?: number, textAlign?: CanvasTextAlign, font?: string) {
 		this.fillStyle = fillStyle;
@@ -108,7 +108,7 @@ export class Style {
 		return style.reduce(
 			(acc, curr) => acc.mergeWith(curr),
 			new Style()
-		)
+		);
 	}
 	static empty() {
 		return new Style();
@@ -122,7 +122,7 @@ export class Style {
 			AppSettings.FONT
 		);
 	}
-	
+
 	/**
 	 * If the style object is a Color, return its rgbaStr, otherwise return the object
 	 */
@@ -133,6 +133,6 @@ export class Style {
 	 * If the style object is a Color, return its rgbaStr, otherwise return the object
 	 */
 	static valueToSubStyle(value: string | CanvasGradient | CanvasPattern): SubStyle {
-		return typeof value == 'string'? Color.byStr(value) : value;
+		return typeof value === 'string'? Color.byStr(value) : value;
 	}
 }

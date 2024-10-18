@@ -1,13 +1,13 @@
-import { Coord, Poly } from '@gandolphinnn/graphics'
+import { Coord, Poly } from '@gandolphinnn/graphics';
 import { RigidBody, RigidLine, Vector } from '../..';
 
 export class RigidPoly extends RigidBody {
 
 	cnvElement: Poly;
-	
+
 	lines: RigidLine[] = [];
 
-	get points() { return this.lines.map(line => line.points[0]) }
+	get points() { return this.lines.map(line => line.points[0]); }
 
 	constructor(
 		vector: Vector,
@@ -16,12 +16,12 @@ export class RigidPoly extends RigidBody {
 	) {
 		super(vector, mass);
 
-		if(points.length < 3) throw new Error('A polygon must have at least 3 points');
-		
+		if(points.length < 3) {throw new Error('A polygon must have at least 3 points');}
+
 		for (let i = 1; i < points.length; i++) {
 			this.lines.push(new RigidLine([points[i-1], points[i]]));
 		}
-		this.lines.push(new RigidLine([points.last(), points[0]]))
+		this.lines.push(new RigidLine([points.last(), points[0]]));
 
 		this.cnvElement = new Poly(points);
 	}
