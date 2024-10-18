@@ -1,5 +1,5 @@
 export interface GameCycle {
-	Start(): void;
-	Update(): void;
+	Start?(): void;
+	Update?(): void;
 	FixedUpdate?(): void;
 }

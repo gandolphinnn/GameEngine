@@ -31,7 +31,7 @@ function Sim2() {
 	//Vector.fromAtoB(MainCanvas.center, new Coord(300, 300)).render();
 }
 
-Game.start = () => {
+Game.Start = () => {
 	console.log(AppSettings.LINE_WIDTH);
 	console.log(GameSettings.LINE_WIDTH);
 	const SIMULATION_NUM: number = 2;
@@ -46,7 +46,7 @@ Game.start = () => {
 	}
 };
 
-Game.update = () => {
+Game.Update = () => {
 	MainCanvas.clean();
 	Time.showData();
 };

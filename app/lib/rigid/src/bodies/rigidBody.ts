@@ -18,7 +18,7 @@ export abstract class RigidBody implements GameCycle {
 		RigidBody._rigidBodies.push(this);
 	}
 
-	Start() {}
+	Start() { }
 	Update() {
 		this.vector.advance();
 	}
@@ -54,7 +54,8 @@ export abstract class RigidBody implements GameCycle {
 		return this.rigidBodies.filter(rBody => rBody.layerMask == layerMask);
 	}
 
-	static update() {
+	static Start() { }
+	static Update() {
 		LayerMask.layerMasks.forEach(layerMask => {
 			const bodies = this.getByLayerMask(layerMask);
 			for (let i = 0; i < bodies.length - 1; i++) {

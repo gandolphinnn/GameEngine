@@ -1,7 +1,7 @@
 import { Color, Coord, Text } from '@gandolphinnn/graphics';
-import { AppSettings } from '.';
+import { AppSettings, GameCycle } from '.';
 
-export class Time {
+export class Time implements GameCycle {
 	/**
 	 * The time difference between the current frame and the previous frame.
 	 * Multiply to this to get consistent results across different frame rates.
@@ -61,7 +61,7 @@ export class Time {
 	/**
 	 * Updates the time-related properties.
 	 */
-	static update(timestamp: DOMHighResTimeStamp) {
+	static Update(timestamp: DOMHighResTimeStamp) {
 		this.timestamp = timestamp;
 		this.deltaTime = (this.timestamp - this.lastFrameTime) / 1000 * this.timeScale;
 		this.lastFrameTime = this.timestamp;

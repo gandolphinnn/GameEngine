@@ -9,7 +9,7 @@ const radius = 10;
  * This will be the basic structure of the animation loop.
  */
 const animate: FrameRequestCallback = async (timestamp: DOMHighResTimeStamp) => {
-	Time.update(timestamp);
+	Time.Update(timestamp);
 	MainCanvas.clean();
 
 	update();

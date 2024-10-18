@@ -60,7 +60,7 @@ export abstract class GameObject implements GameCycle {
 		return GameObject._gameObjects;
 	}
 
-	static start() {
+	static Start() {
 		GameObject.gameObjects.forEach(go => {
 			go.Start();
 			go.cnvElement.Start();
@@ -68,7 +68,7 @@ export abstract class GameObject implements GameCycle {
 		});
 	}
 
-	static update() {
+	static Update() {
 		GameObject.gameObjects.forEach(go => {
 			go.Update();
 			go.cnvElement.Update();
