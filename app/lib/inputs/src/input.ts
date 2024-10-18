@@ -4,9 +4,9 @@ import { MainCanvas } from '@gandolphinnn/graphics';
 import { BtnCode, BtnState, Button, KeyCode, Mouse, PreventableCodes, WheelState } from '..';
 
 export class Input extends Singleton {
-	private static _Input: Singleton = new Input();
+	private static _input: Singleton = new Input();
 	private static get instance() {
-		return this._Input as Input;
+		return this._input as Input;
 	};
 
 	private _mouse = new Mouse();

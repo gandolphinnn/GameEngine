@@ -4,9 +4,9 @@ import { Color, ColorName, COLORNAME_RGBA, Style, Coord, Size, Circle, Line, Rec
 export class MainCanvas extends Singleton {
 
 	//#region Singleton boilerplate
-	private static _MainCanvas: Singleton = new MainCanvas();
+	private static _mainCanvas: Singleton = new MainCanvas();
 	private static get instance() {
-		return this._MainCanvas as MainCanvas;
+		return this._mainCanvas as MainCanvas;
 	};
 
 	_cnv: HTMLCanvasElement;

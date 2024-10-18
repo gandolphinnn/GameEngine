@@ -12,7 +12,7 @@ const animate: FrameRequestCallback = async (timestamp: DOMHighResTimeStamp) => 
 	Time.update(timestamp);
 	MainCanvas.clean();
 
-	Update();
+	update();
 
 	requestAnimationFrame(animate);
 };
@@ -20,7 +20,7 @@ const animate: FrameRequestCallback = async (timestamp: DOMHighResTimeStamp) => 
 /**
  * This will be the main update function, where all the logic will be placed.
  */
-const Update = () => {
+const update = () => {
 	Time.showData();
 
 	//#region Stress code

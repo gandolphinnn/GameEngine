@@ -5,7 +5,7 @@
 		"@typescript-eslint"
 	],
 	"rules": {
-		/* "@typescript-eslint/naming-convention": [
+		"@typescript-eslint/naming-convention": [
 			"error",
 			{
 				"selector": "default",
@@ -14,8 +14,8 @@
 			},
 			{
 				"selector": "variable",
-				"modifiers": ["const", "exported"],
-				"format": ["UPPER_CASE"],
+				"modifiers": ["const"],
+				"format": ["camelCase", "UPPER_CASE"],
 				"leadingUnderscore": "allow"
 			},
 			{
@@ -30,26 +30,22 @@
 				"leadingUnderscore": "allow"
 			},
 			{
-				"selector": ["method", "typeLike", "function"], // ALL methods, functions and types
+				"selector": ["typeLike"], // class, enum, interface, typeAlias, typeParameter
 				"format": ["PascalCase"]
 			},
 			{
-				"selector": "objectLiteralProperty",
+				"selector": ["method", "function"],
 				"format": ["PascalCase", "camelCase"]
 			},
 			{
 				"selector": "objectLiteralProperty",
-				"format": null,
-				"custom": {
-					"regex": "^\\d+$",
-					"match": true
-				}
+				"format": null
 			},
 			{
 				"selector": "enumMember",
 				"format": ["PascalCase"]
 			}
-		], */
+		],
 		"quotes": [							// single quotes
 			"error",
 			"single",
@@ -59,16 +55,16 @@
 			}
 		],
 		"curly": "warn",					// braces for control flow
-		"eqeqeq": "warn",					// strict equality
 		"no-throw-literal": "warn",			// throwing Error objects
 		"semi": "warn",						// semicolons
 		"no-trailing-spaces": "warn",		// no trailing spaces
 		"space-in-parens": "warn",			// spaces inside parentheses
 		"space-before-blocks": "warn",		// spaces before blocks
-		"no-unused-vars": "warn",			// no unused variables
 		"prefer-const": "warn",				// prefer const over let
-		"no-console": "warn",				// no console.log
 		"no-var": "error",					// no var keyword
+		//"no-unused-vars": "warn",			// no unused variables //Temp. disabled because lot of code is not done yet
+		//"no-console": "warn",				// no console.log
+		//"eqeqeq": "warn",					// strict equality
 	},
 	"ignorePatterns": [
 		"node_modules/",

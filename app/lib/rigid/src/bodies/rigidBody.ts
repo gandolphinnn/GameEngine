@@ -76,20 +76,20 @@ export abstract class RigidBody implements GameCycle {
 					if (!areAlreadyColliding && isColliding) {
 						this.collisionMap.set(bodyA, bodyB);
 						this.collisionMap.set(bodyB, bodyA);
-						goA.events.get(ERigidBodyEvent.onCollisionEnter)?.(collision);
-						goB.events.get(ERigidBodyEvent.onCollisionEnter)?.(collision);
+						goA.events.get(ERigidBodyEvent.OnCollisionEnter)?.(collision);
+						goB.events.get(ERigidBodyEvent.OnCollisionEnter)?.(collision);
 					}
 
 					else if (areAlreadyColliding && isColliding) {
-						goA.events.get(ERigidBodyEvent.onCollisionStay)?.(collision);
-						goB.events.get(ERigidBodyEvent.onCollisionStay)?.(collision);
+						goA.events.get(ERigidBodyEvent.OnCollisionStay)?.(collision);
+						goB.events.get(ERigidBodyEvent.OnCollisionStay)?.(collision);
 					}
 
 					else if (areAlreadyColliding && !isColliding) {
 						this.collisionMap.delete(bodyA);
 						this.collisionMap.delete(bodyB);
-						goA.events.get(ERigidBodyEvent.onCollisionLeave)?.(collision);
-						goB.events.get(ERigidBodyEvent.onCollisionLeave)?.(collision);
+						goA.events.get(ERigidBodyEvent.OnCollisionLeave)?.(collision);
+						goB.events.get(ERigidBodyEvent.OnCollisionLeave)?.(collision);
 					}
 				}
 			}

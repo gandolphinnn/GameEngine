@@ -2,12 +2,12 @@ import { Mouse } from '@gandolphinnn/inputs';
 import { Collision } from '..';
 
 export enum ERigidBodyEvent {
-	onCollisionEnter,
-	onCollisionStay,
-	onCollisionLeave,
-	onMouseEnter,
-	onMouseStay,
-	onMouseLeave
+	OnCollisionEnter,
+	OnCollisionStay,
+	OnCollisionLeave,
+	OnMouseEnter,
+	OnMouseStay,
+	OnMouseLeave
 }
 
 export type CollisionEvent = (collision: Collision) => void;

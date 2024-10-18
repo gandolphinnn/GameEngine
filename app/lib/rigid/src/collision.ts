@@ -63,36 +63,36 @@ export class Collision {
 			{ type: this.parseClassType(rBody2), body: rBody2 }
 		].sort((a, b) => a.type.localeCompare(b.type));
 
-		const collisionDetectorName = `${orderedResolver[0].type}_${orderedResolver[1].type}`;
+		const collisionDetectorName = `${orderedResolver[0].type}${orderedResolver[1].type}`;
 
 		switch (collisionDetectorName) {
-			case 'Circle_Circle':
-				this.result = this.Circle_Circle(
+			case 'CircleCircle':
+				this.result = this.CircleCircle(
 					orderedResolver[0].body as RigidCircle,
 					orderedResolver[1].body as RigidCircle
 				); break;
-			case 'Circle_Line':
-				this.result = this.Circle_Line(
+			case 'CircleLine':
+				this.result = this.CircleLine(
 					orderedResolver[0].body as RigidCircle,
 					orderedResolver[1].body as RigidLine
 				); break;
-			case 'Circle_Poly':
-				this.result = this.Circle_Poly(
+			case 'CirclePoly':
+				this.result = this.CirclePoly(
 					orderedResolver[0].body as RigidCircle,
 					orderedResolver[1].body as RigidPoly
 				); break;
-			case 'Line_Line':
-				this.result = this.Line_Line(
+			case 'LineLine':
+				this.result = this.LineLine(
 					orderedResolver[0].body as RigidLine,
 					orderedResolver[1].body as RigidLine
 				); break;
-			case 'Line_Poly':
-				this.result = this.Line_Poly(
+			case 'LinePoly':
+				this.result = this.LinePoly(
 					orderedResolver[0].body as RigidLine,
 					orderedResolver[1].body as RigidPoly
 				); break;
-			case 'Poly_Poly':
-				this.result = this.Poly_Poly(
+			case 'PolyPoly':
+				this.result = this.PolyPoly(
 					orderedResolver[0].body as RigidPoly,
 					orderedResolver[1].body as RigidPoly
 				); break;
@@ -132,7 +132,7 @@ export class Collision {
 	}
 
 //#region Collision detectors
-	private Circle_Circle(body1: RigidCircle, body2: RigidCircle): ECollisionResult {
+	private CircleCircle(body1: RigidCircle, body2: RigidCircle): ECollisionResult {
 		const distance = Coord.distance(body1.vector.coord, body2.vector.coord);
 		const x1 = body1.coord.x, y1 = body1.coord.y, r1 = body1.radius;
 		const x2 = body2.coord.x, y2 = body2.coord.y, r2 = body2.radius;
@@ -152,11 +152,11 @@ export class Collision {
 		const length = (r1**2 - r2**2 + distance**2) / (2*distance);
 		const height = Math.sqrt(r1**2 - length**2);
 
-		const len_dist = length / distance;
-		const hei_dist = height / distance;
+		const lenDist = length / distance;
+		const heiDist = height / distance;
 
-		const contact1 = new Coord(len_dist * (x2 - x1) + hei_dist * (y2 - y1) + x1, len_dist * (y2 - y1) - hei_dist * (x2 - x1) + y1);
-		const contact2 = new Coord(len_dist * (x2 - x1) - hei_dist * (y2 - y1) + x1, len_dist * (y2 - y1) + hei_dist * (x2 - x1) + y1);
+		const contact1 = new Coord(lenDist * (x2 - x1) + heiDist * (y2 - y1) + x1, lenDist * (y2 - y1) - heiDist * (x2 - x1) + y1);
+		const contact2 = new Coord(lenDist * (x2 - x1) - heiDist * (y2 - y1) + x1, lenDist * (y2 - y1) + heiDist * (x2 - x1) + y1);
 
 		this.contacts.push(contact1);
 
@@ -179,23 +179,23 @@ export class Collision {
 		return ECollisionResult.OuterCollision;
 	}
 
-	private Circle_Line(body1: RigidCircle, body2: RigidLine): ECollisionResult {
+	private CircleLine(body1: RigidCircle, body2: RigidLine): ECollisionResult {
 		return ECollisionResult.NoCollision;
 	}
 
-	private Circle_Poly(body1: RigidCircle, body2: RigidPoly): ECollisionResult {
+	private CirclePoly(body1: RigidCircle, body2: RigidPoly): ECollisionResult {
 		return ECollisionResult.NoCollision;
 	}
 
-	private Line_Line(body1: RigidLine, body2: RigidLine): ECollisionResult {
+	private LineLine(body1: RigidLine, body2: RigidLine): ECollisionResult {
 		return ECollisionResult.NoCollision;
 	}
 
-	private Line_Poly(body1: RigidLine, body2: RigidPoly): ECollisionResult {
+	private LinePoly(body1: RigidLine, body2: RigidPoly): ECollisionResult {
 		return ECollisionResult.NoCollision;
 	}
 
-	private Poly_Poly(body1: RigidPoly, body2: RigidPoly): ECollisionResult {
+	private PolyPoly(body1: RigidPoly, body2: RigidPoly): ECollisionResult {
 		return ECollisionResult.NoCollision;
 	}
 //#endregion Collision detectors
