@@ -3,9 +3,10 @@ import { KeyOfTime, RGBA } from '@gandolphinnn/graphics';
 import { PreventableCodes } from '@gandolphinnn/inputs';
 
 export class AppSettings extends Singleton {
+	protected static _override: AppSettings = null;
 	protected static _appSettings: Singleton = new AppSettings();
 	protected static get instance() {
-		return this._appSettings as AppSettings;
+		return this._override || this._appSettings as AppSettings;
 	}
 	protected constructor() {
 		super();

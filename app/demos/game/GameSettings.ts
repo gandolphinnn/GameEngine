@@ -10,6 +10,7 @@ export class GameSettings extends AppSettings {
 	}
 	protected constructor() {
 		super();
+		AppSettings._override = this;
 	}
 	//#endregion Boilerplate
 
