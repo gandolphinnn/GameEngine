@@ -1,7 +1,11 @@
 import { Color, Coord, Text } from '@gandolphinnn/graphics';
+import { RigidBody } from '@gandolphinnn/rigid';
+import { Game, GameObject } from '@gandolphinnn/game';
 import { AppSettings, GameCycle } from '.';
 
-export class Time implements GameCycle {
+export class Time {
+
+	//#region Attributes
 	/**
 	 * The time difference between the current frame and the previous frame.
 	 * Multiply to this to get consistent results across different frame rates.
@@ -21,7 +25,7 @@ export class Time implements GameCycle {
 	/**
 	 * The timestamp of the current frame.
 	 */
-	static timestamp: number = 0;
+	static timestamp: DOMHighResTimeStamp = 0;
 
 	/**
 	 * The total number of frames rendered.
@@ -57,11 +61,21 @@ export class Time implements GameCycle {
 	 * The number of FPS updates that have occurred.
 	 */
 	static fpsUpdateCount: number = 0;
+	//#endregion Attributes
 
+	//#region GameCycle
+	private static handler: NodeJS.Timeout =  null;
+	static Start() {
+		Game.Start();
+		GameObject.Start();
+
+		this.handler = setInterval(this.FixedUpdate, AppSettings.FIXED_UPDATE_MS);
+		this.Update(0);
+	}
 	/**
 	 * Updates the time-related properties.
 	 */
-	static Update(timestamp: DOMHighResTimeStamp) {
+	static Update: FrameRequestCallback = (timestamp: DOMHighResTimeStamp) => {
 		this.timestamp = timestamp;
 		this.deltaTime = (this.timestamp - this.lastFrameTime) / 1000 * this.timeScale;
 		this.lastFrameTime = this.timestamp;
@@ -76,7 +90,25 @@ export class Time implements GameCycle {
 			this.fpsCount = 0;
 			this.fpsUpdateCount++;
 		}
+
+		Game.Update();
+		GameObject.Update();
+
+		requestAnimationFrame(this.Update);
+	};
+	static FixedUpdate() {
+		Game.FixedUpdate();
+		RigidBody.FixedUpdate();
+		GameObject.FixedUpdate();
 	}
+	static Stop() {
+		clearInterval(this.handler);
+		Game.Stop();
+		GameObject.Stop();
+	}
+	//#endregion GameCycle
+
+	//#region Debugging
 	static logData() {
 		console.table({
 			...AppSettings.TIME_DEBUG_PARAMS.reduce((acc: any, prop) => {
@@ -99,4 +131,9 @@ export class Time implements GameCycle {
 			t.render();
 		});
 	}
+	//#endregion Debugging
 }
+
+window.onload = () => {
+	Time.Start();
+};

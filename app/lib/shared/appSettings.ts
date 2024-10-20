@@ -3,6 +3,8 @@ import { KeyOfTime, RGBA } from '@gandolphinnn/graphics';
 import { PreventableCodes } from '@gandolphinnn/inputs';
 
 export class AppSettings extends Singleton {
+
+	//#region Singleton boilerplate
 	protected static _appSettings: Singleton = new AppSettings();
 	protected static get instance() {
 		return this._appSettings as AppSettings;
@@ -10,6 +12,7 @@ export class AppSettings extends Singleton {
 	protected constructor() {
 		super();
 	}
+	//#endregion Singleton boilerplate
 
 	protected readonly _DEBUG: boolean = true;
 	protected readonly _FIXED_UPDATE_MS: number = 20;
@@ -39,7 +42,7 @@ export class AppSettings extends Singleton {
 	}
 
 	/**
-	 * Is the app in debug mode
+	 * The interval in milliseconds at which FixedUpdate should occur.
 	*/
 	public static get FIXED_UPDATE_MS(): number {
 		return this.instance._FIXED_UPDATE_MS;

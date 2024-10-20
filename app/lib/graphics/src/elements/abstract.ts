@@ -1,8 +1,7 @@
-import { overflow } from '@gandolphinnn/utils';
-import { GameCycle } from '@gandolphinnn/shared';
-import { MainCanvas, Style, SubStyle, Size, Coord, Angle, RenderAction, Line } from '../..';
+import { GraphicCycle } from '@gandolphinnn/shared';
+import { MainCanvas, Style, SubStyle, Coord, RenderAction } from '../..';
 
-export abstract class CnvElement implements GameCycle {
+export abstract class CnvElement implements GraphicCycle {
 	action: RenderAction;
 	zIndex = 0;
 	style: Style = Style.empty();
@@ -22,8 +21,11 @@ export abstract class CnvElement implements GameCycle {
 		this._center = center;
 	}
 
-	Start(): void {}
-	Update(): void { this.render(false);}
+	Start() {}
+	Update() {
+		this.render(false);
+	}
+	Stop() {}
 
 	moveBy(x: number, y: number) {
 		//? keep it like this to trigger the setter

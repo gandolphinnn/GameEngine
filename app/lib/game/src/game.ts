@@ -1,26 +1,22 @@
-import { RigidBody } from '@gandolphinnn/rigid';
-import { GameObject } from '..';
-import { GameCycle, Time } from '@gandolphinnn/shared';
+export class Game {
 
-export class Game implements GameCycle {
+	/**
+	 * Some code to run at the start of the game
+	 */
 	static Start() {};
+
+	/**
+	 * Some code to run every time a frame is rendered
+	 */
 	static Update() {};
+
+	/**
+	 * Some code to run at a fixed interval
+	 */
 	static FixedUpdate() {};
+
+	/**
+	 * Some code to run at the end of the game
+	 */
+	static Stop() {};
 }
-
-const animate: FrameRequestCallback = async (timestamp: DOMHighResTimeStamp) => {
-	Time.Update(timestamp);
-
-	Game.Update();
-	RigidBody.Update();
-	GameObject.Update();
-
-	requestAnimationFrame(animate);
-};
-
-window.onload = () => {
-	Game.Start();
-	RigidBody.Start();
-	GameObject.Start();
-	animate(0);
-};

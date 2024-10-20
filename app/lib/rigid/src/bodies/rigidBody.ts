@@ -1,9 +1,9 @@
-import { GameCycle } from '@gandolphinnn/shared';
+import { GameCycle, PhysicsCycle } from '@gandolphinnn/shared';
 import { CnvElement } from '@gandolphinnn/graphics';
 import { GameObject } from '@gandolphinnn/game';
 import { Collision, ERigidBodyEvent, LayerMask, Vector } from '../..';
 
-export abstract class RigidBody implements GameCycle {
+export abstract class RigidBody implements PhysicsCycle {
 
 	public gameObject: GameObject;
 	public layerMask = LayerMask.default;
@@ -18,10 +18,11 @@ export abstract class RigidBody implements GameCycle {
 		RigidBody._rigidBodies.push(this);
 	}
 
-	Start() { }
-	Update() {
+	Start() {}
+	FixedUpdate() {
 		this.vector.advance();
 	}
+	Stop() {}
 
 	render() {
 		this.cnvElement.render(false);
@@ -33,6 +34,7 @@ export abstract class RigidBody implements GameCycle {
 	}
 
 	//#region Abstract
+	//TODO does this make sense? maybe not...
 	protected abstract cnvElement: CnvElement;
 	//#endregion Abstract
 
@@ -54,8 +56,7 @@ export abstract class RigidBody implements GameCycle {
 		return this.rigidBodies.filter(rBody => rBody.layerMask == layerMask);
 	}
 
-	static Start() { }
-	static Update() {
+	static FixedUpdate() {
 		LayerMask.layerMasks.forEach(layerMask => {
 			const bodies = this.getByLayerMask(layerMask);
 			for (let i = 0; i < bodies.length - 1; i++) {
