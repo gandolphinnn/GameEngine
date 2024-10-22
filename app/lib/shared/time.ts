@@ -4,6 +4,24 @@ import { Game, GameObject } from '@gandolphinnn/game';
 import { AppSettings, GameCycle } from '.';
 
 export class Time {
+	//#region Fixed Attributes
+	static startTimestamp: DOMHighResTimeStamp = 0;
+	/**
+	 * The time difference between the current and the previous fixedUpdate.
+	 * Multiply to this to get consistent results across different fixedUpdate interval.
+	 */
+	static fixedDeltaTime: number = 0;
+
+	static fixedTimestamp: DOMHighResTimeStamp = 0;
+
+	static get fixedUpdateDelay(): number {
+		return AppSettings.FIXED_UPDATE_MS;
+	}
+
+	static get fixedUpdatesPerSecond(): number {
+		return 1000 / this.fixedUpdateDelay;
+	}
+	//#endregion Fixed Attributes
 
 	//#region Attributes
 	/**
@@ -64,18 +82,21 @@ export class Time {
 	//#endregion Attributes
 
 	//#region GameCycle
-	private static handler: NodeJS.Timeout =  null;
+	private static _fixedUpdateHandler: number =  null;
+	private static _updateHandler: number =  null;
 	static Start() {
 		Game.Start();
 		GameObject.Start();
 
-		this.handler = setInterval(this.FixedUpdate, AppSettings.FIXED_UPDATE_MS);
+		this.startTimestamp = performance.now();
+		this._fixedUpdateHandler = setInterval(this.FixedUpdate, this.fixedUpdateDelay);
 		this.Update(0);
 	}
+
 	/**
 	 * Updates the time-related properties.
 	 */
-	static Update: FrameRequestCallback = (timestamp: DOMHighResTimeStamp) => {
+	private static Update: FrameRequestCallback = (timestamp: DOMHighResTimeStamp) => {
 		this.timestamp = timestamp;
 		this.deltaTime = (this.timestamp - this.lastFrameTime) / 1000 * this.timeScale;
 		this.lastFrameTime = this.timestamp;
@@ -96,13 +117,19 @@ export class Time {
 
 		requestAnimationFrame(this.Update);
 	};
-	static FixedUpdate() {
+
+	private static FixedUpdate() {
+		this.fixedTimestamp = performance.now();
+		this.fixedDeltaTime = this.fixedUpdateDelay / 1000 * this.timeScale;
 		Game.FixedUpdate();
 		RigidBody.FixedUpdate();
 		GameObject.FixedUpdate();
 	}
+
 	static Stop() {
-		clearInterval(this.handler);
+		//? Stop the update loop
+		cancelAnimationFrame(this._updateHandler);
+		clearInterval(this._fixedUpdateHandler);
 		Game.Stop();
 		GameObject.Stop();
 	}

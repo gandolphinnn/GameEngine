@@ -32,8 +32,6 @@ function Sim2() {
 }
 
 Game.Start = () => {
-	console.log(AppSettings.LINE_WIDTH);
-	console.log(GameSettings.LINE_WIDTH);
 	const SIMULATION_NUM: number = 2;
 
 	switch (SIMULATION_NUM) {
