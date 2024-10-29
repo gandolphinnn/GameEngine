@@ -7,6 +7,7 @@ import { Game } from '@gandolphinnn/game';
 import { GameSettings } from './GameSettings';
 import { TestObject1 } from './GameObjects/TestObject1.gameobject';
 import { TestObject2 } from './GameObjects/TestObject2.gameobject';
+import { CycleDemo } from './cycle';
 
 function Sim1() {
 	//* For now limit to 1 object to test the correct order of the events
@@ -32,7 +33,7 @@ function Sim2() {
 }
 
 Game.Start = () => {
-	const SIMULATION_NUM: number = 2;
+	const SIMULATION_NUM: number = 3;
 
 	switch (SIMULATION_NUM) {
 		case 1:
@@ -40,6 +41,9 @@ Game.Start = () => {
 			break;
 		case 2:
 			Sim2();
+			break;
+		case 3:
+			CycleDemo();
 			break;
 	}
 };

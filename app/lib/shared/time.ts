@@ -4,9 +4,12 @@ import { Game, GameObject } from '@gandolphinnn/game';
 import { AppSettings, GameCycle } from '.';
 
 export class Time {
+	private static _playing: boolean = false;
+	static get playing() { return this._playing; }
+
 	//#region Fixed Attributes
 	static startTimestamp: DOMHighResTimeStamp = 0;
-	/**
+	/**w
 	 * The time difference between the current and the previous fixedUpdate.
 	 * Multiply to this to get consistent results across different fixedUpdate interval.
 	 */
@@ -82,15 +85,17 @@ export class Time {
 	//#endregion Attributes
 
 	//#region GameCycle
-	private static _fixedUpdateHandler: number =  null;
-	private static _updateHandler: number =  null;
+	private static _fixedUpdateHandler: ReturnType<typeof setInterval> =  null; //? setInterval return type may change depending on the node version
+
 	static Start() {
+		Time._playing = true;
 		Game.Start();
 		GameObject.Start();
 
 		this.startTimestamp = performance.now();
 		this._fixedUpdateHandler = setInterval(this.FixedUpdate, this.fixedUpdateDelay);
-		this.Update(0);
+		this.FixedUpdate();
+		requestAnimationFrame(this.Update);
 	}
 
 	/**
@@ -115,7 +120,9 @@ export class Time {
 		Game.Update();
 		GameObject.Update();
 
-		requestAnimationFrame(this.Update);
+		if (this.playing) {
+			requestAnimationFrame(this.Update);
+		}
 	};
 
 	private static FixedUpdate() {
@@ -127,9 +134,11 @@ export class Time {
 	}
 
 	static Stop() {
-		//? Stop the update loop
-		cancelAnimationFrame(this._updateHandler);
+		Time._playing = false;
+
+		//? Stop the fixedUpdate loop
 		clearInterval(this._fixedUpdateHandler);
+
 		Game.Stop();
 		GameObject.Stop();
 	}
