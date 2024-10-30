@@ -2,33 +2,6 @@ import { Angle, Circle, Color, Coord, MainCanvas, RenderAction } from '@gandolph
 import { Collision, CollisionEvent, LayerMask, OnCollisionEnter, RigidCircle, Vector } from '@gandolphinnn/rigid';
 import { GameObject } from '@gandolphinnn/game';
 
-class TestObject2Mesh extends Circle {
-	constructor(
-		center: Coord,
-		radius: number
-	) {
-		super(
-			center,
-			radius
-		);
-		this.setAction(RenderAction.Fill).setFillStyle(Color.random());
-	}
-}
-
-class TestObject2Body extends RigidCircle {
-	constructor(
-		vector: Vector,
-		radius: number,
-		mass = 0
-	) {
-		super(
-			vector,
-			radius,
-			mass
-		);
-	}
-}
-
 export class TestObject2 extends GameObject implements OnCollisionEnter {
 
 	get rigidCircle() { return this.rigidBody as RigidCircle; }
@@ -38,16 +11,15 @@ export class TestObject2 extends GameObject implements OnCollisionEnter {
 	constructor(
 		radius: number,
 		vector: Vector,
-		private ignoreColl = false
 	) {
 		super(
-			new TestObject2Mesh(vector.coord, radius),
-			new TestObject2Body(vector, radius)
+			new Circle(vector.coord, radius).setFillStyle(Color.random()),
+			new RigidCircle(vector, radius)
 		);
 		this.rigidBody.setLayerMask(LayerMask.get('Test'));
 	}
 
-	Update() {
+	FixedUpdate() {
 		if (this.vector.updateCoord.x > MainCanvas.cnv.width - this.radius || this.vector.updateCoord.x < this.radius) {
 			this.vector.bounce(new Angle(90));
 		}
@@ -56,6 +28,7 @@ export class TestObject2 extends GameObject implements OnCollisionEnter {
 		}
 	}
 	onCollisionEnter: CollisionEvent = (collision: Collision) => {
+		console.log('@TestObject2.gameobject.ts:58 ', collision);
 		this.drawCollision(collision);
 		this.bounceOffSurface(collision);
 	};

@@ -15,7 +15,7 @@ export class AppSettings extends Singleton {
 	//#endregion Singleton boilerplate
 
 	protected readonly _DEBUG: boolean = true;
-	protected readonly _FIXED_UPDATE_MS: number = 20;
+	protected readonly _FIXED_TIMESTEP_MS: number = 20;
 	protected readonly _COLOR_RGBA: RGBA = {red: 0, green: 0, blue: 0, alpha: 1};
 	protected readonly _FILL_STYLE: RGBA = {red: 0, green: 0, blue: 0, alpha: 1};
 	protected readonly _STROKE_STYLE: RGBA = {red: 0, green: 0, blue: 0, alpha: 1};
@@ -44,8 +44,8 @@ export class AppSettings extends Singleton {
 	/**
 	 * The interval in milliseconds at which FixedUpdate should occur.
 	*/
-	public static get FIXED_UPDATE_MS(): number {
-		return this.instance._FIXED_UPDATE_MS;
+	public static get FIXED_TIMESTEP_MS(): number {
+		return this.instance._FIXED_TIMESTEP_MS;
 	}
 	//#endregion System
 

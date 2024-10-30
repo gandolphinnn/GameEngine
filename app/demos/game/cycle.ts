@@ -53,7 +53,7 @@ class CycleObject extends GameObject {
 	}
 
 	Start(): void {
-		console.log(Time.fixedUpdateDelay);
+		console.log(Time.fixedTimeStepMs);
 	}
 
 	Update() {

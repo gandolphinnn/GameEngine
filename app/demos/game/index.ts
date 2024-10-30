@@ -33,7 +33,7 @@ function Sim2() {
 }
 
 Game.Start = () => {
-	const SIMULATION_NUM: number = 3;
+	const SIMULATION_NUM: number = 2;
 
 	switch (SIMULATION_NUM) {
 		case 1:

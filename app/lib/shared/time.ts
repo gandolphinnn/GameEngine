@@ -17,12 +17,15 @@ export class Time {
 
 	static fixedTimestamp: DOMHighResTimeStamp = 0;
 
-	static get fixedUpdateDelay(): number {
-		return AppSettings.FIXED_UPDATE_MS;
+	/**
+	 * The fixed time step in milliseconds.
+	 */
+	static get fixedTimeStepMs(): number {
+		return AppSettings.FIXED_TIMESTEP_MS;
 	}
 
 	static get fixedUpdatesPerSecond(): number {
-		return 1000 / this.fixedUpdateDelay;
+		return 1000 / this.fixedTimeStepMs;
 	}
 	//#endregion Fixed Attributes
 
@@ -93,7 +96,7 @@ export class Time {
 		GameObject.Start();
 
 		this.startTimestamp = performance.now();
-		this._fixedUpdateHandler = setInterval(this.FixedUpdate, this.fixedUpdateDelay);
+		this._fixedUpdateHandler = setInterval(this.FixedUpdate, this.fixedTimeStepMs);
 		this.FixedUpdate();
 		requestAnimationFrame(this.Update);
 	}
@@ -127,7 +130,7 @@ export class Time {
 
 	private static FixedUpdate() {
 		this.fixedTimestamp = performance.now();
-		this.fixedDeltaTime = this.fixedUpdateDelay / 1000 * this.timeScale;
+		this.fixedDeltaTime = this.fixedTimeStepMs / 1000 * this.timeScale;
 		Game.FixedUpdate();
 		RigidBody.FixedUpdate();
 		GameObject.FixedUpdate();
