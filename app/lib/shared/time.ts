@@ -1,7 +1,35 @@
 import { Color, Coord, Text } from '@gandolphinnn/graphics';
-import { AppSettings } from '.';
+import { RigidBody } from '@gandolphinnn/rigid';
+import { Game, GameObject } from '@gandolphinnn/game';
+import { AppSettings, GameCycle } from '.';
 
 export class Time {
+	private static _playing: boolean = false;
+	static get playing() { return this._playing; }
+
+	//#region Fixed Attributes
+	static startTimestamp: DOMHighResTimeStamp = 0;
+	/**w
+	 * The time difference between the current and the previous fixedUpdate.
+	 * Multiply to this to get consistent results across different fixedUpdate interval.
+	 */
+	static fixedDeltaTime: number = 0;
+
+	static fixedTimestamp: DOMHighResTimeStamp = 0;
+
+	/**
+	 * The fixed time step in milliseconds.
+	 */
+	static get fixedTimeStepMs(): number {
+		return AppSettings.FIXED_TIMESTEP_MS;
+	}
+
+	static get fixedUpdatesPerSecond(): number {
+		return 1000 / this.fixedTimeStepMs;
+	}
+	//#endregion Fixed Attributes
+
+	//#region Attributes
 	/**
 	 * The time difference between the current frame and the previous frame.
 	 * Multiply to this to get consistent results across different frame rates.
@@ -21,7 +49,7 @@ export class Time {
 	/**
 	 * The timestamp of the current frame.
 	 */
-	static timestamp: number = 0;
+	static timestamp: DOMHighResTimeStamp = 0;
 
 	/**
 	 * The total number of frames rendered.
@@ -57,11 +85,26 @@ export class Time {
 	 * The number of FPS updates that have occurred.
 	 */
 	static fpsUpdateCount: number = 0;
+	//#endregion Attributes
+
+	//#region GameCycle
+	private static _fixedUpdateHandler: ReturnType<typeof setInterval> =  null; //? setInterval return type may change depending on the node version
+
+	static Start() {
+		Time._playing = true;
+		Game.Start();
+		GameObject.Start();
+
+		this.startTimestamp = performance.now();
+		this._fixedUpdateHandler = setInterval(this.FixedUpdate, this.fixedTimeStepMs);
+		this.FixedUpdate();
+		requestAnimationFrame(this.Update);
+	}
 
 	/**
 	 * Updates the time-related properties.
 	 */
-	static update(timestamp: DOMHighResTimeStamp) {
+	private static Update: FrameRequestCallback = (timestamp: DOMHighResTimeStamp) => {
 		this.timestamp = timestamp;
 		this.deltaTime = (this.timestamp - this.lastFrameTime) / 1000 * this.timeScale;
 		this.lastFrameTime = this.timestamp;
@@ -76,7 +119,35 @@ export class Time {
 			this.fpsCount = 0;
 			this.fpsUpdateCount++;
 		}
+
+		Game.Update();
+		GameObject.Update();
+
+		if (this.playing) {
+			requestAnimationFrame(this.Update);
+		}
+	};
+
+	private static FixedUpdate() {
+		this.fixedTimestamp = performance.now();
+		this.fixedDeltaTime = this.fixedTimeStepMs / 1000 * this.timeScale;
+		Game.FixedUpdate();
+		RigidBody.FixedUpdate();
+		GameObject.FixedUpdate();
 	}
+
+	static Stop() {
+		Time._playing = false;
+
+		//? Stop the fixedUpdate loop
+		clearInterval(this._fixedUpdateHandler);
+
+		Game.Stop();
+		GameObject.Stop();
+	}
+	//#endregion GameCycle
+
+	//#region Debugging
 	static logData() {
 		console.table({
 			...AppSettings.TIME_DEBUG_PARAMS.reduce((acc: any, prop) => {
@@ -99,4 +170,9 @@ export class Time {
 			t.render();
 		});
 	}
+	//#endregion Debugging
 }
+
+window.onload = () => {
+	Time.Start();
+};

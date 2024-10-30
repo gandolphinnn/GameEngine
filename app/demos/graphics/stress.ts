@@ -1,26 +1,14 @@
 import { AppSettings, Time } from '@gandolphinnn/shared';
 import { Circle, MainCanvas } from '@gandolphinnn/graphics';
+import { Game } from '@gandolphinnn/game';
 
 AppSettings.COLOR_RGBA.alpha = 0.1;
 const totShapes = 20000;
 const radius = 10;
 
-/**
- * This will be the basic structure of the animation loop.
- */
-const animate: FrameRequestCallback = async (timestamp: DOMHighResTimeStamp) => {
-	Time.update(timestamp);
+Game.Update = () => {
 	MainCanvas.clean();
 
-	update();
-
-	requestAnimationFrame(animate);
-};
-
-/**
- * This will be the main update function, where all the logic will be placed.
- */
-const update = () => {
 	Time.showData();
 
 	//#region Stress code
@@ -29,5 +17,3 @@ const update = () => {
 	}
 	//#endregion Stress code
 };
-
-animate(0);

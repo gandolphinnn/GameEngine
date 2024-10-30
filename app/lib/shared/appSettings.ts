@@ -3,6 +3,8 @@ import { KeyOfTime, RGBA } from '@gandolphinnn/graphics';
 import { PreventableCodes } from '@gandolphinnn/inputs';
 
 export class AppSettings extends Singleton {
+
+	//#region Singleton boilerplate
 	protected static _override: AppSettings = null;
 	protected static _appSettings: Singleton = new AppSettings();
 	protected static get instance() {
@@ -11,8 +13,10 @@ export class AppSettings extends Singleton {
 	protected constructor() {
 		super();
 	}
+	//#endregion Singleton boilerplate
 
 	protected readonly _DEBUG: boolean = true;
+	protected readonly _FIXED_TIMESTEP_MS: number = 20;
 	protected readonly _COLOR_RGBA: RGBA = {red: 0, green: 0, blue: 0, alpha: 1};
 	protected readonly _FILL_STYLE: RGBA = {red: 0, green: 0, blue: 0, alpha: 1};
 	protected readonly _STROKE_STYLE: RGBA = {red: 0, green: 0, blue: 0, alpha: 1};
@@ -30,12 +34,21 @@ export class AppSettings extends Singleton {
 	protected readonly _MS_DELAY_WHEEL: number = 400;
 	protected readonly _UNPREVENTED_CODES: PreventableCodes[] = ['F5', 'F12', 'wheel'];
 
+	//#region System
 	/**
 	 * Is the app in debug mode
 	*/
 	public static get DEBUG(): boolean {
 		return this.instance._DEBUG;
 	}
+
+	/**
+	 * The interval in milliseconds at which FixedUpdate should occur.
+	*/
+	public static get FIXED_TIMESTEP_MS(): number {
+		return this.instance._FIXED_TIMESTEP_MS;
+	}
+	//#endregion System
 
 	//#region Graphics
 	/**

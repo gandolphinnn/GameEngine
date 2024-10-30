@@ -9,7 +9,7 @@ export class Input extends Singleton {
 		return this._input as Input;
 	};
 
-	private _mouse = new Mouse();
+	private _mouse: Mouse;
 	static get mouse() { return this.instance._mouse; };
 
 	private _keys: Record<KeyCode, Button>;
@@ -17,6 +17,7 @@ export class Input extends Singleton {
 
 	private constructor() {
 		super();
+		this._mouse = new Mouse();
 		this._keys = {
 			'Backspace': new Button(),
 			'Tab': new Button(),

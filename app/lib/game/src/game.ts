@@ -1,24 +1,22 @@
-import { RigidBody } from '@gandolphinnn/rigid';
-import { GameObject } from '..';
-import { Time } from '@gandolphinnn/shared';
-
 export class Game {
-	static start() {};
-	static update() {};
+
+	/**
+	 * Some code to run at the start of the game
+	 */
+	static Start() {};
+
+	/**
+	 * Some code to run every time a frame is rendered
+	 */
+	static Update() {};
+
+	/**
+	 * Some code to run at a fixed interval
+	 */
+	static FixedUpdate() {};
+
+	/**
+	 * Some code to run at the end of the game
+	 */
+	static Stop() {};
 }
-
-const animate: FrameRequestCallback = async (timestamp: DOMHighResTimeStamp) => {
-	Time.update(timestamp);
-
-	Game.update();
-	RigidBody.update();
-	GameObject.update();
-
-	requestAnimationFrame(animate);
-};
-
-window.onload = () => {
-	Game.start();
-	GameObject.start();
-	animate(0);
-};

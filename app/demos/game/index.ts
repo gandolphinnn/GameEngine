@@ -7,6 +7,7 @@ import { Game } from '@gandolphinnn/game';
 import { GameSettings } from './GameSettings';
 import { TestObject1 } from './GameObjects/TestObject1.gameobject';
 import { TestObject2 } from './GameObjects/TestObject2.gameobject';
+import { CycleDemo } from './cycle';
 
 function Sim1() {
 	//* For now limit to 1 object to test the correct order of the events
@@ -31,9 +32,7 @@ function Sim2() {
 	//Vector.fromAtoB(MainCanvas.center, new Coord(300, 300)).render();
 }
 
-Game.start = () => {
-	console.log(AppSettings.LINE_WIDTH);
-	console.log(GameSettings.LINE_WIDTH);
+Game.Start = () => {
 	const SIMULATION_NUM: number = 2;
 
 	switch (SIMULATION_NUM) {
@@ -43,10 +42,13 @@ Game.start = () => {
 		case 2:
 			Sim2();
 			break;
+		case 3:
+			CycleDemo();
+			break;
 	}
 };
 
-Game.update = () => {
+Game.Update = () => {
 	MainCanvas.clean();
 	Time.showData();
 };

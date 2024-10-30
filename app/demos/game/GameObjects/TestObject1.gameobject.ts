@@ -3,30 +3,7 @@ import { Angle, Circle, Coord, MainCanvas, Poly } from '@gandolphinnn/graphics';
 import { Collision, CollisionEvent, LayerMask, OnCollisionEnter, RigidCircle, RigidPoly, Vector } from '@gandolphinnn/rigid';
 import { GameObject } from '@gandolphinnn/game';
 
-class TestObject1Mesh extends Poly {
-	constructor(
-		points: Coord[]
-	) {
-		super(
-			points
-		);
-	}
-}
-
-class TestObject1Body extends RigidPoly {
-	constructor(
-		center: Coord,
-		points: Coord[]
-	) {
-		super(
-			Vector.down(center),
-			points
-		);
-	}
-}
-
 export class TestObject1 extends GameObject implements OnCollisionEnter {
-
 
 	private _trail: Coord[] = [];
 
@@ -39,8 +16,8 @@ export class TestObject1 extends GameObject implements OnCollisionEnter {
 	) {
 		const center = MainCanvas.center.copy();
 		super(
-			new TestObject1Mesh(points),
-			new TestObject1Body(center, points)
+			new Poly(points),
+			new RigidPoly(Vector.down(center), points)
 		);
 		this.rigidBody.setLayerMask(LayerMask.get('Test'));
 	}

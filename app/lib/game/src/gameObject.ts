@@ -52,6 +52,8 @@ export abstract class GameObject implements GameCycle {
 
 	Start() {};
 	Update() {};
+	FixedUpdate() {};
+	Stop() {};
 
 	private static _gameObjects: GameObject[] = [];
 
@@ -60,7 +62,7 @@ export abstract class GameObject implements GameCycle {
 		return GameObject._gameObjects;
 	}
 
-	static start() {
+	static Start() {
 		GameObject.gameObjects.forEach(go => {
 			go.Start();
 			go.cnvElement.Start();
@@ -68,11 +70,25 @@ export abstract class GameObject implements GameCycle {
 		});
 	}
 
-	static update() {
+	static Update() {
 		GameObject.gameObjects.forEach(go => {
 			go.Update();
 			go.cnvElement.Update();
-			go.rigidBody.Update();
+		});
+	}
+
+	static FixedUpdate() {
+		GameObject.gameObjects.forEach(go => {
+			go.FixedUpdate();
+			go.rigidBody.FixedUpdate();
+		});
+	}
+
+	static Stop() {
+		GameObject.gameObjects.forEach(go => {
+			go.Stop();
+			go.cnvElement.Stop();
+			go.rigidBody.Stop();
 		});
 	}
 }
