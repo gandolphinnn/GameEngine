@@ -44,6 +44,11 @@
 			{
 				"selector": "enumMember",
 				"format": ["PascalCase"]
+			},
+			{
+				"selector": "typeProperty",
+				"format": ["camelCase", "PascalCase"],
+				"types": "function"
 			}
 		],
 		"quotes": [							// single quotes

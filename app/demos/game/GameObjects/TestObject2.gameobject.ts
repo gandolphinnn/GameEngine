@@ -27,8 +27,7 @@ export class TestObject2 extends GameObject implements OnCollisionEnter {
 			this.vector.bounce(new Angle(0));
 		}
 	}
-	onCollisionEnter: CollisionEvent = (collision: Collision) => {
-		console.log('@TestObject2.gameobject.ts:58 ', collision);
+	OnCollisionEnter: CollisionEvent = (collision: Collision) => {
 		this.drawCollision(collision);
 		this.bounceOffSurface(collision);
 	};

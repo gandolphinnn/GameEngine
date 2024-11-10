@@ -44,7 +44,7 @@ export class TestObject1 extends GameObject implements OnCollisionEnter {
 			p.render();
 		});
 	}
-	onCollisionEnter: CollisionEvent = (collision: Collision) => {
+	OnCollisionEnter: CollisionEvent = (collision: Collision) => {
 		console.log('onCollisionEnter', collision);
 	};
 }
